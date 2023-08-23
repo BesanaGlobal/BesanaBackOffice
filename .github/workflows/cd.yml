@@ -1,0 +1,46 @@
+name: Besana CD
+
+  # ======================================================
+  # Deploy the main branch to production
+  # This job sync repository
+  # ======================================================
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Besana
+    defaults:
+      run:
+        shell: bash
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout repository Besana
+      uses: actions/checkout@v2
+
+    - name: 'Deploy to production'
+      uses: burnett01/rsync-deployments@23a557dceb19f9bb960ef40cf75cab5e9b37ec1f
+      with:
+        switches: -avzr --delete
+        path: ./
+        remote_path: /var/www/html/apppiramidal
+        remote_host: ${{ secrets.HOSTNAME }}
+        remote_user: ${{ secrets.REMOTE_USER }}
+        remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Sync vendor packages
+      uses: JimCronqvist/action-ssh@7737f1192ddd8376686e9d6354dea44592c942bf
+      with:
+        hosts: '${{ secrets.REMOTE_USER }}@${{ secrets.HOSTNAME }}'
+        privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+        command: |
+          sudo cp /var/www/html/.env /var/www/html/apppiramidal/.env
+          cd /var/www/html/apppiramidal
+          sudo composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          sudo chown -R ubuntu:ubuntu .env vendor
+          sudo php artisan key:generate
+          sudo chmod -R 777 storage bootstrap/cache
+          sudo php artisan config:cache
