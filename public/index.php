@@ -2,6 +2,7 @@
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
+use App\Custom\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
@@ -49,7 +50,8 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Kernel::class);
 
 $response = $kernel->handle(
-    $request = Request::capture()
+    // $request = Request::capture();
+    $request = App\Custom\Http\Request::capture()
 )->send();
 
 $kernel->terminate($request, $response);
