@@ -98,7 +98,7 @@ class Affiliate extends Model
 	/** bloque de puntos obtenidos en la compra en el web site y oficina de usuarios clientes,
 	 *  solo usando el nombre de referencia. */
 	public function getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id) {
-		// set_time_limit(20000);
+		 set_time_limit(20000);
 
 		$office = Sale::where('webShop', 'oficina')
 		->where('idAffiliated', $id)

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class WalletWeek extends Model
 {
     use HasFactory;
-    protected $table ='WalletWeek';
+    protected $table ='walletweek';
     public $timestamps = false;
     protected $fillable = [
       
