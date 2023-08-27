@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class DetailSale extends Model
 {
     use HasFactory;
-    protected $table ='DetailSale';
+    protected $table ='detailsale';
     protected $primaryKey = 'id';
     public $timestamps = false;
     

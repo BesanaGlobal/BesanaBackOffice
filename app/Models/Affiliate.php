@@ -365,14 +365,14 @@ class Affiliate extends Model
 	/** bloque de puntos por clientes en el web site*/
 	public function getClientByAffiliatedInTheWebsite($id){
 
-		$clientsWeb = Sale::join('DetailSale', 'DetailSale.id_sale', '=', 'Sales.idSale')
-		->join('products', 'DetailSale.id_product', '=', 'products.idProd')
-		->where('Sales.webShop', 'website')
-		->where('Sales.idAffiliated', $id)
-		->whereMonth('Sales.datetimeb',  now()->month)
-		->whereYear('Sales.datetimeb',  now()->year)
-		->groupBy('Sales.idAffiliated', 'Sales.WebNameClient', 'Sales.WebEmailClient', 'Sales.datetimeb')
-		->select('Sales.idAffiliated', 'Sales.WebNameClient', 'Sales.WebEmailClient', DB::raw('SUM(DetailSale.cantidad * products.puntosWebsite) AS puntosWeb'), 'Sales.datetimeb')
+		$clientsWeb = Sale::join('detailsale', 'detailsale.id_sale', '=', 'sales.idsale')
+		->join('products', 'detailsale.id_product', '=', 'products.idprod')
+		->where('sales.webshop', 'website')
+		->where('sales.idaffiliated', $id)
+		->whereMonth('sales.datetimeb',  now()->month)
+		->whereYear('sales.datetimeb',  now()->year)
+		->groupBy('sales.idaffiliated', 'sales.webnameclient', 'sales.webemailclient', 'sales.datetimeb')
+		->select('sales.idaffiliated', 'sales.webnameclient', 'sales.webemailclient', DB::raw('SUM(detailsale.cantidad * products.puntoswebsite) AS puntosWeb'), 'sales.datetimeb')
 		->get();
 
         return $clientsWeb;
@@ -381,14 +381,14 @@ class Affiliate extends Model
 	//LISTO
 	/** bloque de puntos por compras en la oficina*/
 	public function getBuyAffiliatedInTheOffice($id){
-		$buyOffice = Sale::join('DetailSale', 'DetailSale.id_sale', '=', 'Sales.idSale')
-		->join('products', 'DetailSale.id_product', '=', 'products.idProd')
-		->where('Sales.webShop', 'oficina')
-		->where('Sales.idAffiliated', $id)
-		->whereMonth('Sales.datetimeb',  now()->month)
-		->whereYear('Sales.datetimeb',  now()->year)
-		->groupBy('Sales.datetimeb')
-		->select(DB::raw('SUM(DetailSale.cantidad * products.puntos) AS puntosOficina'), 'Sales.datetimeb')
+		$buyOffice = Sale::join('detailsale', 'detailsale.id_sale', '=', 'sales.idsale')
+		->join('products', 'detailsale.id_product', '=', 'products.idprod')
+		->where('sales.webShop', 'oficina')
+		->where('sales.idaffiliated', $id)
+		->whereMonth('sales.datetimeb',  now()->month)
+		->whereYear('sales.datetimeb',  now()->year)
+		->groupBy('sales.datetimeb')
+		->select(DB::raw('SUM(detailsale.cantidad * products.puntos) AS puntosOficina'), 'sales.datetimeb')
 		->get();
 
         return $buyOffice;
