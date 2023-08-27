@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Foundation\Testing\RefreshDatabaseServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +26,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+	if(env(key: 'APP_ENV') !== 'local'){
+		URL::forceScheme( scheme: 'https');
+	}
     }
 }
