@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Line extends Model
 {
     use HasFactory;
-    protected $table ='lineProduct';
+    protected $table ='lineproduct';
     protected $primaryKey = 'idLine';
 
     protected $fillable = [
