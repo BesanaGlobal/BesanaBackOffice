@@ -216,7 +216,7 @@
                                         <input type="checkbox" class="-intro-x bg-primary " style=" input:checked {
                                             background-color:green;
                                         }" wire:model="terminos">
-                                        <span>{{__('Accept to')}} <button onclick="terminos()">{{__('Terms and Conditions')}}</button> </span>
+                                        <span>{{__('Accept to')}} <button class="intro-x underline text-sm text-info fw-bold hover:text-gray-900" onclick="terminos()">{{__('Terms and Conditions')}}</button> </span>
                                     </div>
                                     <a class="intro-x login__input underline text-sm text-gray-600 hover:text-gray-900 mr-3 text-center" href="{{ route('login') }}">
                                         {{__('You are already registered')}}?

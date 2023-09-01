@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Affiliate;
+use App\Models\Sale;
 use App\Models\DetailSale;
 use App\Models\User;
 use Carbon\Carbon;
@@ -29,22 +30,37 @@ class ApiController extends Controller
         $id             = intval($idAfiliado->idAffiliated);  
         $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
         //SE INSERTA LA COMPRA EN LA BASE DE DATOS.
-        $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?)', 
-            array(
-                'Sale',
-                $id,
-                8,//IDPROD
-                0,//IDWEBSITE
-                $total,
-                'CASH',
-                0,
-                null,
-                $fechaHoraMySQL, 
-                'website',
-                $shipping,
-                0// Convertir a nulo si es una cadena vacía
-            )
-        );
+        // $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?)', 
+        //     array(
+        //         'Sale',
+        //         $id,
+        //         8,//IDPROD
+        //         0,//IDWEBSITE
+        //         $total,
+        //         'CASH',
+        //         0,
+        //         null,
+        //         $fechaHoraMySQL, 
+        //         'website',
+        //         $shipping,
+        //         0// Convertir a nulo si es una cadena vacía
+        //     )
+        // );
+
+
+        $result = Sale::create([
+            'idWebsite' => $id,
+            'idProd' => 0,
+            'datetimeb' => Carbon::now(),
+            'idAffiliated' => $id,
+            'price' => $total,
+            'ActivatedBuy' => 0,
+            'TipoPago' => 'CASH',
+            'webShop' => 'website',
+            'WebNameClient' => $userName,
+            'WebEmailClient' => $email,
+            'Shipping' => $shipping,
+        ]);
    
         //OBTENER EL TAX SEGUN EL ESTADO
         foreach($Products as  $value){
