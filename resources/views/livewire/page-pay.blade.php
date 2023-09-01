@@ -8,7 +8,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <span  class="input-group-text" id="basic-addon1">{{__('Name')}}</span>
-                    <input id="name" value="{{$b->Name}}" type="text" class="form-control" placeholder="{{$b->Name}}" aria-label="notification" aria-describedby="basic-addon1">
+                    <input readonly id="name" value="{{$b->Name}}" type="text" class="form-control" placeholder="{{$b->Name}}" aria-label="notification" aria-describedby="basic-addon1">
                 </div>
               
                 <div class="input-group mb-3">
@@ -21,27 +21,27 @@
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">{{__('Phone')}}</span>
-                    <input readonly type="text" class="form-control" placeholder="{{$b->Phone}}" aria-label="notification" aria-describedby="basic-addon1">
+                    <input  type="text" id="phone" class="form-control" value="{{$b->Phone}}" placeholder="{{$b->Phone}}" aria-label="notification" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text pr-2" id="basic-addon1">{{__('ZipCode')}}</span>
-                    <input readonly type="text" class="form-control" placeholder="{{$b->ZipCode}}" aria-label="notification" aria-describedby="basic-addon1">
+                    <input  type="text" id="zipcode" class="form-control" value="{{$b->ZipCode}}" placeholder="{{$b->ZipCode}}"  aria-label="notification" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text pr-2" >{{__('Address')}}</span>
-                    <input id="address" value="{{$b->Address}}" readonly type="text" class="form-control" placeholder="{{$b->Address}}" aria-label="notification" aria-describedby="basic-addon1">
+                    <input id="address" value="{{$b->Address}}"  type="text" class="form-control" placeholder="{{$b->Address}}" aria-label="notification" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text pr-2" id="basic-addon1">{{__('Country')}}</span>
-                    <input id="country" value="{{$b->Country}}" readonly type="text" class="form-control" placeholder="" aria-label="notification" aria-describedby="basic-addon1">
+                    <input id="country" value="{{$b->Country}}"  type="text" class="form-control" placeholder="" aria-label="notification" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text pr-2" id="basic-addon1">{{__('State')}}</span>
-                    <input readonly type="text" class="form-control" placeholder="{{$b->State}}" aria-label="notification" aria-describedby="basic-addon1">
+                    <input id="state" type="text" class="form-control" placeholder="{{$b->State}}" value="{{$b->State}}" aria-label="notification" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text pr-2" id="basic-addon1">{{__('City')}}</span>
-                    <input readonly type="text" class="form-control" placeholder="{{$b->City}}" aria-label="notification" aria-describedby="basic-addon1">
+                    <input type="text" id="city" class="form-control" value="{{$b->City}}" placeholder="{{$b->City}}" aria-label="notification" aria-describedby="basic-addon1">
                 </div>
           </div>
           <div class="w-full md:w-1/3 px-4">

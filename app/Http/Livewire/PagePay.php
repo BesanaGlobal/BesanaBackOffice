@@ -10,6 +10,7 @@ use App\Models\DetailSale;
 use App\Models\Point;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Sale;
 use Carbon\Carbon;
 use Stripe;
 use DB;
@@ -127,6 +128,21 @@ class PagePay extends Component
             $this->shipping,
             0// Convertir a nulo si es una cadena vacía
         ));
+
+
+      //   $result = Sale::create([
+      //     'idWebsite' => $id,
+      //     'idProd' => 0,
+      //     'datetimeb' => Carbon::now(),
+      //     'idAffiliated' => $id,
+      //     'price' => $total,
+      //     'ActivatedBuy' => 0,
+      //     'TipoPago' => 'CASH',
+      //     'webShop' => 'office',
+      //     'WebNameClient' => $userName,
+      //     'WebEmailClient' => $email,
+      //     'Shipping' => $shipping,
+      // ]);
       
         $idSale=$result[0]->last_inserted_id;
         $this->DetailSale($idSale,$token);
