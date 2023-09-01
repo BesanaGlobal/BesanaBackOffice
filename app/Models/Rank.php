@@ -34,9 +34,9 @@ class Rank extends Model
     ];
 
 
-    public function affiliate(): HasOne
+    public function affiliate(): BelongsTo
     {
-        return $this->hasOne(Affiliate::class);
+        return $this->belongsTo(Affiliate::class);
     }
 
 

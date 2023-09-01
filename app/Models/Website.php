@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Website extends Model
 {
     use HasFactory;
-    protected $table ='webSites';
+    protected $table ='websites';
      public $timestamps = false;
      protected $primaryKey = 'idWebsite';
 

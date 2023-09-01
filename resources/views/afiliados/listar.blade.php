@@ -1,106 +1,210 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lista de Usuarios</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
-    <script src="https://cdn.tailwindcss.com"></script>
+@extends('../layout/' . $layout)
 
-</head>
-<body>
-    <div class="flex mt-[4.7rem] md:mt-0 overflow-hidden">
-        <!-- BEGIN: Side Menu -->
-        <nav class="side-nav">
-            <a href="" class="intro-x flex items-center p-1 ">
-                <img alt="Besanaglobal.com" class="" src="{{ asset('img/logowhite.png') }}">
-            </a>
-            <div class="side-nav__devider my-6">
-               
-            </div>
-            <ul>
-                @foreach ($side_menu as $menuKey => $menu)
-                    @if ($menu == 'devider')
-                        <li class="side-nav__devider my-6"></li>
-                    @else
+@section('subhead')
+    <title>Listado de Afiliados | BesanaGlobal</title>
+@endsection
+
+@section('subcontent')
+
+<h2 class="intro-y text-lg font-medium mt-10">Mis Afiliados</h2>
+    <div class="grid grid-cols-12 gap-6 mt-5">
+        <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+            {{-- <button class="btn btn-primary shadow-md mr-2">Add New Product</button> --}}
+            <div class="dropdown">
+                <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
+                    <span class="w-5 h-5 flex items-center justify-center">
+                        <i class="w-4 h-4" data-lucide="plus"></i>
+                    </span>
+                </button>
+                <div class="dropdown-menu w-40">
+                    <ul class="dropdown-content">
                         <li>
-                            <a href="{{ isset($menu['route_name']) ? route($menu['route_name'], $menu['params']) : 'javascript:;' }}" class="{{ $first_level_active_index == $menuKey ? 'side-menu side-menu--active' : 'side-menu' }}">
-                                <div class="side-menu__icon">
-                                    <i data-lucide="{{ $menu['icon'] }}"></i>
-                                
-                                </div>
-                                <div class="side-menu__title">
-                                    {{ $menu['title'] }}
-                                    @if (isset($menu['sub_menu']))
-                                        <div class="side-menu__sub-icon {{ $first_level_active_index == $menuKey ? 'transform rotate-180' : '' }}">
-                                            <i data-lucide="chevron-down"></i>
-                                        </div>
-                                    @endif
-                                </div>
+                            <a href="" class="dropdown-item">
+                                <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print
                             </a>
-                            @if (isset($menu['sub_menu']))
-                                <ul class="{{ $first_level_active_index == $menuKey ? 'side-menu__sub-open' : '' }}">
-                                    @foreach ($menu['sub_menu'] as $subMenuKey => $subMenu)
-                                        <li>
-                                            <a href="{{ isset($subMenu['route_name']) ? route($subMenu['route_name'], $subMenu['params']) : 'javascript:;' }}" class="{{ $second_level_active_index == $subMenuKey ? 'side-menu side-menu--active' : 'side-menu' }}">
-                                                <div class="side-menu__icon">
-                                                    <i data-lucide="activity"></i>
-                                                </div>
-                                                <div class="side-menu__title">
-                                                    {{ $subMenu['title'] }}
-                                                    @if (isset($subMenu['sub_menu']))
-                                                        <div class="side-menu__sub-icon {{ $second_level_active_index == $subMenuKey ? 'transform rotate-180' : '' }}">
-                                                            <i data-lucide="chevron-down"></i>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </a>
-                                            @if (isset($subMenu['sub_menu']))
-                                                <ul class="{{ $second_level_active_index == $subMenuKey ? 'side-menu__sub-open' : '' }}">
-                                                    @foreach ($subMenu['sub_menu'] as $lastSubMenuKey => $lastSubMenu)
-                                                        <li>
-                                                            <a href="{{ isset($lastSubMenu['route_name']) ? route($lastSubMenu['route_name'], $lastSubMenu['params']) : 'javascript:;' }}" class="{{ $third_level_active_index == $lastSubMenuKey ? 'side-menu side-menu--active' : 'side-menu' }}">
-                                                                <div class="side-menu__icon">
-                                                                    <i data-lucide="zap"></i>
-                                                                </div>
-                                                                <div class="side-menu__title">{{ $lastSubMenu['title'] }}</div>
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
                         </li>
-                    @endif
-                @endforeach
-            </ul>
-        </nav>
-        <!-- END: Side Menu -->
-        <!-- BEGIN: Content -->
-        <div class="content">
-            @include('../layout/components/top-bar')
-            <div class="card">
-                <div class="card-body">
-                    <livewire:afiliates-datatable 
-                    model="App\Models\Affiliate"
-                    searchable="Name, email"
-                    sort="Name|CreatedAt"
-                    exportable
-                    hideable="select"
-                    />
+                        <li>
+                            <a href="" class="dropdown-item">
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to Excel
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" class="dropdown-item">
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to PDF
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
+            <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                <div class="w-56 relative text-slate-500">
+                    <input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
+                    <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i>
                 </div>
             </div>
         </div>
-        <!-- END: Content -->
+        @if($id->idUser == 1)
+            <!-- BEGIN: Data List -->
+            <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+                <table class="table table-report -mt-2">
+                    <thead>
+                        <tr>
+                            <th class="whitespace-nowrap">ID</th>
+                            <th class="text-center whitespace-nowrap">NOMBRE</th>
+                            <th class="text-center whitespace-nowrap">APELLIDOS</th>
+                            <th class="text-center whitespace-nowrap">CORREO ELECTRONICO</th>
+                            <th class="text-center whitespace-nowrap">TELEFONO</th>
+                            <th class="text-center whitespace-nowrap">RANGO</th>
+                            <th class="text-center whitespace-nowrap">FECHA DE INGRESO</th>
+                            <th class="text-center whitespace-nowrap">ESTADO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(count($data) < 1)
+                            <tr class="intro-x">
+                                <td class="w-40"> - </td>
+                                <td> - </td>
+                                <td class="text-center"> - </td>
+                                <td class="text-center"> - </td>
+                                <td class="text-center"> - </td>
+                                <td class="text-center"> - </td>
+                                <td class="text-center"> - </td>
+                                <td class="text-center"> - </td>
+                            </tr>
+                        @else
+                            @foreach ($data as $value)
+                                <tr class="intro-x">
+                                    <td class="w-40">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $value->name }}</td>
+                                    <td class="text-center">{{ $value->lastName }}</td>
+                                    <td class="text-center">{{ $value->Email }}</td>
+                                    <td class="text-center">{{ $value->Phone }}</td>
+                                    <td class="text-center">{{ $value->RankName }}</td>
+                                    <td class="text-center">{{ $value->CreatedAt }}</td>
+                                    <td class="w-40">
+                                        <div class="flex items-center justify-center {{ $value->active == '1' ? 'text-success' : 'text-danger' }}">
+                                            <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> {{ $value->active == '1'  ? 'Active' : 'Inactive' }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <!-- BEGIN: Data List -->
+            <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+                <table class="table table-report -mt-2">
+                    <thead>
+                        <tr>
+                            <th class="whitespace-nowrap">ID</th>
+                            <th class="text-center whitespace-nowrap">NOMBRE</th>
+                            <th class="text-center whitespace-nowrap">APELLIDOS</th>
+                            <th class="text-center whitespace-nowrap">RANGO</th>
+                            <th class="text-center whitespace-nowrap">FECHA DE INGRESO</th>
+                            <th class="text-center whitespace-nowrap">ESTADO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(count($data) < 1)
+                            <tr class="intro-x">
+                                <td class="w-40"> - </td>
+                                <td> - </td>
+                                <td class="text-center"> - </td>
+                                <td class="text-center"> - </td>
+                                <td class="text-center"> - </td>
+                                <td class="text-center"> - </td>
+                            </tr>
+                        @else
+                            @foreach ($data as $value)
+                                <tr class="intro-x">
+                                    <td class="w-40">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $value->name }}</td>
+                                    <td class="text-center">{{ $value->lastName }}</td>
+                                    <td class="text-center">{{ $value->RankName }}</td>
+                                    <td class="text-center">{{ $value->CreatedAt }}</td>
+                                    <td class="w-40">
+                                        <div class="flex items-center justify-center {{ $value->active == '1' ? 'text-success' : 'text-danger' }}">
+                                            <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> {{ $value->active == '1'  ? 'Active' : 'Inactive' }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        @endif
+        <!-- END: Data List -->
+        <!-- BEGIN: Pagination -->
+        <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
+            <nav class="w-full sm:w-auto sm:mr-auto">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="w-4 h-4" data-lucide="chevrons-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="w-4 h-4" data-lucide="chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="w-4 h-4" data-lucide="chevron-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="w-4 h-4" data-lucide="chevrons-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <select class="w-20 form-select box mt-3 sm:mt-0">
+                <option>10</option>
+                <option>25</option>
+                <option>35</option>
+                <option>50</option>
+            </select>
+        </div>
+        <!-- END: Pagination -->
     </div>
-    
-    @livewireScripts
-    <script src="//unpkg.com/alpinejs" defer></script>
-</body>
-</html>
+    <!-- BEGIN: Delete Confirmation Modal -->
+    <!-- <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="p-5 text-center">
+                        <i data-lucide="x-circle" class="w-16 h-16 text-danger mx-auto mt-3"></i>
+                        <div class="text-3xl mt-5">Are you sure?</div>
+                        <div class="text-slate-500 mt-2">Do you really want to delete these records? <br>This process cannot be undone.</div>
+                    </div>
+                    <div class="px-5 pb-8 text-center">
+                        <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+                        <button type="button" class="btn btn-danger w-24">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- END: Delete Confirmation Modal -->
+@endsection

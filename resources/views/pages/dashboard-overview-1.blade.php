@@ -1,4 +1,4 @@
-@extends('../layout/basenew')
+@extends('../layout/' . $layout)
 
 @section('subhead')
     <title>Dashboard - Besana</title>
@@ -25,7 +25,27 @@
                         @if ($afiliado->idAffiliated==1)
                             <a href="{{route('walletRequest')}}" class="btn btn-sm btn-primary"> {{__('Request')}}</a>
                         @endif
+                    
+                        <!-- BEGIN: Modal Toggle -->
+                            <div class="text-right ml-4">
+                                <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="btn btn-sm btn-primary">Mi Link</a>
+                            </div>
+                        <!-- END: Modal Toggle -->
+                        <!-- BEGIN: Modal Content -->
+                            <div id="basic-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body p-10 text-center">
+                                            <h2>Link de mi tienda</h2>
+                                            <input id="regular-form-5" type="text" class="form-control" value="{{$website->webSite}}" placeholder="Mi link" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- END: Modal Content -->
+
                     </div>
+
                     <div class="grid grid-cols-12 gap-1 mt-5">
                         <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                             <div class="report-box zoom-in">

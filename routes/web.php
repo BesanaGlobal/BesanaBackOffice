@@ -19,6 +19,7 @@ use App\Http\Livewire\PayComponent;
 use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
 
 Route::get('/home',function(){ return view('inicio'); })->name('home');
 Route::get('lenguage/{locale}',function ($locale) {
@@ -118,7 +119,8 @@ Route::middleware('auth')->group(function() {
         //active partners Page
         Route::get('/active-partners', 'activePartners')->name('active-partners');
 
-
+        //file manager
+        Route::get('file-manager-page', 'fileManager')->name('file-manager');
 
 
         //OTHERS Page
@@ -135,7 +137,7 @@ Route::middleware('auth')->group(function() {
         Route::get('seller-detail-page', 'sellerDetail')->name('seller-detail');
         Route::get('reviews-page', 'reviews')->name('reviews');
         Route::get('inbox-page', 'inbox')->name('inbox');
-        Route::get('file-manager-page', 'fileManager')->name('file-manager');
+        
         Route::get('point-of-sale-page', 'pointOfSale')->name('point-of-sale');
         Route::get('chat-page', 'chat')->name('chat');
         Route::get('post-page', 'post')->name('post');

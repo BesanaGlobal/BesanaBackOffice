@@ -80,14 +80,14 @@ class SideMenu
                                 ],
                                 'title' => 'Customers'
                             ],
-                            'Prospectos' => [
-                                'icon' => 'user-plus',
-                                'route_name' => 'users-layout-3',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Prospects'
-                            ],
+                            // 'Prospectos' => [
+                            //     'icon' => 'user-plus',
+                            //     'route_name' => 'users-layout-3',
+                            //     'params' => [
+                            //         'layout' => 'side-menu'
+                            //     ],
+                            //     'title' => 'Prospects'
+                            // ],
                             'devider',
                             'Wallet' => [
                                 'icon' => 'dollar-sign',

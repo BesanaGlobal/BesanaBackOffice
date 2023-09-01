@@ -178,7 +178,7 @@
             <input type="checkbox" class="-intro-x bg-white " style=" input:checked {
                 background-color:green;
             }" wire:model="terminos">
-            <span class="text-white">{{__('Accept to')}} <button onclick="terminos()">{{__('Terms and Conditions')}}</button> </span>
+            <span class="text-white">{{__('Accept to')}} <button type="button" class="intro-x underline text-sm text-info fw-bold hover:text-gray-900" onclick="terminos()">{{__('Terms and Conditions')}}</button> </span>  
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button 

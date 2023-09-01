@@ -23,11 +23,11 @@
                     <a href="" class="flex items-center px-3 py-2 mt-2 rounded-md">
                         <i class="w-4 h-4 mr-2" data-lucide="users"></i> Shared
                     </a>
-                    <a href="" class="flex items-center px-3 py-2 mt-2 rounded-md">
+                    <!-- <a href="" class="flex items-center px-3 py-2 mt-2 rounded-md">
                         <i class="w-4 h-4 mr-2" data-lucide="trash"></i> Trash
-                    </a>
+                    </a> -->
                 </div>
-                <div class="border-t border-slate-200 dark:border-darkmode-400 mt-4 pt-4">
+                <!-- <div class="border-t border-slate-200 dark:border-darkmode-400 mt-4 pt-4">
                     <a href="" class="flex items-center px-3 py-2 rounded-md">
                         <div class="w-2 h-2 bg-pending rounded-full mr-3"></div> Custom Work
                     </a>
@@ -46,7 +46,7 @@
                     <a href="" class="flex items-center px-3 py-2 mt-2 rounded-md">
                         <i class="w-4 h-4 mr-2" data-lucide="plus"></i> Add New Label
                     </a>
-                </div>
+                </div> -->
             </div>
             <!-- END: File Manager Menu -->
         </div>

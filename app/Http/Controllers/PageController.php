@@ -57,7 +57,10 @@ class PageController extends Controller
         $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idUser);
         // dd($totalPointsActive);
 
-        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth', 'totalPoints', 'totalPointsPromoters', 'totalPointsActive'));
+        $website = $afiliado->websiteLink($id->idUser);
+        // dd($website);
+
+        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth', 'totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'website'));
     }
 
     public function solicitaWeek(Request $request){
@@ -318,25 +321,10 @@ class PageController extends Controller
         $id=User::where('idUser',$idLog)->first();
         $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
 
-        /** bloque de puntos obtenidos en la compra en el web site y en la oficina de usuarios clientes, 
-         * solo usando el nombre de referencia. */
-        $totalPoints = $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idUser);
-        //  dd($totalPoints);
-
-        /** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
-         * solo usando el nombre de referencia. */
-         $totalPointsPromoters = $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idUser);
-        // dd($totalPointsPromoters);
-
-        /** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
-         * solo usando el nombre de referencia. */
-        $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idUser);
-        // dd($totalPointsActive);
-
         $activePartners = $afiliado->getActivePartnersByAffiliated($id->idUser);
         // dd($activePartners); 
         
-        return view('pages.active-partners', compact('totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'activePartners'));
+        return view('pages.active-partners', compact('activePartners'));
     }
 
 
@@ -346,26 +334,11 @@ class PageController extends Controller
         $id=User::where('idUser',$idLog)->first();
         $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
 
-        /** bloque de puntos obtenidos en la compra en el web site y en la oficina de usuarios clientes, 
-         * solo usando el nombre de referencia. */
-        $totalPoints = $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idUser);
-        //  dd($totalPoints);
-
-        /** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
-         * solo usando el nombre de referencia. */
-         $totalPointsPromoters = $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idUser);
-        // dd($totalPointsPromoters);
-
-        /** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
-         * solo usando el nombre de referencia. */
-        $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idUser);
-        // dd($totalPointsActive);
-
         $activePromoters = $afiliado->getActivePromotersByAffiliated($id->idUser);
         // dd($activePromoters); 
         
 
-        return view('pages.sociospromotor', compact('totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'activePromoters'));
+        return view('pages.sociospromotor', compact('activePromoters'));
     }
     /**
      * Show specified view.

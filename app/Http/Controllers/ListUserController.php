@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Affiliate;
+use App\Models\User;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
@@ -15,16 +16,28 @@ class ListUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
+
+        $idLog=Auth()->user()->idUser;
+        $id=User::where('idUser',$idLog)->first();
+        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+
+
         // dd(Auth()->user()->idUser);
-        if (Auth()->user()->idUser==1) {
-            $data = Affiliate::all();
-            return view('afiliados.listar',compact('data'));
-        } else {
-            return redirect()->route('dash');
-       }
+        // if (Auth()->user()->idUser==1) {
+        //     $data = Affiliate::all();
+        //     return view('afiliados.listar',compact('data'));
+        // } else {
+        //     return redirect()->route('dash');
+        // }
+
+        $data = $afiliado->myAffiliates($id->idUser);
+        // dd($data);
         
+
+
+       return view('afiliados.listar',compact('data', 'id'));
         
     }
 

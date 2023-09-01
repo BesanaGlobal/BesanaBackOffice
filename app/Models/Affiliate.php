@@ -52,14 +52,19 @@ class Affiliate extends Model
     //     return $this->hasOne(Website::class);
     // }
 
-	public function rank(): BelongsTo
+	public function rank(): HasOne
     {
-        return $this->belongsTo(Rank::class, 'idRank');
+        return $this->hasOne(Rank::class, 'idRank');
     }
 
 	public function user(): HasOne
     {
         return $this->hasOne(User::class, 'idAffiliated');
+    }
+
+	public function website(): HasOne
+    {
+        return $this->hasOne(Website::class, 'idAffiliated');
     }
 
 	public function sales(): HasMany
@@ -91,6 +96,16 @@ class Affiliate extends Model
 		$niveles = Affiliate::ver($id, 1);
 		return $niveles;
 
+	  }
+
+	  public function websiteLink($id){
+		$web = Affiliate::find($id)
+		->with(['website' => function ($query) use ($id){
+			$query->where('idWebsite', $id);
+		}])
+		->first();
+
+		return $web->website;
 	  }
 
 
@@ -393,5 +408,23 @@ class Affiliate extends Model
 
         return $buyOffice;
     }
+
+	/** Bloque de listado de mis afiliados hijos */
+	public function myAffiliates($id){
+
+		$level1 = Affiliate::childrenByLevel($id, 0);
+		$myAffiliates = collect();
+
+		foreach($level1 as $l1){
+			$myAffiliates = $myAffiliates->merge(DB::table('affiliates')
+			->where('affiliates.idAffiliated', $l1)
+			->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
+			->join('users', 'affiliates.idAffiliated', '=', 'users.idAffiliated')
+			->select('affiliates.name','affiliates.lastName','users.CreatedAt', 'ranks.RankName', 'users.userName', 'affiliates.Email', 'affiliates.Phone', 'users.active')
+			->get());
+
+		}
+		return $myAffiliates;
+	}
 
 }

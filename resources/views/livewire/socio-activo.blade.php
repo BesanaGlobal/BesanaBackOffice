@@ -1,6 +1,4 @@
-<div>
-   
-    
+
     <div class="container">
         <!-- BEGIN: Login Info -->
         <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4 p-2">
@@ -131,7 +129,7 @@
                                     <input type="checkbox" class="-intro-x bg-primary " style=" input:checked {
                                         background-color:green;
                                     }" wire:model="asignarSocio">
-<h1>{{$asignacionSocio}}</h1>
+                                <h1>{{$asignacionSocio}}</h1>
                                     <span>{{__('Do you want to make a placement')}}? </span>
                                     @if ($asignarSocio)
                                         <div wire:ignore>
@@ -325,5 +323,5 @@
         
     </div>       
      
-               
+   
               

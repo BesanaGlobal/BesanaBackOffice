@@ -1,11 +1,10 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>Socio Activo </title>
+    <title>Socio Activo</title>
 @endsection
 
 @section('subcontent')
-    
     
         <div class="grid grid-cols-2 gap-4">
         
