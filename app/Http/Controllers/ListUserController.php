@@ -32,7 +32,7 @@ class ListUserController extends Controller
         //     return redirect()->route('dash');
         // }
 
-        $data = $afiliado->myAffiliates($id->idUser);
+        $data = $afiliado->myAffiliates($id->idAffiliated);
         // dd($data);
         
 
