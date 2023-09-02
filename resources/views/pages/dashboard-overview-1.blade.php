@@ -25,7 +25,6 @@
                         @if ($afiliado->idAffiliated==1)
                             <a href="{{route('walletRequest')}}" class="btn btn-sm btn-primary"> {{__('Request')}}</a>
                         @endif
-                    
                         <!-- BEGIN: Modal Toggle -->
                             <div class="text-right ml-4">
                                 <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="btn btn-sm btn-primary">Mi Link</a>

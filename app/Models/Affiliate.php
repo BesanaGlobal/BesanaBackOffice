@@ -99,13 +99,20 @@ class Affiliate extends Model
 	  }
 
 	  public function websiteLink($id){
-		$web = Affiliate::find($id)
-		->with(['website' => function ($query) use ($id){
-			$query->where('idWebsite', $id);
-		}])
+		// $web = Affiliate::find($id)
+		// ->with(['website' => function ($query) use ($id){
+		// 	$query->where('idWebsite', '<>',0);
+		// }])
+		// ->get();
+
+		$web = DB::table('affiliates')
+		->where('affiliates.idAffiliated',$id)
+		->join('websites', 'affiliates.idAffiliated', '=', 'websites.idAffiliated')
+		->where('websites.idWebsite', '<>', 0)
+		->select('websites.webSite')
 		->first();
 
-		return $web->website;
+		return $web;
 	  }
 
 
