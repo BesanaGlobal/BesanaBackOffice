@@ -57,7 +57,7 @@ class PageController extends Controller
         $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idUser);
         // dd($totalPointsActive);
 
-        $website = $afiliado->websiteLink($id->idUser);
+        $website = $afiliado->websiteLink($id->idAffiliated);
         // dd($website);
 
         return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth', 'totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'website'));
