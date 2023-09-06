@@ -10,7 +10,7 @@
   
   .chart-menu {
     border-width: 10px !important; 
-    border-color: #aeaeae !important; 
+    border-color: #98FA85 !important; 
     border: 1px solid #aeaeae !important
   }
   
@@ -40,7 +40,7 @@
 </div>
 
 
-<script src="{{asset('js/balkan/orgchart.js')}}" ></script>
+<!-- <script src="{{asset('js/balkan/orgchart.js')}}" ></script> -->
 
 
 <script src="{{asset('js/balkan/prueba.js')}}" ></script>

@@ -27,7 +27,7 @@
                         @endif
                         <!-- BEGIN: Modal Toggle -->
                             <div class="text-right ml-4">
-                                <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="btn btn-sm btn-primary">Mi Link</a>
+                                <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="btn btn-sm btn-primary">{{__('My link')}}</a>
                             </div>
                         <!-- END: Modal Toggle -->
                         <!-- BEGIN: Modal Content -->
@@ -35,7 +35,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-body p-10 text-center">
-                                            <h2>Link de mi tienda</h2>
+                                            <h2>{{__('Link')}}</h2>
                                             <input id="regular-form-5" type="text" class="form-control" value="{{$website->webSite}}" placeholder="Mi link" disabled>
                                         </div>
                                     </div>

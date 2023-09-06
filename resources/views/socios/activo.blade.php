@@ -45,8 +45,7 @@
                                         @error('SSN') <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
                                         </div>  @enderror
-
-                                  
+   
                             </div>
 
                             <span class="-intro-x  text-white p-2 font-bold uppercase text-lg">Datos de Sistema:</span>    

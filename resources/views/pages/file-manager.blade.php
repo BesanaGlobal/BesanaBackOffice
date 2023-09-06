@@ -50,8 +50,8 @@
             </div>
             <!-- END: File Manager Menu -->
         </div>
-        <div class="col-span-12 lg:col-span-9 2xl:col-span-10">
-            <!-- BEGIN: File Manager Filter -->
+         <!-- <div class="col-span-12 lg:col-span-9 2xl:col-span-10">
+            BEGIN: File Manager Filter
             <div class="intro-y flex flex-col-reverse sm:flex-row items-center">
                 <div class="w-full sm:w-auto relative mr-auto mt-3 sm:mt-0">
                     <i class="w-4 h-4 absolute my-auto inset-y-0 ml-3 left-0 z-10 text-slate-500" data-lucide="search"></i>
@@ -116,8 +116,8 @@
                     </div>
                 </div>
             </div>
-            <!-- END: File Manager Filter -->
-            <!-- BEGIN: Directory & Files -->
+            END: File Manager Filter
+            BEGIN: Directory & Files
             <div class="intro-y grid grid-cols-12 gap-3 sm:gap-6 mt-5">
                 @foreach ($fakers as $faker)
                     <div class="intro-y col-span-6 sm:col-span-4 md:col-span-3 2xl:col-span-2">
@@ -165,8 +165,8 @@
                     </div>
                 @endforeach
             </div>
-            <!-- END: Directory & Files -->
-            <!-- BEGIN: Pagination -->
+             END: Directory & Files 
+             BEGIN: Pagination
             <div class="intro-y flex flex-wrap sm:flex-row sm:flex-nowrap items-center mt-6">
                 <nav class="w-full sm:w-auto sm:mr-auto">
                     <ul class="pagination">
@@ -214,7 +214,7 @@
                     <option>50</option>
                 </select>
             </div>
-            <!-- END: Pagination -->
-        </div>
+            END: Pagination
+        </div>  -->
     </div>
 @endsection
