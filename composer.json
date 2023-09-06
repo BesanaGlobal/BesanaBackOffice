@@ -14,7 +14,8 @@
         "livewire/livewire": "^2.10",
         "mediconesystems/livewire-datatables": "^0.10.0",
         "stripe/stripe-php": "^10.1",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "~9.0",
+        "vitejs/vite": "^2.8.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

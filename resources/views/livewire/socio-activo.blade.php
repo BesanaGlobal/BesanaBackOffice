@@ -1,8 +1,4 @@
 
-<head>
-    <title>{{ $title }}</title>
-</head>
-
 <div class="container">
     <!-- BEGIN: Login Info -->
     <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4 p-2">
@@ -233,8 +229,6 @@
     })
 
     window.addEventListener('noty', event => {
-        // Swal.fire('', event.detail.msg)
-        // if (event.detail.action == 'close-modal') fireModal(0)
         Swal.fire(
             'Mensaje',
             event.detail.msg,
@@ -247,8 +241,6 @@
     })
 
     window.addEventListener('error', event => {
-        // Swal.fire('', event.detail.msg)
-        // if (event.detail.action == 'close-modal') fireModal(0)
         Swal.fire(
             'Error',
             event.detail.msg,

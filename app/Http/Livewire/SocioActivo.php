@@ -54,7 +54,6 @@ class SocioActivo extends Component
     public $confirmation_code;
     public $password_confirmation;
 
-    public $title = 'Agregar Afiliados | BesanaGlobal';
 
     public function mount(String $id='besana')
     {
@@ -201,7 +200,7 @@ class SocioActivo extends Component
                 $this->invitedby;
                 $this->userName = "";
                 $this->Password = 'Besanabg2023';
-                $this->confirmPassword = 'Besanabg2023';;
+                $this->confirmPassword = 'Besanabg2023';
                 $this->Workphone = "";
                 $this->WorkPhone = "";
                 $this->AlternativePhone = "";
