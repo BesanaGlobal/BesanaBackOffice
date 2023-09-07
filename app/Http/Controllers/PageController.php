@@ -615,10 +615,11 @@ class PageController extends Controller
             $user->Password = Hash::make($password);
             $user->save();
             $datos=['Email'=>$request->email,'Name'=>$name, 'password'=>$password];
-            dd($datos);
+            // dd($datos);
             Mail::send('livewire.register.sendEmailPassword',$datos, function($message) use ($datos) {
                 $message->to($datos['Email'], $datos['Name'])->subject('Nueva Contraseña-Besana');
             });
+            return view('login');
             
         }else{
             return redirect()
