@@ -50,7 +50,7 @@ class ApiController extends Controller
 
         $result = Sale::create([
             'idWebsite' => $id,
-            'idProd' => 0,
+            'idProd' => null,
             'datetimeb' => Carbon::now(),
             'idAffiliated' => $id,
             'price' => $total,
