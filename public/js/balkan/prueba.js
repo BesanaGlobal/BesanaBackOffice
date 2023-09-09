@@ -372,7 +372,7 @@
     //   });
       // console.log("nuevos datos")
       // console.log(datos)
-   console.log(dat);
+      // console.log(dat)
       chart.load(dat);
           
         }

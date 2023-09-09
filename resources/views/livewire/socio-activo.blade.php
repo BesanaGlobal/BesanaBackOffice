@@ -181,7 +181,7 @@
             <div class="flex flex-col lg:flex-row lg:justify-evenly p-4">
                 <div>
                     <input type="checkbox" class="-intro-x bg-primary"  style="input:checked {background-color:green;}"  wire:model="terminos" >
-                    <span class="text-white">{{__('Accept to')}}
+                    <span class="fw-bold">{{__('Accept to')}}
                         <button class="intro-x underline text-sm text-info fw-bold hover:text-gray-900"  wire:model="terminos" onclick="terminos()">{{__('Terms and Conditions')}}</button>
                     </span>
                 </div>

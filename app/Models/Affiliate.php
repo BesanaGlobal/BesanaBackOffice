@@ -93,7 +93,7 @@ class Affiliate extends Model
 	  }
 
 	  public function viewChildren($id){
-		$niveles = Affiliate::ver($id, 1);
+		$niveles = Affiliate::childrenByLevel($id, 1);
 		return $niveles;
 
 	  }

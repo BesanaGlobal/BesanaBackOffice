@@ -27,7 +27,7 @@
                         @endif
                         <!-- BEGIN: Modal Toggle -->
                             <div class="text-right ml-4">
-                                <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="btn btn-sm btn-primary">{{__('My link')}}</a>
+                                <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="btn btn-sm btn-outline-primary btn-lg">{{__('My link')}}</a>
                             </div>
                         <!-- END: Modal Toggle -->
                         <!-- BEGIN: Modal Content -->

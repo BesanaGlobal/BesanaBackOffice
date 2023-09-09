@@ -34,7 +34,6 @@
 </style>
 <div >
  
-
     <div data-tree="{{$data}}" id="tree" class="partner_tree object-cover" style="height: max-content"></div>
   
 </div>
