@@ -151,15 +151,20 @@ class SocioActivo extends Component
                 $fhater = intval($this->asignacionSocio);
             }
 
+            $ssn = $datos['SSN'] ? $datos['SSN'] : null ;
+            $rfc = $datos['RFC'] ? $datos['RFC'] : null ;
+            $curp = $datos['CURP'] ? $datos['CURP'] : null ;
+            $dpi = $datos['DPI'] ? $datos['DPI'] : null ; 
+
             try {
 
                 $this->data = json_decode(json_encode(DB::select("CALL SpAffiliated (
                 'NEW',
                 0,
-                '{$datos['SSN']}',
-                '{$datos['RFC']}',
-                '{$datos['CURP']}',
-                '{$datos['DPI']}',
+                '{$ssn}',
+                '{$rfc}',
+                '{$curp}',
+                '{$dpi}',
                 '{$datos['Name']}',
                 '{$datos['LastName']}',
                 {$datos['AlternativePhone']},
@@ -200,6 +205,8 @@ class SocioActivo extends Component
                 $this->selectCity = "1";
                 $this->SSN = "";
                 $this->RFC = "";
+                $this->CURP = "";
+                $this->DPI = "";
                 $this->fechaingreso = "";
                 $this->invitedby;
                 $this->userName = "";
