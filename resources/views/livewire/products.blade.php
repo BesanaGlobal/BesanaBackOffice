@@ -15,6 +15,11 @@
     @endif
     @if(session('success'))
     <div class="bg-green-400 p-4 rounded-b-lg ">{{ session('success') }}</div>
+    <script>
+        setTimeout(function() {
+            $(".bg-green-400").hide();
+        }, 2000);
+    </script>
     @endif
     @if(session('error'))
     <div class="bg-red-400 p-4 rounded-b-lg text-white">{{ session('error') }}</div>

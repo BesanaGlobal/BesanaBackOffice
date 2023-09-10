@@ -63,10 +63,31 @@
 </div>
 
 
+
+@if(Session::has('noty'))
+  <script>
+    
+
+        Swal.fire({
+                title: 'Éxito',
+                text: "{{ Session::get('noty') }}",
+                icon: 'success'
+            });
+  </script>
+@endif
+
+
 <script >
-      
-        
-        
+
+      $(document).ready(function() {
+        if (window.location.search.indexOf('success') !== -1) {
+            Swal.fire({
+                title: 'Éxito',
+                text: 'El usuario fue creado correctamente.',
+                icon: 'success'
+            });
+        }
+    });
         
            
     window.addEventListener('noty', event => {

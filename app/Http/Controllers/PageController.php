@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use RealRashid\SweetAlert\Facades\Alert;
+// Use Alert;
 use DB;
 
 
@@ -615,11 +617,17 @@ class PageController extends Controller
             $user->Password = Hash::make($password);
             $user->save();
             $datos=['Email'=>$request->email,'Name'=>$name, 'password'=>$password];
-            // dd($datos);
             Mail::send('livewire.register.sendEmailPassword',$datos, function($message) use ($datos) {
                 $message->to($datos['Email'], $datos['Name'])->subject('Nueva Contraseña-Besana');
             });
-            return view('login');
+            
+            session()->flash('success', '¡Contreseña enviada al correo!');
+
+            // Alert::success('Success Title', 'Success Message');
+
+            return redirect()
+            ->back();
+            
             
         }else{
             return redirect()

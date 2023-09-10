@@ -61,13 +61,22 @@
             <!-- END: Login Form -->
         </div>
     </div>
+    @dd($noty)
 @endsection
 
 @section('script')
     <script >
       
-        
-        
+    // window.addEventListener('mail', event => {
+    //         Swal.fire({
+    //             position: 'top-end',
+    //             icon: 'success',
+    //             title: event.detail.msg,
+    //             showConfirmButton: false,
+    //             timer: 1500
+    //         })
+    //     })
+    
         
            
             window.addEventListener('noty', event => {

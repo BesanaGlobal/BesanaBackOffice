@@ -104,6 +104,7 @@
         <!-- END: Side Menu -->
         <!-- BEGIN: Content -->
         <div class="content">
+            @include('sweetalert::alert')
             @include('../layout/components/top-bar')
             @yield('subcontent')
         </div>

@@ -1,4 +1,5 @@
 <div class="container mx-auto">
+
     <div class="flex flex-wrap -mx-4">
         <div class="w-full md:w-1/3 px-4">
             <div class="">
@@ -18,27 +19,27 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">{{__('Phone')}}</span>
-                <input type="text" id="phone" class="form-control" value="{{$b->Phone}}" placeholder="{{$b->Phone}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input readonly type="text" id="phone" class="form-control" value="{{$b->Phone}}" placeholder="{{$b->Phone}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text pr-2" id="basic-addon1">{{__('ZipCode')}}</span>
-                <input type="text" id="zipcode" class="form-control" value="{{$b->ZipCode}}" placeholder="{{$b->ZipCode}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input readonly type="text" id="zipcode" class="form-control" value="{{$b->ZipCode}}" placeholder="{{$b->ZipCode}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text pr-2">{{__('Address')}}</span>
-                <input id="address" value="{{$b->Address}}" type="text" class="form-control" placeholder="{{$b->Address}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input  readonly id="address" value="{{$b->Address}}" type="text" class="form-control" placeholder="{{$b->Address}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text pr-2" id="basic-addon1">{{__('Country')}}</span>
-                <input id="country" value="{{$b->Country}}" type="text" class="form-control" placeholder="" aria-label="notification" aria-describedby="basic-addon1">
+                <input readonly id="country" value="{{$b->Country}}" type="text" class="form-control" placeholder="" aria-label="notification" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text pr-2" id="basic-addon1">{{__('State')}}</span>
-                <input id="state" type="text" class="form-control" placeholder="{{$b->State}}" value="{{$b->State}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input  readonly id="state" type="text" class="form-control" placeholder="{{$b->State}}" value="{{$b->State}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text pr-2" id="basic-addon1">{{__('City')}}</span>
-                <input type="text" id="city" class="form-control" value="{{$b->City}}" placeholder="{{$b->City}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input readonly type="text" id="city" class="form-control" value="{{$b->City}}" placeholder="{{$b->City}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
         </div>
         <div class="w-full md:w-1/3 px-4">
@@ -75,9 +76,9 @@
                     @endif
                     <tr class="border-4  border-b-gray-500">
                         <td class="text-center">
-                            <button wire:click="incrementQuantity({{$pro->id}})">Sumar</button>
-                            <span class="badge badge-info">{{$pro->quantity}}</span>
-                            <button wire:click="decrementQuantity({{$pro->id}})">Restar</button>
+                            <button class="btn btn-primary" wire:click="incrementQuantity({{$pro->id}})">+</button>
+                            <span class="badge badge-info ml-4 mr-4">{{$pro->quantity}}</span>
+                            <button class="btn btn-primary" wire:click="decrementQuantity({{$pro->id}})">-</button>
                         </td>
                         <td class=" pr-5"> <span class=""> {{$pro->name}}</span></td>
                         <td class=" text-right">$ {{ number_format(floatval($pro->price),2) }}</td>
@@ -133,13 +134,13 @@
             <form id="payment-form">
                 @csrf
                 <label class="font-black uppercase text-base" for="">Total:</label>
-                <input id="totalfull" type="text" value="{{number_format(floatval($totalImpuestoShipping),2)}}" class="-intro-y form-control">
+                <input readonly id="totalfull" type="text" value="{{number_format(floatval($totalImpuestoShipping),2)}}" class="-intro-y form-control">
                 <label class="font-black uppercase text-base" for="nameCard">{{__('Name')}}:</label>
                 <input type="text" id="nameCard" class="-intro-x form-control" placeholder="Nombre del Titular">
                 <label class="font-black uppercase text-base" for="nameCard">{{__('Card Data')}}:</label>
                 <div id="card-element">
                 </div>
-                <div id="payment-element" class="bg-stone-50 p-3">
+                <div id="payment-element" class="bg-stone-50 p-3" wire:ignore>
                 </div>
                 <!-- Used to display form errors. -->
                 <div id="card-errors" role="alert"></div>
@@ -153,12 +154,16 @@
 
 @push('javascript')
 
+
+
+
 <script>
+
     const city = "{{$b->City}}"
     const keystripe = "{{ $STRIPE_KEY }} ";
-    var stripe = Stripe(keystripe);
-    var elements = stripe.elements();
-    var cardElement = elements.create('card', {
+    const stripe = Stripe(keystripe);
+    const elements = stripe.elements(); 
+    const cardElement = elements.create('card', {
         style: {
             base: {
                 color: "#32325d",
@@ -178,6 +183,7 @@
 
     cardElement.mount('#payment-element');
     cardElement.addEventListener('change', function(event) {
+        event.preventDefault();
         var displayError = document.getElementById('card-errors');
         if (event.error) {
             displayError.textContent = event.error.message;
@@ -186,8 +192,7 @@
         }
     });
 
-    // const payElement = elements.create('card');
-    // payElement.mount('#card-element');
+    
 
     var form = document.getElementById('payment-form');
     const cardButton = document.getElementById('card-button');

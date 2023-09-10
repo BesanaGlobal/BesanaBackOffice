@@ -196,20 +196,31 @@ class PagePay extends Component
   }
 
   public function incrementQuantity($id){
-    $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->get($id);
-    $product = $this->cantidadProductos->increment();
-    // $product->put('quantity', 1) ; 
-    // $product->increment(); 
-    dd($product);
-    $this->emit('productQuantityChanged', $product);
+    $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->update($id,[
+      'quantity' => + 1
+    ]);
   }
 
   public function decrementQuantity($id){
-    $product = $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->get($id);
-    $product->quantity --; 
-    // dd($product);
-    $this->emit('productQuantityChanged', $product);
+    $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->get($id);
+    
+    if($this->cantidadProductos->quantity == 1){
+      $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->remove($id);
+      if ( $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->isEmpty() ) {
+        $language = session()->get('locale');
+        
+        if ($language == 'en') {
+          $mensaje = 'Car empty!!.';
+        } else {
+          $mensaje = 'Carrito vacio!!';
+        }
+      return redirect('/products')->with('success', $mensaje);
+      }
+    }else{
+      $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->update($id,[
+        'quantity' => - 1
+      ]);
+    }
   }
-
 
 }

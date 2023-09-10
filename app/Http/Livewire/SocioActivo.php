@@ -22,6 +22,8 @@ class SocioActivo extends Component
     public $selectCity;
     public $SSN = "";
     public $RFC = "";
+    public $CURP = "";
+    public $DPI = "";
     public $fechaingreso = null;
     public $invitedby;
     public $userName;
@@ -95,7 +97,9 @@ class SocioActivo extends Component
 
     protected $rules = [
         'SSN' => 'required_if:selectCity,1|unique:affiliates',
-        'RFC' => 'required_if:selectCity,2|unique:affiliates,SSN',
+        'RFC' => 'required_if:selectCity,2|unique:affiliates',
+        'CURP' => 'required_if:selectCity,2|unique:affiliates',
+        'DPI' => 'required_if:selectCity,3|unique:affiliates',
         'fechaingreso' => 'required',
         'invitedby' => 'required',
         'Email' => 'required|unique:affiliates',
@@ -118,6 +122,8 @@ class SocioActivo extends Component
     protected $messages = [
         'SSN.unique' => 'El SSN ya esta en uso',
         'RFC.unique' => 'El RFC ya esta en uso',
+        'CURP.unique' => 'El CURP ya esta en uso',
+        'DPI.unique' => 'El DPI ya esta en uso',
         'userName.unique' => 'El usuario ya esta en uso',
         'password_confirmation.same' => 'las contraseñas no coinciden',
         'Email.unique' => 'El Correo ya esta en uso',
@@ -137,11 +143,6 @@ class SocioActivo extends Component
         $website = 'https://besanaglobal.com?sponsor=' . $datos['userName'];
         $pass = Hash::make($datos['Password']);
 
-        if ($datos['SSN'] != '') {
-            $ID = $datos['SSN'];
-        } else {
-            $ID = $datos['RFC'];
-        }
         //User::where('userName', $datos['invitedby'])->first();
         if (User::where('userName', $datos['invitedby'])->first()) {
             $user = User::where('userName', $datos['invitedby'])->first();
@@ -155,7 +156,10 @@ class SocioActivo extends Component
                 $this->data = json_decode(json_encode(DB::select("CALL SpAffiliated (
                 'NEW',
                 0,
-                '{$ID}',
+                '{$datos['SSN']}',
+                '{$datos['RFC']}',
+                '{$datos['CURP']}',
+                '{$datos['DPI']}',
                 '{$datos['Name']}',
                 '{$datos['LastName']}',
                 {$datos['AlternativePhone']},

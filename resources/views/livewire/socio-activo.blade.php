@@ -29,6 +29,7 @@
                         <select name="city-select" id="city-select" class="form-control" wire:model="selectCity" required>
                             <option value="1">EE UU</option>
                             <option value="2">MEXICO</option>
+                            <option value="3">GUATEMALA</option>
                         </select>
                     </div>
                     @if($selectCity == 1)
@@ -41,11 +42,32 @@
                             </div> 
                         @enderror
                     </div>
-                    @else
+                    @endif
+                    @if($selectCity == 2)
                     <div class="pt-2" id="RFC-DIV">
                         <label class="text-gray-600 font-bold" for="RFC">{{__('Enter your RFC')}}:</label>
                         <input id="RFC" class="-intro-x  form-control w-full" wire:model="RFC"  maxlength="13" minlength="10" type="text"  placeholder="{{__('Enter your RFC')}}" />
                         @error('RFC')
+                            <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                                <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                            </div> 
+                        @enderror
+                    </div>
+                    <div class="pt-2" id="CURP-DIV">
+                        <label class="text-gray-600 font-bold" for="CURP">{{__('Enter your CURP')}}:</label>
+                        <input id="CURP" class="-intro-x  form-control w-full" wire:model="CURP"  maxlength="13" minlength="10" type="text"  placeholder="{{__('Enter your CURP')}}" />
+                        @error('CURP')
+                            <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                                <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                            </div> 
+                        @enderror
+                    </div>
+                    @endif
+                    @if($selectCity == 3)
+                    <div class="pt-2" id="DPI-DIV">
+                        <label class="text-gray-600 font-bold" for="DPI">{{__('Enter your DPI')}}:</label>
+                        <input id="DPI" class="-intro-x  form-control w-full" wire:model="DPI"  maxlength="13" minlength="10" type="text"  placeholder="{{__('Enter your DPI')}}" />
+                        @error('DPI')
                             <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                 <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
                             </div> 

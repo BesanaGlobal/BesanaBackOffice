@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>Update Profile - Midone - Tailwind HTML Admin Template</title>
+    <title>Recuperar Contraseña | BesanaGlobal</title>
 @endsection
 
 @section('subcontent')
@@ -9,6 +9,7 @@
         <h2 class="text-lg font-medium mr-auto">Change Password</h2>
     </div>
     <div class="grid grid-cols-12 gap-6">
+    
         <!-- BEGIN: Profile Menu -->
         
         <!-- END: Profile Menu -->
@@ -22,6 +23,11 @@
                 @if ($errors->has('message'))
                     <div class="alert alert-danger">
                         {{ $errors->first('message') }}
+                    </div>
+                @endif
+                @if (session()->has('success'))
+                    <div class="alert alert-success text-white">
+                        {{ session()->get('success') }}
                     </div>
                 @endif
                 <div class="p-5">
@@ -42,4 +48,22 @@
             <!-- END: Change Password -->
         </div>
     </div>
+@endsection
+@section('script')
+
+@if (session('success'))
+    <script >
+       
+        var success = @json(session()->pull("success"));
+        console.log(success)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title:success,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        
+    </script>
+@endif
 @endsection
