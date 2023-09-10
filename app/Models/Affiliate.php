@@ -25,6 +25,9 @@ class Affiliate extends Model
 
     protected $fillable = [
         'SSN',
+		'RFC',
+		'CURP',
+		'DPI',
         'Name',
         'LastName',
         'AlternativePhone',
