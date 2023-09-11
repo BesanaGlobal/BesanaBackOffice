@@ -623,8 +623,6 @@ class PageController extends Controller
             
             session()->flash('success', '¡Contreseña enviada al correo!');
 
-            // Alert::success('Success Title', 'Success Message');
-
             return redirect()
             ->back();
               

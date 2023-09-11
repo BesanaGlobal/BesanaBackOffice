@@ -48,19 +48,4 @@
 @endsection
 @section('script')
 
-@if (session('success'))
-    <script >
-       
-        var success = @json(session()->pull("success"));
-        console.log(success)
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title:success,
-                showConfirmButton: false,
-                timer: 1500
-            })
-        
-    </script>
-@endif
 @endsection
