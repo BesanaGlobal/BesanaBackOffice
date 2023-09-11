@@ -1,204 +1,223 @@
 <div class="grid grid-cols-1  ">
-<div class="flex flex-col md:flex-row justify-center text-center ">
-    <div class="flex justify-center p-2 text-center">
-        <img src=" {{asset('img/LogoWhite.png')}}" class="-intro-x object-fit h-32 w-64 " alt="besanaglobal">
-
-    </div>
-    <div class="w-full text-center md:mt-4">
-        @include('../layout/change')
-    </div>
-    
-</div>           
- 
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-1 h-screen  overflow-y-scroll p-3 ">
-    <div class="bg-slate-700 bg-opacity-70 p-4">
-        
-        <form method="POST" wire:submit.prevent="create" >
-            @csrf
-      
-   
-        <span class="-intro-x  text-white  font-bold uppercase text-lg ">
-           {{__('personal information')}}
-        
-        </span>
-        <div class="w-full">                         
-           
-            <input  id="Name"
-                placeholder="{{__('Enter your name')}}"
-                class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" :value="old('Name')"
-                required autofocus />
+    <div class="flex flex-col md:flex-row justify-center text-center ">
+        <div class="flex justify-center p-2 text-center">
+            <img src=" {{asset('img/LogoWhite.png')}}" class="-intro-x object-fit h-32 w-64 " alt="besanaglobal">
         </div>
-
-        <div class="mt-2 w-full">
-            <div class="flex text-xl gap-2 items-center">
-                <input id="LastName" class="-intro-x login__input form-control py-3 " type="text"
-                wire:model="LastName" :value="old('LastName')" required 
-                    placeholder="{{__('Last Name')}}"
-                />
-            </div>
+        <div class="w-full text-center md:mt-4">
+            @include('../layout/change')
         </div>
-        <div class=" -intro-x grid grid-cols-1 md:grid-cols-2 gap-2 mt-3"> 
-                    <div class="flex flex-col">
-                        <label class="text-white" for="DateBirth">
-                            {{__('Birthday')}}
-                        </label>
-                        <input id="DateBirth" class="-intro-x  form-control py-3" type="date" wire:model="DateBirth" :value="old('DateBirth')" required /> 
-                    </div>                                
-                    <div class="flex flex-col md:ml-3">
-                        <label class="text-white" for="SSN">
-                            {{__('Enter your SSN')}}
-                        </label>
-                        <input id="SSN" class="-intro-x  form-control form-control py-3 "
-                            type="text" wire:model="SSN" :value="old('SSN')" required
-                                placeholder="{{__('Enter your SSN')}}"
-                                />
-                        @error('SSN') <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                        </div>  @enderror
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-1 h-screen overflow-y-scroll p-3 ">
+        <div class="bg-slate-700 bg-opacity-70 p-4">
+        
+            <form method="POST" wire:submit.prevent="create">
+                @if (session()->has('mensaje'))
+                <div class=" w-full  alert alert-success">{{ session('mensaje') }}</div>
+                @endif
+                @if (session()->has('error'))
+                <div class=" w-full  alert alert-danger">{{ session('error') }}</div>
+                @endif
+
+                @csrf
+
+                <span class="-intro-x  text-white  font-bold uppercase text-lg ">{{__('personal information')}}</span>
+                <div class="w-full">
+                    <div class="text-xl gap-2 items-center w-full ">
+                        <input id="Name" placeholder="{{__('Enter your name')}}" class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" :value="old('Name')" autofocus required />
+                        <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block mt-3" type="text" wire:model="LastName" :value="old('LastName')" placeholder="{{__('Enter your lastname')}}" required/>
                     </div>
-        </div>
+                </div>
+                <div class=" -intro-x w-full">
+                    <div class="pt-2">
+                        <label class="text-white" for="DateBirth">{{__('Birthday')}}:</label>
+                        <input id="DateBirth" class="-intro-x login__input form-control py-3 w-full" type="date" wire:model="DateBirth" :value="old('DateBirth')" required/>
+                    </div>
+                </div>
+                <div class="-intro-x grid grid-cols-1 lg:grid-cols-2 lg:gap-4 pb-4">
+                    <div class="pt-2">
+                        <label class="text-white" for="city-select">{{__('City')}}:</label>
+                        <select name="city-select" id="city-select" class="form-control" wire:model="selectCity" required>
+                            <option value="1">EE UU</option>
+                            <option value="2">MEXICO</option>
+                            <option value="3">GUATEMALA</option>
+                        </select>
+                    </div>
+                    @if($selectCity == 1)
+                    <div class="pt-2" id="SSN-DIV">
+                        <label class="text-white" for="SSN">{{__('Enter your SSN')}}:</label>
+                        <input id="SSN" class="-intro-x  form-control w-full" type="text" wire:model="SSN" placeholder="{{__('Enter your SSN')}}" />
+                        @error('SSN')
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
+                        @enderror
+                    </div>
+                    @endif
+                    @if($selectCity == 2)
+                    <div class="pt-2" id="RFC-DIV">
+                        <label class="text-white" for="RFC">{{__('Enter your RFC')}}:</label>
+                        <input id="RFC" class="-intro-x  form-control w-full" wire:model="RFC" type="text" placeholder="{{__('Enter your RFC')}}" />
+                        @error('RFC')
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="pt-2" id="CURP-DIV">
+                        <label class="text-white" for="CURP">{{__('Enter your CURP')}}:</label>
+                        <input id="CURP" class="-intro-x  form-control w-full" wire:model="CURP" type="text" placeholder="{{__('Enter your CURP')}}" />
+                        @error('CURP')
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
+                        @enderror
+                    </div>
+                    @endif
+                    @if($selectCity == 3)
+                    <div class="pt-2" id="DPI-DIV">
+                        <label class="text-white" for="DPI">{{__('Enter your DPI')}}:</label>
+                        <input id="DPI" class="-intro-x  form-control w-full" wire:model="DPI" type="text" placeholder="{{__('Enter your DPI')}}" />
+                        @error('DPI')
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
+                        @enderror
+                    </div>
+                    @endif
+                </div>
 
-        <span class="-intro-x mt-4 text-white p-2 font-bold uppercase text-lg ">{{__('System Data')}}:</span>    
-        <div class=" -intro-x grid grid-cols-1 md:grid-cols-2 gap-2"> 
-            <div class="flex flex-col">
-                <label class="text-white" for="Invitedby"> {{__('Invited by')}}:</label>
-                <input id="Invitedby" class="-intro-x  form-control py-3" type="text"
-                wire:model="invitedby"  :value="old('invitedby')" required />
-                   
-            </div>                          
-            <div class="flex flex-col md:ml-3">
-                <label class="text-white" for="Invitedby">{{__('Username')}}:</label>
-                <input id="userName" class="-intro-x  form-control py-3  " type="text" wire:model="userName" :value="old('userName')" required placeholder="{{__('Username')}}" />
-                @error('userName') 
-                <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                 <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}
-                </span>
-                </div>  
-                @enderror
-            </div> 
-        </div>
-        <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
-            <div class="flex flex-col">
-                <label for="Password" class="-intro-x text-white"> 
-                        {{__('Password')}}
-                </label>
-                <input id="Password" class="-intro-x  form-control py-3" type="password" wire:model="Password" required />
-                @error('Password') 
-                    <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                        <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
-                    </div>  
-                @enderror
-            </div>
-            <div class="-intro-x flex flex-col md:ml-3 ">
-                <label for="password_confirmation" class="-intro-x text-white"> 
-                            {{__('Confirm Password')}}
-                </label>
-                <input id="password_confirmation" class="-intro-x  form-control py-3" type="password" wire:model="password_confirmation"  required />
-                    @error('password_confirmation') 
+
+                <span class="-intro-x mt-4 text-white p-2 font-bold uppercase text-lg ">{{__('System Data')}}:</span>
+
+
+                <div class="-intro-x grid-cols-1 lg:grid-cols-2 lg:gap-4 pb-4">
+                    <div class="py-2">
+                        <label class="text-white" for="fechaingreso">{{__('date of admission')}}:</label>
+                        <input id="fechaingreso" class="-intro-x login__input form-control py-3 px-4 block" type="date" wire:model="fechaingreso" value="" required/>
+                    </div>
+                </div>
+                <div class=" -intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div class="flex flex-col">
+                        <label class="text-white" for="Invitedby"> {{__('Invited by')}}:</label>
+                        <input id="Invitedby" class="-intro-x  form-control py-3" type="text" wire:model="invitedby" value="old('invitedby')"  required />
+                    </div>
+                    <div class="flex flex-col md:ml-3">
+                        <label class="text-white" for="Invitedby">{{__('Username')}}:</label>
+                        <input id="userName" class="-intro-x  form-control py-3  " type="text" wire:model="userName" :value="old('userName')" placeholder="{{__('Username')}}" required/>
+                        @error('userName')
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}
+                            </span>
+                        </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div class="flex flex-col">
+                        <label for="Password" class="-intro-x text-white">{{__('Password')}}</label>
+                        <input id="Password" class="-intro-x  form-control py-3" type="password" wire:model="Password" required />
+                        @error('Password')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
-                        </div>  
-                    @enderror
-            </div>   
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="-intro-x flex flex-col md:ml-3 ">
+                        <label for="password_confirmation" class="-intro-x text-white">{{__('Confirm Password')}}</label>
+                        <input id="password_confirmation" class="-intro-x  form-control py-3" type="password" wire:model="password_confirmation" required/>
+                        @error('password_confirmation')
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
+                        </div>
+                        @enderror
+                    </div>
+                </div>
         </div>
-    </div>
-    <div class= "bg-slate-800 bg-opacity-70 p-4">
-        
-        <span class="-intro-x  text-white font-bold uppercase text-lg">{{__('CONTACT INFORMATION')}}:</span>  
-        <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
-            <div class="-intro-x flex flex-col">
-                <label class="-intro-x text-white" for="Workphone"> {{__('Cell phone')}}:</label>
-                <input id="Workphone" class="-intro-x  form-control py-3 " type="number" wire:model="Phone" :value="old('Workphone')" required autofocus />
-            </div>
-            <!-- PHONE -->
-            <div class="-intro-x flex flex-col md:ml-3">
-                <label class="-intro-x text-white" for="Phone"> {{__('Phone')}}:</label>
-                <input id="Phone" class="-intro-x  form-control py-3" type="number" wire:model="Workphone"
-                        :value="old('Phone')"  autofocus />
-            </div>
-        </div> 
-        <div class="flex flex-col mt-3">
-            <input id="Email" class="-intro-x  form-control py-3" type="Email" wire:model="Email"
-                    :value="old('Email')" required autofocus placeholder={{__('Email')}} />
-                    @error('Email') <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                        <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                    </div>  @enderror
-        </div>
-        <div class="flex flex-col mt-3">
-            <input id="confirmEmail" class="-intro-x  form-control py-3" type="email" wire:model="confirmEmail"
-                    :value="old('confirmEmail')" required autofocus placeholder="{{__('Confirm Email')}}"/>
-                    @error('confirmEmail') <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                        <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                    </div>  @enderror
-        </div>  
-            
-        <span class="-intro-x  text-white font-bold uppercase text-lg">{{__('LOCATION DATA')}}:</span>  
-        <div class="w-full mt-2">
-            <div class="flex flex-col">
-                <label class="-intro-x text-white"  for="Address"> 
-                        {{__('Address')}}:
-                </label>
-                <input placeholder="{{__('Address')}}" id="Address" class="-intro-x  form-control py-3" type="text" wire:model="Address" :value="old('Address')" required autofocus />
-            </div>           
-        </div>
-        <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
-            <div class="flex flex-col mt-3 md:mt-0">
-                <label class="text-white" for="Country">
-                    {{__('Country')}}
-                </label>
-                <input id="Country" class="-intro-x  form-control py-3" type="text" wire:model="Country"
-                        :value="old('Country')" required autofocus />
-            </div>
-            <!-- State/Province -->
-            <div class="flex flex-col md:ml-3">
-                <label class="text-white" for="State"> {{__('State')}}:</label>
-                <input id="State" class="-intro-x  form-control py-3" type="text" wire:model="State"
-                        :value="old('State')" required autofocus />
-            </div>
-        </div>
-
-        <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
-            <div class="flex flex-col">
-                <label class="text-white" for="City"> {{__('City')}}:</label>
-                <div class="flex text-xl gap-2 items-center">
-                    <input id="City" class="-intro-x  form-control py-3" type="text" wire:model="City"
-                        :value="old('City')" required autofocus />
+        <div class="bg-slate-800 bg-opacity-70 p-4">
+            <span class="-intro-x  text-white font-bold uppercase text-lg">{{__('CONTACT INFORMATION')}}:</span>
+            <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div class="-intro-x flex flex-col">
+                    <label class="-intro-x text-white" for="AlternativePhone"> {{__('Cell phone')}}:</label>
+                    <input id="AlternativePhone" class="-intro-x  form-control py-3 " type="number" wire:model="AlternativePhone" :value="old('AlternativePhone')" autofocus required/>
+                </div>
+                <div class="-intro-x flex flex-col md:ml-3">
+                    <label class="-intro-x text-white" for="Phone"> {{__('Phone')}}:</label>
+                    <input id="WorkPhone" class="-intro-x  form-control py-3" type="number" wire:model="WorkPhone" :value="old('WorkPhone')" autofocus required/>
                 </div>
             </div>
-            <!-- Zip -->
-            <div class="flex flex-col md:ml-3">
-                <label class="text-white" for="ZipCode">{{__('ZipCode')}}:</label>
-                    <input id="ZipCode" class="-intro-x  form-control py-3" type="text" wire:model="ZipCode"
-                        :value="old('ZipCode')" required autofocus />
-
+            <div class="flex flex-col mt-3">
+                <input id="Email" class="-intro-x  form-control py-3" type="Email" wire:model="Email" :value="old('Email')" autofocus placeholder="{{__('Email') }}" required/>
+                @error('Email')
+                <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                    <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                </div>
+                @enderror
             </div>
-        </div>
-        <div class="w-full p-3">
-            <input type="checkbox" class="-intro-x bg-white " style=" input:checked {
-                background-color:green;
-            }" wire:model="terminos">
-            <span class="text-white">{{__('Accept to')}} <button type="button" class="intro-x underline text-sm text-info fw-bold hover:text-gray-900" onclick="terminos()">{{__('Terms and Conditions')}}</button> </span>  
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button 
-                @if ($terminos==false)
-                    disabled
-                @else 
-                @endif
-            class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top" wire:click="create()">
-               {{__('Register')}}
-            </button>
-            <a class="intro-x login__input underline text-sm text-white hover:text-gray-900 mr-3" href="{{ route('login') }}">
-                Ya estas registrado?
-            </a>
-        </div>
-         </form>
+            <div class="flex flex-col mt-3">
+                <input id="confirmEmail" class="-intro-x  form-control py-3" type="email" wire:model="confirmEmail" :value="old('confirmEmail')" autofocus placeholder="{{__('Confirm Email')}}" required/>
+                @error('confirmEmail')
+                <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                    <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                </div>
+                @enderror
+            </div>
 
-    </div>
-    <script>
-        function fireModal(action = 1) {
+            <span class="-intro-x  text-white font-bold uppercase text-lg">{{__('LOCATION DATA')}}:</span>
+
+            <div class="w-full mt-2">
+                <div class="flex flex-col">
+                    <label class="-intro-x text-white" for="Address">
+                        {{__('Address')}}:
+                    </label>
+                    <input placeholder="{{__('Address')}}" id="Address" class="-intro-x  form-control py-3" type="text" wire:model="Address" :value="old('Address')" autofocus  required/>
+                </div>
+            </div>
+            <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div class="flex flex-col mt-3 md:mt-0">
+                    <label class="text-white" for="Country">
+                        {{__('Country')}}
+                    </label>
+                    <input id="Country" class="-intro-x  form-control py-3" type="text" wire:model="Country" :value="old('Country')" autofocus required/>
+                </div>
+                <div class="flex flex-col md:ml-3">
+                    <label class="text-white" for="State"> {{__('State')}}:</label>
+                    <input id="State" class="-intro-x  form-control py-3" type="text" wire:model="State" :value="old('State')" autofocus required/>
+                </div>
+            </div>
+            <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div class="flex flex-col">
+                    <label class="text-white" for="City"> {{__('City')}}:</label>
+                    <div class="flex text-xl gap-2 items-center">
+                        <input id="City" class="-intro-x  form-control py-3" type="text" wire:model="City" :value="old('City')" autofocus required/>
+                    </div>
+                </div>
+                <div class="flex flex-col md:ml-3">
+                    <label class="text-white" for="ZipCode">{{__('ZipCode')}}:</label>
+                    <input id="ZipCode" class="-intro-x  form-control py-3" type="text" wire:model="ZipCode" :value="old('ZipCode')" autofocus required/>
+                </div>
+            </div>
+            <div class="flex flex-col lg:flex-row lg:justify-evenly p-4">
+                <div>
+                    <input type="checkbox" class="-intro-x bg-primary" style="input:checked {background-color:green;}" wire:model="terminos" required>
+                    <span class="text-white">{{__('Accept to')}}
+                        <button class="intro-x underline text-sm text-info fw-bold hover:text-gray-900" wire:model="terminos" onclick="terminos()">{{__('Terms and Conditions')}}</button>
+                    </span>
+                </div>
+                <a class="intro-x login__input underline text-sm text-gray-600 hover:text-gray-900 mr-3 text-center text-white" href="{{ route('login') }}"> {{__('You are already registered')}}? </a>
+            </div>
+
+            <div class="flex justify-center lg:justify-end">
+                <button @if ($terminos==false) disabled @else @endif class="btn btn-primary py-3 px-4 w-full lg:w-32" wire:click="create()">
+                    {{__('Register')}}
+                </button>
+            </div>
+            </form>
+        </div>
         
+        <script>
+
+            function fireModal(action = 1) {
+
                 if (action == 1) {
                     document.querySelector('.modal').classList.add('show')
                     document.querySelector('.modal').style.display = 'block'
@@ -210,29 +229,30 @@
 
 
 
-        window.addEventListener('modal-open', event => {
-            fireModal(1)
-        })
+            window.addEventListener('modal-open', event => {
+                fireModal(1)
+            })
 
-        window.addEventListener('noty', event => {
-            // Swal.fire('', event.detail.msg)
-            // if (event.detail.action == 'close-modal') fireModal(0)
+            window.addEventListener('noty', event => {
+                
+                // Swal.fire('', event.detail.msg)
+                // if (event.detail.action == 'close-modal') fireModal(0)
                 Swal.fire(
-                'Good job!',
-                event.detail.msg,
-                'success'
+                    'Good job!',
+                    event.detail.msg,
+                    'success'
                 ).then(result => {
-                    if(result.isConfirmed){
-                        window.location = '/login'
+                        if (result.isConfirmed) {
+                            window.location = '/login'
+                        }
                     }
-                }
-                    
+
                 )
-            
-        })
-        
-        function terminos(){
-            const texto=`POLITICAS Y PROCEDIMIENTOS.
+
+            })
+
+            function terminos() {
+                const texto = `POLITICAS Y PROCEDIMIENTOS.
 Estos términos y condiciones (los "Términos y Condiciones") rigen el uso de www.besanaglobal.com (el "Sitio"). Este Sitio es propiedad y está operado por BESANA GLOBAL. Este Sitio es un sitio web de comercio electrónico. Al usar este Sitio, usted indica que ha leído y comprende estos Términos y condiciones y acepta cumplirlos en todo momento.ESTOS TÉRMINOS Y CONDICIONES CONTIENEN UNA CLÁUSULA DE RESOLUCIÓN DE DISPUTAS QUE AFECTA SUS DERECHOS SOBRE CÓMO RESOLVER DISPUTAS. POR FAVOR LÉALO CUIDADOSAMENTE.PROPIEDAD INTELECTUALTodo el contenido publicado y puesto a disposición en nuestro Sitio es propiedad de BESANA GLOBAL y de los creadores del Sitio. Esto incluye, entre otros, imágenes, texto, logotipos, documentos, archivos descargable y cualquier cosa que contribuya a la composición de nuestro Sitio.cuentasCuando crea una cuenta en nuestro Sitio, acepta lo siguiente:Usted es el único responsable de su cuenta y de la seguridad y privacidad de su cuenta, incluidas las contraseñas o la información confidencial adjunta a esa cuenta; yToda la información personal que nos proporciona a través de su cuenta está actualizada, es precisa y veraz, y actualizará su información personal si cambia.Nos reservamos el derecho de suspender o cancelar su cuenta si está utilizando nuestro Sitio ilegalmente o si viola estos Términos y condiciones.Limitación de responsabilidadBESANA GLOBAL y nuestros directores, funcionarios, agentes, empleados, subsidiarias y afiliadas no serán responsables de ninguna acción, reclamo, pérdida, daño, responsabilidad y gasto, incluidos los honorarios legales, derivados de su uso del Sitio.IndemnidadExcepto donde lo prohíba la ley, al usar este Sitio usted indemniza y exime a BESANA GLOBAL y a nuestros directores, funcionarios, agentes, empleados, subsidiarias y afiliados de cualquier acción, reclamo, pérdida, daño, responsabilidad y gasto, incluidos los honorarios legales que surjan de su uso de nuestro Sitio o su violación de estos Términos y Condiciones.Ley aplicableEstos Términos y Condiciones se rigen por las leyes del Estado de Nevada.Resolución de conflictosSujeto a las excepciones especificadas en estos Términos y condiciones, si usted y BESANA GLOBAL no pueden resolver una disputa a través de una discusión informal, entonces usted y BESANA GLOBAL acuerdan presentar el problema primero ante un mediador no vinculante y ante un árbitro en el caso esa mediación falla. La decisión del árbitro será definitiva y vinculante. Cualquier mediador o árbitro debe ser una parte neutral aceptable tanto para usted como para BESANA GLOBAL.Sin perjuicio de cualquier otra disposición en estos Términos y condiciones, usted y BESANA GLOBAL acuerdan que ambos conservan el derecho de iniciar una acción en un tribunal de reclamos menores y presentar una acción por medida cautelar o infracción de propiedad intelectual. Términos y Condiciones Adicionales sobre el Plan de Compensación
 DEFINICIONES:
 PLAN DE COMPENSACION: El plan de compensación es el sistema de premiación que ofrecemos a nuestros promotores activos para valorar su esfuerzo. Es uno de nuestros pilares fundamentales ya que definirá el crecimiento de los distribuidores y de la empresa.
@@ -287,32 +307,19 @@ Detalles de contactoPóngase en contacto con nosotros si tiene alguna pregunta o
 Una vez que haya revisado las Políticas, y si acepta cumplirlas, haga clic en el cuadro "Acepto" que se encuentra a continuación y continúe con su solicitud para convertirse en distribuidor independiente. TENGA EN CUENTA QUE AL HACER CLIC EN "ACEPTO" INDICA QUE HA LEÍDO Y COMPRENDIDOTambién puede ponerse en contacto con nosotros a través de NUESTRO CHAT disponible en nuestro Sitio.
 Fecha de vigencia: 1 de junio de 2023
 ©2021 - 2023 Besana Global`;
-            Swal.fire({
-            title: 'Terminos y Condiciones',
-            text: texto,
-            // imageUrl: 'https://unsplash.it/400/200',
-            // imageWidth: 400,
-            // imageHeight: 200,
-            // imageAlt: 'Custom image',
-            })
-        }
-        // window.onload = () => {
-        // const myInput = document.getElementById('confirmEmail');
-        // myInput.onpaste = e => e.preventDefault();
-        // }
-        
-    </script>
-  </div>
+                Swal.fire({
+                    title: 'Terminos y Condiciones',
+                    text: texto,
+                    // imageUrl: 'https://unsplash.it/400/200',
+                    // imageWidth: 400,
+                    // imageHeight: 200,
+                    // imageAlt: 'Custom image',
+                })
+            }
+            // window.onload = () => {
+            // const myInput = document.getElementById('confirmEmail');
+            // myInput.onpaste = e => e.preventDefault();
+            // }
+        </script>
+    </div>
 </div>
-
-    
-   
-               
-                
-    
-
-        
-        
-     
-               
-              

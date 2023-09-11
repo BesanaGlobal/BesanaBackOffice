@@ -20,6 +20,7 @@ class LoginComponent extends Component
 
     public function login()
     {
+        
         $user = User::where('userName', $this->username)->first();
         if ($user != null) {
             if (password_verify($this->password, $user->Password)) {
@@ -28,9 +29,9 @@ class LoginComponent extends Component
                     $id = Auth()->user()->idAffiliated;
                     $status = Affiliate::where('idAffiliated', $id)->get();
                     if ($status[0]['ConfirmedEmail']) {
-                        if (Auth()->user()->active != 1) {
+                        if (Auth()->user()->active == 0) {
                             $this->dispatchBrowserEvent('noty', ['msg' => 'Upss lo sentimos tu membresia ha expirado, renueva tu membresia!.']);
-                            return redirect()->route('addpackage');
+                            // return redirect()->route('addpackage');
                         } else {
                             return redirect()->route('dash');
                         }
