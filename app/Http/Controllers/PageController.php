@@ -627,8 +627,7 @@ class PageController extends Controller
 
             return redirect()
             ->back();
-            
-            
+              
         }else{
             return redirect()
             ->back()
