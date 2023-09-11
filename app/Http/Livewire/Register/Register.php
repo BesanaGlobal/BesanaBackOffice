@@ -121,7 +121,7 @@ class Register extends Component
 
     public function create()
     {
-
+        
         $confirmation_code = Str::random(25);
         $datos = $this->validate();
         $datos['confirmation_code'] = $confirmation_code;
@@ -137,6 +137,8 @@ class Register extends Component
         $rfc = $datos['RFC'] ? $datos['RFC'] : null;
         $curp = $datos['CURP'] ? $datos['CURP'] : null;
         $dpi = $datos['DPI'] ? $datos['DPI'] : null;
+
+        
 
         try {
 
@@ -184,16 +186,55 @@ class Register extends Component
             Mail::send('livewire.register.confirmation_code', $datos, function ($message) use ($datos) {
                 $message->to($datos['Email'], $datos['Name'])->subject('Por favor confirma tu correo');
             });
+          
+            $this->reset(
+                'SSN',
+                'RFC',
+                'CURP',
+                'DPI',
+                'fechaingreso',
+                'invitedby',
+                'Email',
+                'confirmEmail',
+                'userName',
+                'Name',
+                'LastName',
+                'AlternativePhone',
+                'WorkPhone',
+                'DateBirth',
+                'Address',
+                'Country',
+                'State',
+                'City',
+                'ZipCode',
+                'Password',
+                'password_confirmation',
+            );
+            $this->dispatchBrowserEvent('noty', ['msg' => 'te hemos enviado un mensaje por correo, confirmalo!.']);
+            $this->hydrate();
             
-             $this->dispatchBrowserEvent('noty', ['msg' => 'te hemos enviado un mensaje por correo, confirmalo!.']);
+       
             
-            // return redirect()->to('/login');
+             // return redirect()->to('/login');
         } catch (\Throwable $th) {
 
             $this->dispatchBrowserEvent('noty', ['msg' => 'error de transaccion en base de datos: ' . $th]);
             return;
-        }
+        };
+
     }
+
+    public function hydrate()
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
+    }
+
+    // public function hydrate(): void
+    // {
+    //     $this->resetErrorBag();
+    //     $this->resetValidation();
+    // }
 
     public function verify($code)
     {

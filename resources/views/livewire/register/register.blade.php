@@ -10,7 +10,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-1 h-screen overflow-y-scroll p-3 ">
         <div class="bg-slate-700 bg-opacity-70 p-4">
         
-            <form method="POST" wire:submit.prevent="create">
+            <form method="POST" wire:submit.prevent>
                 @if (session()->has('mensaje'))
                 <div class=" w-full  alert alert-success">{{ session('mensaje') }}</div>
                 @endif
@@ -216,27 +216,25 @@
         
         <script>
 
-            function fireModal(action = 1) {
+            // function fireModal(action = 1) {
 
-                if (action == 1) {
-                    document.querySelector('.modal').classList.add('show')
-                    document.querySelector('.modal').style.display = 'block'
-                } else {
-                    document.querySelector('.modal').classList.add('hide')
-                    document.querySelector('.modal').style.display = 'none'
-                }
-            }
+            //     if (action == 1) {
+            //         document.querySelector('.modal').classList.add('show')
+            //         document.querySelector('.modal').style.display = 'block'
+            //     } else {
+            //         document.querySelector('.modal').classList.add('hide')
+            //         document.querySelector('.modal').style.display = 'none'
+            //     }
+            // }
 
 
 
-            window.addEventListener('modal-open', event => {
-                fireModal(1)
-            })
+            // window.addEventListener('modal-open', event => {
+            //     fireModal(1)
+            // })
 
             window.addEventListener('noty', event => {
                 
-                // Swal.fire('', event.detail.msg)
-                // if (event.detail.action == 'close-modal') fireModal(0)
                 Swal.fire(
                     'Good job!',
                     event.detail.msg,

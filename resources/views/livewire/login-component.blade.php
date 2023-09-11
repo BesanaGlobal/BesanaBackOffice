@@ -69,4 +69,14 @@
         if (event.detail.action == 'close-modal') fireModal(0)
     })
 
+    window.addEventListener('package', event => {
+        Swal.fire('', event.detail.msg).then(result => {
+                        if (result.isConfirmed) {
+                            window.location = '/addpackage'
+                        }
+                    }
+
+                )
+    })
+
 </script>
