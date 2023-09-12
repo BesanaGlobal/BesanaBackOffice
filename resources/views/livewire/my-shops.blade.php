@@ -34,14 +34,15 @@
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
          @forelse ($data as $d)
-        
+           @foreach($d->DetailSales as $detail)
               <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{$d->name}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$. {{$d->price}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{$d->puntos}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{$detail->NameProduct}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$. {{$detail->precioVenta}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{$detail->product->puntos}} Pts.</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{$d->datetimeb}}</td>
 
               </tr>
+            @endforeach
         @empty
            
         @endforelse
