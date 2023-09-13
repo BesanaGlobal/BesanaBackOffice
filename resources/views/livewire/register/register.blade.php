@@ -174,21 +174,41 @@
             </div>
             <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div class="flex flex-col mt-3 md:mt-0">
-                    <label class="text-white" for="Country">
-                        {{__('Country')}}
-                    </label>
-                    <input id="Country" class="-intro-x  form-control py-3" type="text" wire:model="Country" :value="old('Country')" autofocus required/>
+                    <label class="text-white" for="Country">{{__('Country')}}</label>
+                    <select wire:model="selectedCountry" id="Country" class="form-control" required>
+                        <option  selected disabled>Selecciona un País</option>
+                        <option ></option>
+                        @foreach($Countries as $country => $value)
+                        <option value="{{ $country }}">{{ $country }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="flex flex-col md:ml-3">
                     <label class="text-white" for="State"> {{__('State')}}:</label>
-                    <input id="State" class="-intro-x  form-control py-3" type="text" wire:model="State" :value="old('State')" autofocus required/>
+                    <select wire:model="selectedState" id="State" class="form-control" required>
+                        <option selected disabled>Selecciona un Estado</option>
+                        <option></option>
+                        @if (!is_null($States))
+                        @foreach($States as $state => $value)
+                        <option value="{{ $state }}">{{ $state }}</option>
+                        @endforeach
+                        @endif
+                    </select>
                 </div>
             </div>
             <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div class="flex flex-col">
                     <label class="text-white" for="City"> {{__('City')}}:</label>
                     <div class="flex text-xl gap-2 items-center">
-                        <input id="City" class="-intro-x  form-control py-3" type="text" wire:model="City" :value="old('City')" autofocus required/>
+                    <select wire:model="selectedCity" id="City" class="form-control" required>
+                        <option selected disabled>Selecciona una Ciudad</option>
+                        <option></option>
+                        @if (!is_null($Cities))
+                        @foreach($Cities as $city)
+                        <option value="{{ $city }}">{{ $city}}</option>
+                        @endforeach
+                        @endif
+                    </select>
                     </div>
                 </div>
                 <div class="flex flex-col md:ml-3">

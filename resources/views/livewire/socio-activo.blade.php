@@ -1,4 +1,3 @@
-
 <div class="container">
     <!-- BEGIN: Login Info -->
     <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4 p-2">
@@ -35,42 +34,42 @@
                     @if($selectCity == 1)
                     <div class="pt-2" id="SSN-DIV">
                         <label class="text-gray-600 font-bold" for="SSN">{{__('Enter your SSN')}}:</label>
-                        <input id="SSN" class="-intro-x  form-control w-full" type="text" wire:model="SSN"  placeholder="{{__('Enter your SSN')}}" />
+                        <input id="SSN" class="-intro-x  form-control w-full" type="text" wire:model="SSN" placeholder="{{__('Enter your SSN')}}" />
                         @error('SSN')
-                            <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                                <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                            </div> 
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
                         @enderror
                     </div>
                     @endif
                     @if($selectCity == 2)
                     <div class="pt-2" id="RFC-DIV">
                         <label class="text-gray-600 font-bold" for="RFC">{{__('Enter your RFC')}}:</label>
-                        <input id="RFC" class="-intro-x  form-control w-full" wire:model="RFC"   type="text"  placeholder="{{__('Enter your RFC')}}" />
+                        <input id="RFC" class="-intro-x  form-control w-full" wire:model="RFC" type="text" placeholder="{{__('Enter your RFC')}}" />
                         @error('RFC')
-                            <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                                <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                            </div> 
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
                         @enderror
                     </div>
                     <div class="pt-2" id="CURP-DIV">
                         <label class="text-gray-600 font-bold" for="CURP">{{__('Enter your CURP')}}:</label>
-                        <input id="CURP" class="-intro-x  form-control w-full" wire:model="CURP"   type="text"  placeholder="{{__('Enter your CURP')}}" />
+                        <input id="CURP" class="-intro-x  form-control w-full" wire:model="CURP" type="text" placeholder="{{__('Enter your CURP')}}" />
                         @error('CURP')
-                            <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                                <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                            </div> 
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
                         @enderror
                     </div>
                     @endif
                     @if($selectCity == 3)
                     <div class="pt-2" id="DPI-DIV">
                         <label class="text-gray-600 font-bold" for="DPI">{{__('Enter your DPI')}}:</label>
-                        <input id="DPI" class="-intro-x  form-control w-full" wire:model="DPI"   type="text"  placeholder="{{__('Enter your DPI')}}" />
+                        <input id="DPI" class="-intro-x  form-control w-full" wire:model="DPI" type="text" placeholder="{{__('Enter your DPI')}}" />
                         @error('DPI')
-                            <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                                <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                            </div> 
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
                         @enderror
                     </div>
                     @endif
@@ -98,11 +97,11 @@
                             <label class="text-gray-600 font-bold" for="Invitedby">{{__('Username')}}:</label>
                         </div>
                         <div class="col-2">
-                            <input id="userName" class="-intro-x form-control py-3 " type="text"  wire:model="userName" :value="old('userName')" required placeholder="{{__('Username')}}" />
+                            <input id="userName" class="-intro-x form-control py-3 " type="text" wire:model="userName" :value="old('userName')" required placeholder="{{__('Username')}}" />
                             @error('userName')
                             <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                 <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                            </div> 
+                            </div>
                             @enderror
                         </div>
                     </div>
@@ -121,11 +120,11 @@
                     <!-- Confirm Password -->
                     <div class="-intro-x w-full ">
                         <label for="password_confirmation" class="-intro-x text-gray-600 font-bold">{{__('Confirm Password')}}</label>
-                        <input id="password_confirmation" class="-intro-x  form-control py-3" type="text"  placeholder="Besanabg2023" required wire:model="password_confirmation" />
-                        @error('password_confirmation') 
+                        <input id="password_confirmation" class="-intro-x  form-control py-3" type="text" placeholder="Besanabg2023" required wire:model="password_confirmation" />
+                        @error('password_confirmation')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
-                        </div> 
+                        </div>
                         @enderror
                     </div>
                 </div>
@@ -151,16 +150,16 @@
             <span class="-intro-x  font-bold uppercase text-lg ">{{__('CONTACT INFORMATION')}}:</span>
             <div class=" grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                 <input id="AlternativePhone" class="-intro-x login__input form-control py-3 block" type="number" wire:model="AlternativePhone" :value="old('AlternativePhone')" required autofocus placeholder="{{__('Cell phone')}}" />
-                <input id="WorkPhone" class="-intro-x login__input form-control py-3 block" type="number" wire:model="WorkPhone" :value="old('WorkPhone')" autofocus placeholder="{{__('Phone')}}" required/>
+                <input id="WorkPhone" class="-intro-x login__input form-control py-3 block" type="number" wire:model="WorkPhone" :value="old('WorkPhone')" autofocus placeholder="{{__('Phone')}}" required />
             </div>
             {{-- Email  --}}
             <div class="w-full mt-2">
                 <label class="-intro-x text-gray-600 font-bold" for="Email"> {{__('Email')}}:</label>
                 <input id="Email" class="-intro-x login__input form-control py-3 block" type="Email" wire:model="Email" :value="old('Email')" required autofocus placeholder="{{__('Email')}}" />
                 @error('Email')
-                    <div class="intro-x bg-red-600 p-2 rounded-lg ">
-                        <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                    </div> 
+                <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                    <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                </div>
                 @enderror
             </div>
             {{-- confirm email --}}
@@ -170,7 +169,7 @@
                 @error('confirmEmail')
                 <div class="intro-x bg-red-600 p-2 rounded-lg ">
                     <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
-                </div> 
+                </div>
                 @enderror
             </div>
             {{-- addres  --}}
@@ -182,18 +181,45 @@
             <div class="grid grid-cols-1 lg:grid-cols-2">
                 <div class="grid grid-cols-1">
                     <label class="-intro-x text-gray-600 font-bold" for="Country"> {{__('Country')}}:</label>
-                    <input id="Country" class="-intro-x login__input form-control py-3 block" type="text" wire:model="Country" :value="old('Country')" required placeholder="Usa" />
+                    <select wire:model="selectedCountry" id="Country" class="form-control">
+                        <option  selected disabled>Selecciona un País</option>
+                        <option ></option>
+                        @foreach($Countries as $country => $value)
+                        <option value="{{ $country }}">{{ $country }}</option>
+                        @endforeach
+                    </select>
                 </div>
+
                 <!-- State/Province -->
                 <div class="grid grid-cols-1 ml-0 lg:ml-2">
                     <label class="-intro-x text-gray-600 font-bold" for="State"> {{__('State')}}:</label>
-                    <input id="State" class="-intro-x login__input form-control py-3 block" type="text" wire:model="State" :value="old('State')" required autofocus />
+                    
+                    <select wire:model="selectedState" id="State" class="form-control">
+                        <option selected disabled>Selecciona un Estado</option>
+                        <option></option>
+                        @if (!is_null($States))
+                        @foreach($States as $state => $value)
+                        <option value="{{ $state }}">{{ $state }}</option>
+                        @endforeach
+                        @endif
+                    </select>
+                   
                 </div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 mt-3">
                 <div class="grid grid-cols-1">
                     <label class="-intro-x text-gray-600 font-bold" for="City"> {{__('City')}}:</label>
-                    <input id="City" class="-intro-x login__input form-control py-3 block" type="text" wire:model="City" :value="old('City')" required autofocus />
+                    
+                    <select wire:model="selectedCity" id="City" class="form-control">
+                        <option selected disabled>Selecciona una Ciudad</option>
+                        <option></option>
+                        @if (!is_null($Cities))
+                        @foreach($Cities as $city)
+                        <option value="{{ $city }}">{{ $city}}</option>
+                        @endforeach
+                        @endif
+                    </select>
+                    
                 </div>
                 <div class="grid grid-cols-1 ml-0 lg:ml-2">
                     <label class="-intro-x text-gray-600 font-bold" for="ZipCode"> {{__('ZipCode')}}:</label>
@@ -202,22 +228,16 @@
             </div>
             <div class="flex flex-col lg:flex-row lg:justify-evenly p-4">
                 <div>
-                    <input type="checkbox" class="-intro-x bg-primary"  style="input:checked {background-color:green;}"  wire:model="terminos" >
+                    <input type="checkbox" class="-intro-x bg-primary" style="input:checked {background-color:green;}" wire:model="terminos">
                     <span class="fw-bold">{{__('Accept to')}}
-                        <button class="intro-x underline text-sm text-info fw-bold hover:text-gray-900"  wire:model="terminos" onclick="terminos()">{{__('Terms and Conditions')}}</button>
+                        <button class="intro-x underline text-sm text-info fw-bold hover:text-gray-900" wire:model="terminos" onclick="terminos()">{{__('Terms and Conditions')}}</button>
                     </span>
                 </div>
                 <a class="intro-x login__input underline text-sm text-gray-600 hover:text-gray-900 mr-3 text-center" href="{{ route('login.register') }}"> {{__('You are already registered')}}? </a>
             </div>
-            
+
             <div class="flex justify-center lg:justify-end">
-                <button 
-                    @if ($terminos == false)
-                        disabled
-                    @else 
-                        
-                    @endif
-                    class="btn btn-primary py-3 px-4 w-full lg:w-32" type="submit">
+                <button @if ($terminos==false) disabled @else @endif class="btn btn-primary py-3 px-4 w-full lg:w-32" type="submit">
                     {{__('Register')}}
                 </button>
             </div>
@@ -226,16 +246,20 @@
     </div>
 </div>
 </div>
+
+
+
+
+
+
 <script>
     $('#select2-dropdown').select2();
-    $('#select2-dropdown').on('change', function (e) {
+    $('#select2-dropdown').on('change', function(e) {
         var data = $('#select2-dropdown').select2("val");
         @this.set('ottPlatform', data);
     });
-
-     </script>
-        <script>
-
+</script>
+<script>
     function fireModal(action = 1) {
         if (action == 1) {
             document.querySelector('.modal').classList.add('show')

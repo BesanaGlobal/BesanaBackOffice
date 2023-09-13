@@ -40,9 +40,9 @@ class Register extends Component
     public $Email;
     public $confirmEmail;
     public $Address;
-    public $Country;
-    public $State;
-    public $City;
+    public $selectedCountry = null;
+    public $selectedState = null;
+    public $selectedCity= null;
     public $ZipCode;
 
     public $nohijos = false;
@@ -58,6 +58,81 @@ class Register extends Component
     public $password_confirmation;
 
     
+    public $Countries  = [
+        'EE UU' => [
+            'Alabama' => ['Birmingham', 'Montgomery'],
+            'Alaska' => ['Anchorage', 'Fairbanks'],
+            'Arizona' => ['Phoenix', 'Tucson'],
+            'Arkansas' => ['Little Rock', 'Fort Smith'],
+            'California' => ['Los Angeles', 'San Francisco', 'San Diego'],
+            'Colorado' => ['Denver', 'Colorado Springs'],
+            'Connecticut' => ['Hartford', 'Bridgeport'],
+            'Delaware' => ['Wilmington', 'Dover'],
+            'Florida' => ['Jacksonville', 'Miami', 'Tampa'],
+            'Georgia' => ['Atlanta', 'Augusta'],
+            'Hawaii' => ['Honolulu', 'Hilo'],
+            'Idaho' => ['Boise', 'Nampa'],
+            'Illinois' => ['Chicago', 'Springfield'],
+            'Indiana' => ['Indianapolis', 'Fort Wayne'],
+            'Iowa' => ['Des Moines', 'Cedar Rapids'],
+            'Kansas' => ['Wichita', 'Topeka'],
+            'Kentucky' => ['Louisville', 'Lexington'],
+            'Luisiana' => ['New Orleans', 'Baton Rouge'],
+            'Maine' => ['Portland', 'Lewiston'],
+            'Maryland' => ['Baltimore', 'Annapolis'],
+            'Massachusetts' => ['Boston', 'Worcester'],
+            'Michigan' => ['Detroit', 'Grand Rapids'],
+            'Minnesota' => ['Minneapolis', 'Saint Paul'],
+            'Misisipi' => ['Jackson', 'Gulfport'],
+            'Misuri' => ['St. Louis', 'Kansas City'],
+            'Montana' => ['Billings', 'Missoula'],
+            'Nebraska' => ['Omaha', 'Lincoln'],
+            'Nevada' => ['Las Vegas', 'Reno'],
+            'New Hampshire' => ['Manchester', 'Nashua'],
+            'Nueva Jersey' => ['Newark', 'Jersey City'],
+            'Nuevo Mexico' => ['Albuquerque', 'Las Cruces'],
+            'Nueva York' => ['New York City', 'Buffalo', 'Rochester'],
+            'Carolina del Norte' => ['Charlotte', 'Raleigh'],
+            'Carolina del Sur' => ['',''],
+            'Dakota del Norte' => ['Bismarck', 'Fargo'],
+            'Dakota del Sur' => ['Pierre', 'Sioux Falls'],
+            'Ohio' => ['Cleveland', 'Columbus', 'Cincinnati'],
+            'Oklahoma' => ['Oklahoma City', 'Tulsa'],
+            'Oregon' => ['Portland', 'Salem'],
+            'Pensilvania' => ['Philadelphia', 'Pittsburgh'],
+            'Rhode Island' => ['Providence', 'Pawtucket'],
+            'Carolina del Sur' => ['Columbia', 'Charleston'],
+            'Tennessee' => ['Nashville', 'Memphis'],
+            'Texas' => ['Houston', 'Dallas', 'Austin'],
+            'Utah' => ['Salt Lake City', 'Provo'],
+            'Vermont' => ['Montpelier', 'Burlington'],
+            'Virginia' => ['Richmond', 'Virginia Beach'],
+            'Washington' => ['Seattle', 'Spokane'],
+            'West Virginia' => ['Charleston', 'Huntington'],
+            'Wisconsin' => ['Milwaukee', 'Madison'],
+            'Wyoming' => ['Cheyenne', 'Casper'],
+        ],
+        // 'Canada' => ['Toronto', 'Montreal', 'Vancouver'],
+        // 'Mexico' => ['Mexico City', 'Guadalajara', 'Monterrey']
+    ];
+
+    public $States;
+    public $Cities;
+
+    public function updatedSelectedCountry($country)
+    {
+        if (!is_null($country)) {
+           $this->States = $this->Countries[$country];
+        }
+    }
+
+    public function updatedSelectedState($state)
+    {
+        if (!is_null($state)) {
+            $this->Cities = array_values($this->States[$state]);
+        }
+    }
+
 
     public function mount()
     {
@@ -89,10 +164,10 @@ class Register extends Component
         'AlternativePhone' => 'required',
         'WorkPhone' => 'required',
         'DateBirth' => 'required|string',
-        'Address' => 'required|string',
-        'Country' => 'required|string',
-        'State' => 'required|string',
-        'City' => 'required|string',
+        'Address'=>'required',
+        'selectedCountry'=>'required',
+        'selectedCity'=>'required',
+        'selectedState'=>'required',
         'ZipCode' => 'required|string',
         'Password' => 'required',
         'password_confirmation' => 'required|same:Password',
@@ -163,9 +238,9 @@ class Register extends Component
                 '{$datos['Email']}',
                 null,
                 '{$datos['Address']}',
-                '{$datos['Country']}',
-                '{$datos['State']}',
-                '{$datos['City']}',
+                '{$datos['selectedCountry']}',
+                '{$datos['selectedState']}',
+                '{$datos['selectedCity']}',
                 {$datos['ZipCode']},
                 {$datos['AlternativePhone']},
                 '-12.34566',
@@ -203,9 +278,9 @@ class Register extends Component
                 'WorkPhone',
                 'DateBirth',
                 'Address',
-                'Country',
-                'State',
-                'City',
+                'selectedCountry',
+                'selectedState',
+                'selectedCity',
                 'ZipCode',
                 'Password',
                 'password_confirmation',

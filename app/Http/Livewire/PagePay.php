@@ -185,7 +185,7 @@ class PagePay extends Component
 
     $state = $this->user->State;
     switch (strtoupper($state)) {
-      case 'NEVADA':
+      case 'Nevada':
         return $this->taxes = 8.375;
 
         break;
