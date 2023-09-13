@@ -24,11 +24,12 @@
                 </div>
                 <div class="-intro-x grid grid-cols-1 lg:grid-cols-2 lg:gap-4 pb-4">
                     <div class="pt-2">
-                        <label class="text-gray-600 font-bold" for="city-select">{{__('City')}}:</label>
+                        <label class="text-gray-600 font-bold" for="city-select">{{__('Origin')}}:</label>
                         <select name="city-select" id="city-select" class="form-control" wire:model="selectCity" required>
                             <option value="1">EE UU</option>
                             <option value="2">MEXICO</option>
                             <option value="3">GUATEMALA</option>
+                            <option value="4">PANAMÁ</option>
                         </select>
                     </div>
                     @if($selectCity == 1)
@@ -210,7 +211,7 @@
                 <div class="grid grid-cols-1">
                     <label class="-intro-x text-gray-600 font-bold" for="City"> {{__('City')}}:</label>
                     
-                    <select wire:model="selectedCity" id="City" class="form-control">
+                    <!-- <select wire:model="selectedCity" id="City" class="form-control">
                         <option selected disabled>Selecciona una Ciudad</option>
                         <option></option>
                         @if (!is_null($Cities))
@@ -218,7 +219,8 @@
                         <option value="{{ $city }}">{{ $city}}</option>
                         @endforeach
                         @endif
-                    </select>
+                    </select> -->
+                    <input type="text" class="form-control" wire:model="selectedCity" :value="old('selectCity')" required>
                     
                 </div>
                 <div class="grid grid-cols-1 ml-0 lg:ml-2">
