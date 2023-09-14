@@ -183,7 +183,7 @@
                     <input placeholder="{{__('Address')}}" id="Address" class="-intro-x  form-control py-3" type="text" wire:model="Address" :value="old('Address')" autofocus  required/>
                 </div>
             </div>
-            <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2 pt-3">
                 <div class="flex flex-col mt-3 md:mt-0">
                     <label class="text-white" for="Country">{{__('Country')}}</label>
                     <select wire:model="selectedCountry" id="Country" class="form-control" required>

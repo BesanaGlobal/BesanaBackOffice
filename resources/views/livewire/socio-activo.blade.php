@@ -76,7 +76,7 @@
                     @endif
                     @if($selectCity == 4)
                     <div class="pt-2" id="DPI-DIV">
-                        <label class="text-white" for="DPI">{{__('Enter your ID Personal')}}:</label>
+                        <label class="text-gray-600 font-bold" for="DPI">{{__('Enter your ID Personal')}}:</label>
                         <input id="IP" class="-intro-x  form-control w-full" wire:model="IP" type="text" placeholder="{{__('Enter your ID Personal')}}" />
                         @error('IP')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
@@ -145,8 +145,8 @@
                         <input type="checkbox" class="-intro-x bg-primary " style="background-color:green;" wire:model="asignarSocio">
                         <span>{{__('Do you want to make a placement')}}?</span>
                         @if ($asignarSocio)
-                        <div wire:ignore>
-                            <select class="form-control" id="select2-dropdown" wire:model='asignacionSocio'>
+                        <div wire:ignore class="pt-3">
+                            <select class="form-control pt-3" id="select2-dropdown" wire:model='asignacionSocio'>
                                 <option value="">{{__('Select Partner')}}</option>
                                 @foreach($SonAfiliate as $item)
                                 <option value="{{ $item->idAffiliated}}">{{ $item->userName}}</option>
@@ -190,7 +190,7 @@
                 <label class="-intro-x text-gray-600 font-bold" for="Address"> {{__('Address')}}: </label>
                 <input placeholder="{{__('Address')}}" id="Address" class="-intro-x login__input form-control py-3 block" type="text" wire:model="Address" :value="old('Address')" required autofocus />
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2">
+            <div class="grid grid-cols-1 lg:grid-cols-2 pt-3">
                 <div class="grid grid-cols-1">
                     <label class="-intro-x text-gray-600 font-bold" for="Country"> {{__('Country')}}:</label>
                     <select wire:model="selectedCountry" id="Country" class="form-control">
