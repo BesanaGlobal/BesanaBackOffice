@@ -24,6 +24,7 @@ class SocioActivo extends Component
     public $RFC = "";
     public $CURP = "";
     public $DPI = "";
+    public $IP = "";
     public $fechaingreso = null;
     public $invitedby;
     public $userName;
@@ -60,60 +61,131 @@ class SocioActivo extends Component
 
     public $Countries  = [
         'EE UU' => [
-            'Alabama' => ['Birmingham', 'Montgomery'],
-            'Alaska' => ['Anchorage', 'Fairbanks'],
-            'Arizona' => ['Phoenix', 'Tucson'],
-            'Arkansas' => ['Little Rock', 'Fort Smith'],
-            'California' => ['Los Angeles', 'San Francisco', 'San Diego'],
-            'Colorado' => ['Denver', 'Colorado Springs'],
-            'Connecticut' => ['Hartford', 'Bridgeport'],
-            'Delaware' => ['Wilmington', 'Dover'],
-            'Florida' => ['Jacksonville', 'Miami', 'Tampa'],
-            'Georgia' => ['Atlanta', 'Augusta'],
-            'Hawaii' => ['Honolulu', 'Hilo'],
-            'Idaho' => ['Boise', 'Nampa'],
-            'Illinois' => ['Chicago', 'Springfield'],
-            'Indiana' => ['Indianapolis', 'Fort Wayne'],
-            'Iowa' => ['Des Moines', 'Cedar Rapids'],
-            'Kansas' => ['Wichita', 'Topeka'],
-            'Kentucky' => ['Louisville', 'Lexington'],
-            'Luisiana' => ['New Orleans', 'Baton Rouge'],
-            'Maine' => ['Portland', 'Lewiston'],
-            'Maryland' => ['Baltimore', 'Annapolis'],
-            'Massachusetts' => ['Boston', 'Worcester'],
-            'Michigan' => ['Detroit', 'Grand Rapids'],
-            'Minnesota' => ['Minneapolis', 'Saint Paul'],
-            'Misisipi' => ['Jackson', 'Gulfport'],
-            'Misuri' => ['St. Louis', 'Kansas City'],
-            'Montana' => ['Billings', 'Missoula'],
-            'Nebraska' => ['Omaha', 'Lincoln'],
-            'Nevada' => ['Las Vegas', 'Reno'],
-            'New Hampshire' => ['Manchester', 'Nashua'],
-            'Nueva Jersey' => ['Newark', 'Jersey City'],
-            'Nuevo Mexico' => ['Albuquerque', 'Las Cruces'],
-            'Nueva York' => ['New York City', 'Buffalo', 'Rochester'],
-            'Carolina del Norte' => ['Charlotte', 'Raleigh'],
-            'Carolina del Sur' => ['',''],
-            'Dakota del Norte' => ['Bismarck', 'Fargo'],
-            'Dakota del Sur' => ['Pierre', 'Sioux Falls'],
-            'Ohio' => ['Cleveland', 'Columbus', 'Cincinnati'],
-            'Oklahoma' => ['Oklahoma City', 'Tulsa'],
-            'Oregon' => ['Portland', 'Salem'],
-            'Pensilvania' => ['Philadelphia', 'Pittsburgh'],
-            'Rhode Island' => ['Providence', 'Pawtucket'],
-            'Carolina del Sur' => ['Columbia', 'Charleston'],
-            'Tennessee' => ['Nashville', 'Memphis'],
-            'Texas' => ['Houston', 'Dallas', 'Austin'],
-            'Utah' => ['Salt Lake City', 'Provo'],
-            'Vermont' => ['Montpelier', 'Burlington'],
-            'Virginia' => ['Richmond', 'Virginia Beach'],
-            'Washington' => ['Seattle', 'Spokane'],
-            'West Virginia' => ['Charleston', 'Huntington'],
-            'Wisconsin' => ['Milwaukee', 'Madison'],
-            'Wyoming' => ['Cheyenne', 'Casper'],
+            'Alabama',
+            'Alaska',
+            'Arizona',
+            'Arkansas',
+            'California',
+            'Colorado',
+            'Connecticut',
+            'Delaware',
+            'Florida',
+            'Georgia',
+            'Hawaii',
+            'Idaho',
+            'Illinois',
+            'Indiana',
+            'Iowa',
+            'Kansas',
+            'Kentucky',
+            'Luisiana',
+            'Maine',
+            'Maryland',
+            'Massachusetts',
+            'Michigan',
+            'Minnesota',
+            'Misisipi',
+            'Misuri',
+            'Montana',
+            'Nebraska',
+            'Nevada',
+            'New Hampshire',
+            'Nueva Jersey',
+            'Nuevo Mexico',
+            'Nueva York',
+            'Carolina del Norte',
+            'Carolina del Sur',
+            'Dakota del Norte',
+            'Dakota del Sur',
+            'Ohio',
+            'Oklahoma',
+            'Oregon',
+            'Pensilvania',
+            'Rhode Island',
+            'Carolina del Sur',
+            'Tennessee',
+            'Texas',
+            'Utah',
+            'Vermont',
+            'Virginia',
+            'Washington',
+            'West Virginia',
+            'Wisconsin',
+            'Wyoming'
         ],
-        // 'Canada' => ['Toronto', 'Montreal', 'Vancouver'],
-        // 'Mexico' => ['Mexico City', 'Guadalajara', 'Monterrey']
+         'Mexico' => [
+            'Aguascalientes',
+            'Baja California',
+            'Baja California Sur',
+            'Campeche',
+            'Chiapas',
+            'Chihuahua',
+            'Coahuila',
+            'Colima',
+            'Durango',
+            'Guanajuato',
+            'Guerrero',
+            'Hidalgo',
+            'Jalisco',
+            'México',
+            'Michoacán',
+            'Morelos',
+            'Nayarit',
+            'Nuevo León',
+            'Oaxaca',
+            'Puebla',
+            'Querétaro',
+            'Quintana Roo',
+            'San Luis Potosí',
+            'Sinaloa',
+            'Sonora',
+            'Tabasco',
+            'Tamaulipas',
+            'Tlaxcala',
+            'Veracruz',
+            'Yucatán',
+            'Zacatecas'
+         ],
+         'Guatemala' => [
+            'Alta Verapaz',
+            'Baja Verapaz',
+            'Chimaltenango',
+            'Chiquimula',
+            'El Progreso',
+            'Escuintla',
+            'Guatemala',
+            'Huehuetenango',
+            'Izabal',
+            'Jalapa',
+            'Jutiapa',
+            'Petén',
+            'Quetzaltenango',
+            'Quiché',
+            'Retalhuleu',
+            'Sacatepequez',
+            'San Marcos',
+            'Santa Rosa',
+            'Sololá',
+            'Suchitepéquez',
+            'Totonicapán',
+            'Zacapa',
+         ],
+         'Panamá' => [
+            'Bocas del Toro',
+            'Chiriquí',
+            'Coclé',
+            'Colón',
+            'Darién',
+            'Herrera',
+            'Los Santos',
+            'Panamá',
+            'Veraguas',
+            'Guna Yala',
+            'Emberá-Wounaan',
+            'Ngöbe-Buglé',
+            'Kuna de Wargandí',
+            'Kuna de Madungandí',
+         ]
     ];
 
 
@@ -126,13 +198,6 @@ class SocioActivo extends Component
     {
         if (!is_null($country)) {
            $this->States = $this->Countries[$country];
-        }
-    }
-
-    public function updatedSelectedState($state)
-    {
-        if (!is_null($state)) {
-            $this->Cities = array_values($this->States[$state]);
         }
     }
 
@@ -178,6 +243,7 @@ class SocioActivo extends Component
         'RFC' => 'required_if:selectCity,2|unique:affiliates',
         'CURP' => 'required_if:selectCity,2|unique:affiliates',
         'DPI' => 'required_if:selectCity,3|unique:affiliates',
+        'IP' => 'required_if:selectCity,4|unique:affiliates',
         'fechaingreso' => 'required',
         'invitedby' => 'required',
         'Email' => 'required|unique:affiliates',
@@ -202,6 +268,7 @@ class SocioActivo extends Component
         'RFC.unique' => 'El RFC ya esta en uso',
         'CURP.unique' => 'El CURP ya esta en uso',
         'DPI.unique' => 'El DPI ya esta en uso',
+        'IP.unique' => 'El ID Personal ya esta en uso',
         'userName.unique' => 'El usuario ya esta en uso',
         'password_confirmation.same' => 'las contraseñas no coinciden',
         'Email.unique' => 'El Correo ya esta en uso',
@@ -211,6 +278,7 @@ class SocioActivo extends Component
         'RFC.required_if' => 'El RFC es requerido',
         'CURP.required_if' => 'El CURP es requerido',
         'DPI.required_if' => 'El DPI es requerido',
+        'IP.required_if' => 'El ID Personal es requerido',
         'userName.required' => 'El usuario es requerido',
         'password_confirmation.required' => 'la contraseña es requerida',
         'Password.required' => 'la contraseña es requerida',
@@ -243,6 +311,7 @@ class SocioActivo extends Component
             $rfc = $datos['RFC'] ? $datos['RFC'] : null ;
             $curp = $datos['CURP'] ? $datos['CURP'] : null ;
             $dpi = $datos['DPI'] ? $datos['DPI'] : null ; 
+            $ip = $datos['IP'] ? $datos['IP'] : null;
 
             try {
                 $this->data = json_decode(json_encode(DB::select("CALL SpAffiliated (
@@ -252,6 +321,7 @@ class SocioActivo extends Component
                 '{$rfc}',
                 '{$curp}',
                 '{$dpi}',
+                '{$ip}',
                 '{$datos['Name']}',
                 '{$datos['LastName']}',
                 {$datos['AlternativePhone']},
@@ -294,6 +364,7 @@ class SocioActivo extends Component
                 $this->RFC = "";
                 $this->CURP = "";
                 $this->DPI = "";
+                $this->IP = "";
                 $this->fechaingreso = "";
                 $this->invitedby;
                 $this->userName = "";

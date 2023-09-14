@@ -85,11 +85,21 @@
                         @enderror
                     </div>
                     @endif
+                    @if($selectCity == 4)
+                    <div class="pt-2" id="DPI-DIV">
+                        <label class="text-white" for="DPI">{{__('Enter your ID Personal')}}:</label>
+                        <input id="IP" class="-intro-x  form-control w-full" wire:model="IP" type="text" placeholder="{{__('Enter your ID Personal')}}" />
+                        @error('IP')
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
+                        @enderror
+                    </div>
+                    @endif
                 </div>
-
+            
 
                 <span class="-intro-x mt-4 text-white p-2 font-bold uppercase text-lg ">{{__('System Data')}}:</span>
-
 
                 <div class="-intro-x grid-cols-1 lg:grid-cols-2 lg:gap-4 pb-4">
                     <div class="py-2">
@@ -190,7 +200,7 @@
                         <option selected disabled>Selecciona un Estado</option>
                         <option></option>
                         @if (!is_null($States))
-                        @foreach($States as $state => $value)
+                        @foreach($States as $state)
                         <option value="{{ $state }}">{{ $state }}</option>
                         @endforeach
                         @endif
@@ -201,15 +211,6 @@
                 <div class="flex flex-col">
                     <label class="text-white" for="City"> {{__('City')}}:</label>
                     <div class="flex text-xl gap-2 items-center">
-                    <!-- <select wire:model="selectedCity" id="City" class="form-control" required>
-                        <option selected disabled>Selecciona una Ciudad</option>
-                        <option></option>
-                        @if (!is_null($Cities))
-                        @foreach($Cities as $city)
-                        <option value="{{ $city }}">{{ $city}}</option>
-                        @endforeach
-                        @endif
-                    </select> -->
                     <input type="text" class="form-control" wire:model="selectedCity" :value="old('selectCity')" required>
                     </div>
                 </div>

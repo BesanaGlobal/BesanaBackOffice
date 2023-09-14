@@ -74,6 +74,17 @@
                         @enderror
                     </div>
                     @endif
+                    @if($selectCity == 4)
+                    <div class="pt-2" id="DPI-DIV">
+                        <label class="text-white" for="DPI">{{__('Enter your ID Personal')}}:</label>
+                        <input id="IP" class="-intro-x  form-control w-full" wire:model="IP" type="text" placeholder="{{__('Enter your ID Personal')}}" />
+                        @error('IP')
+                        <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                            <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
+                        </div>
+                        @enderror
+                    </div>
+                    @endif
                 </div>
                 {{-- DATOS DEL SISTEMA --}}
                 <span class="-intro-x font-bold uppercase text-lg pt-5">{{__('System Data')}}:</span>
@@ -199,7 +210,7 @@
                         <option selected disabled>Selecciona un Estado</option>
                         <option></option>
                         @if (!is_null($States))
-                        @foreach($States as $state => $value)
+                        @foreach($States as $state)
                         <option value="{{ $state }}">{{ $state }}</option>
                         @endforeach
                         @endif
@@ -210,18 +221,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 mt-3">
                 <div class="grid grid-cols-1">
                     <label class="-intro-x text-gray-600 font-bold" for="City"> {{__('City')}}:</label>
-                    
-                    <!-- <select wire:model="selectedCity" id="City" class="form-control">
-                        <option selected disabled>Selecciona una Ciudad</option>
-                        <option></option>
-                        @if (!is_null($Cities))
-                        @foreach($Cities as $city)
-                        <option value="{{ $city }}">{{ $city}}</option>
-                        @endforeach
-                        @endif
-                    </select> -->
                     <input type="text" class="form-control" wire:model="selectedCity" :value="old('selectCity')" required>
-                    
                 </div>
                 <div class="grid grid-cols-1 ml-0 lg:ml-2">
                     <label class="-intro-x text-gray-600 font-bold" for="ZipCode"> {{__('ZipCode')}}:</label>
