@@ -228,7 +228,7 @@ class Register extends Component
         'Name' => 'required|string',
         'LastName' => 'required|string',
         'AlternativePhone' => 'required',
-        'WorkPhone' => 'required',
+        'WorkPhone' => 'string',
         'DateBirth' => 'required|string',
         'Address'=>'required',
         'selectedCountry'=>'required',
@@ -281,6 +281,8 @@ class Register extends Component
         $curp = $datos['CURP'] ? $datos['CURP'] : null;
         $dpi = $datos['DPI'] ? $datos['DPI'] : null;
         $ip = $datos['IP'] ? $datos['IP'] : null;
+        $WPhone = $datos['WorkPhone'] ? $datos['WorkPhone'] : null;
+
 
         
 
@@ -302,8 +304,8 @@ class Register extends Component
                 '{$ip}',
                 '{$datos['Name']}',
                 '{$datos['LastName']}',
-                {$datos['AlternativePhone']},
-                {$datos['WorkPhone']},
+                '{$datos['AlternativePhone']}',
+                '{$WPhone}',
                 '{$datos['DateBirth']}',
                 '{$datos['Email']}',
                 null,

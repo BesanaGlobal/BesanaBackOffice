@@ -28,14 +28,13 @@ class SocioActivo extends Component
     public $fechaingreso = null;
     public $invitedby;
     public $userName;
-    public $Password = 'Besanabg2023';
-    public $confirmPassword = 'Besanabg2023';
+    public $Password;
+    public $confirmPassword;
     
     public $SonAfiliate = [];
     public $asignarSocio = false;
     public $asignacionSocio;
-    public $Workphone;
-    public $WorkPhone;
+    public $WorkPhone = "";
     public $AlternativePhone;
     public $Email;
     public $confirmEmail;
@@ -266,7 +265,7 @@ class SocioActivo extends Component
         'Name' => 'required|string',
         'LastName' => 'required|string',
         'AlternativePhone' => 'required|string',
-        'WorkPhone' => 'required',
+        'WorkPhone' => 'string',
         'DateBirth' => 'required|string',
         'ZipCode' => 'required|string',
         'Password' => 'required',
@@ -326,7 +325,7 @@ class SocioActivo extends Component
             $curp = $datos['CURP'] ? $datos['CURP'] : null ;
             $dpi = $datos['DPI'] ? $datos['DPI'] : null ; 
             $ip = $datos['IP'] ? $datos['IP'] : null;
-
+            $WPhone = $datos['WorkPhone'] ? $datos['WorkPhone'] : null;
             try {
                 $this->data = json_decode(json_encode(DB::select("CALL SpAffiliated (
                 'NEW',
@@ -338,8 +337,8 @@ class SocioActivo extends Component
                 '{$ip}',
                 '{$datos['Name']}',
                 '{$datos['LastName']}',
-                {$datos['AlternativePhone']},
-                {$datos['WorkPhone']},
+                '{$datos['AlternativePhone']}',
+                '{$WPhone}',
                 '{$datos['DateBirth']}',
                 '{$datos['Email']}',
                 null,
@@ -364,7 +363,11 @@ class SocioActivo extends Component
                 {$fhater}
                 )")), true);
 
+                Mail::send('livewire.register.confirmation_code', $datos, function ($message) use ($datos) {
+                    $message->to($datos['Email'], $datos['Name'])->subject('Por favor confirma tu correo');
+                });
 
+                $this->dispatchBrowserEvent('noty', ['msg' => 'Hemos enviado un mensaje por correo, para realizar la confirmacion de mismo!.']);
                 // $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone', 'Workphone', 'DateBirth', 'Email', 'Address', 'Country', 'State', 'City', 'ZipCode',  'userName', 'confirmEmail','invitedby','asignacionSocio');
                 // $this->dispatchBrowserEvent('noty', ['msg' => 'Nuevo socio Activo: ' . $datos['userName']]);
                 
@@ -382,9 +385,8 @@ class SocioActivo extends Component
                 $this->fechaingreso = "";
                 $this->invitedby;
                 $this->userName = "";
-                $this->Password = 'Besanabg2023';
-                $this->confirmPassword = 'Besanabg2023';
-                $this->Workphone = "";
+                $this->Password = "";
+                $this->confirmPassword = "";
                 $this->WorkPhone = "";
                 $this->AlternativePhone = "";
                 $this->Email = "";

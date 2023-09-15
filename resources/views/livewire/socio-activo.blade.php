@@ -122,7 +122,7 @@
                 <div class="-intro-x grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3">
                     <div>
                         <label for="Password" class="-intro-x text-gray-600 font-bold">{{__('Password')}}</label>
-                        <input id="Password" class="-intro-x  form-control py-3" type="text" wire:model="Password" required />
+                        <input id="Password" class="-intro-x  form-control py-3" type="password" wire:model="Password" required />
                         @error('Password')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
@@ -132,7 +132,7 @@
                     <!-- Confirm Password -->
                     <div class="-intro-x w-full ">
                         <label for="password_confirmation" class="-intro-x text-gray-600 font-bold">{{__('Confirm Password')}}</label>
-                        <input id="password_confirmation" class="-intro-x  form-control py-3" type="text" placeholder="Besanabg2023" required wire:model="password_confirmation" />
+                        <input id="password_confirmation" class="-intro-x  form-control py-3" type="password"  required wire:model="password_confirmation" />
                         @error('password_confirmation')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
@@ -162,7 +162,7 @@
             <span class="-intro-x  font-bold uppercase text-lg ">{{__('CONTACT INFORMATION')}}:</span>
             <div class=" grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                 <input id="AlternativePhone" class="-intro-x login__input form-control py-3 block" type="number" wire:model="AlternativePhone" :value="old('AlternativePhone')" required autofocus placeholder="{{__('Cell phone')}}" />
-                <input id="WorkPhone" class="-intro-x login__input form-control py-3 block" type="number" wire:model="WorkPhone" :value="old('WorkPhone')" autofocus placeholder="{{__('Phone')}}" required />
+                <input id="WorkPhone" class="-intro-x login__input form-control py-3 block" type="number" wire:model="WorkPhone" :value="old('WorkPhone')" autofocus placeholder="{{__('Phone')}}" />
             </div>
             {{-- Email  --}}
             <div class="w-full mt-2">
@@ -280,7 +280,7 @@
         Swal.fire(
             'Mensaje',
             event.detail.msg,
-            'info'
+            'success'
         ).then(result => {
             if (result.isConfirmed) {
                 // window.location = '/socioactivo'
