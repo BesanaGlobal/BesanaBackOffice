@@ -422,16 +422,21 @@ class Affiliate extends Model
 	/** Bloque de listado de mis afiliados hijos */
 	public function myAffiliates($id){
 
-		$level1 = Affiliate::childrenByLevel($id, 0);
+		// $level1 = Affiliate::childrenByLevel($id, 0);
+		$level1 = DB::table('relsponsor')
+        ->where('relsponsor.idAffiliatedParent', $id)
+        ->get();
+
 		$myAffiliates = collect();
 
 		foreach($level1 as $l1){
 			$myAffiliates = $myAffiliates->merge(DB::table('affiliates')
-			->where('affiliates.idAffiliated', $l1)
+			->where('affiliates.idAffiliated', $l1->idAffiliatedChild)
 			->join('ranks', 'affiliates.idRank', '=', 'ranks.idRank')
 			->join('users', 'affiliates.idAffiliated', '=', 'users.idAffiliated')
 			->select('affiliates.name','affiliates.lastName','users.CreatedAt', 'ranks.RankName', 'users.userName', 'affiliates.Email', 'affiliates.Phone', 'users.active')
 			->get());
+			
 
 		}
 		return $myAffiliates;
