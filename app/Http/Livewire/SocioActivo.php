@@ -213,9 +213,23 @@ class SocioActivo extends Component
     public function render()
     {
         $idafiliado = Auth()->user()->idAffiliated;
-        $this->SonAfiliate = DB::select('CALL sp_consultarhijos(?)', array(
-            $idafiliado
-        ));
+        // $this->SonAfiliate = DB::select('CALL sp_consultarhijos(?)', array(
+        //     $idafiliado
+        // ));
+
+        $this->SonAfiliate = DB::table('relsponsor')
+        ->join('affiliates', 'relsponsor.idAffiliatedChild', '=', 'affiliates.idAffiliated')
+        ->join('users', 'affiliates.idAffiliated', '=', 'users.idAffiliated')
+        ->where('relsponsor.idAffiliatedParent', $idafiliado)
+        ->select([
+            'relsponsor.idRel',
+            'relsponsor.idAffiliatedParent',
+            'relsponsor.idAffiliatedChild',
+            'affiliates.idAffiliated',
+            'affiliates.Name',
+            'users.userName'
+        ])
+        ->get();
 
         $this->invitedby = Auth()->user()->userName;
 

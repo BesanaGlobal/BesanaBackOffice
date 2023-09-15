@@ -14,6 +14,8 @@ module.exports = {
         "./resources/**/*.js",
         "./resources/**/*.vue",
         // ".//*.html",
+        './app/Http/Livewire/**/*Table.php',
+        './vendor/rappasoft/laravel-livewire-tables/resources/views/**/*.blade.php',
     ],
     darkMode: "class",
     theme: {
@@ -112,7 +114,9 @@ module.exports = {
         },
         
     },
-    plugins: [require("@tailwindcss/forms")],
+    plugins: [
+        require("@tailwindcss/forms")
+    ],
     variants: {
         extend: {
             boxShadow: ["dark"],
