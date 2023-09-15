@@ -164,7 +164,7 @@
                 </div>
                 @enderror
             </div>
-            <div class="flex flex-col mt-3">
+            <div class="flex flex-col mt-3 pb-4">
                 <input id="confirmEmail" class="-intro-x  form-control py-3" type="email" wire:model="confirmEmail" :value="old('confirmEmail')" autofocus placeholder="{{__('Confirm Email')}}" required/>
                 @error('confirmEmail')
                 <div class="intro-x bg-red-600 p-2 rounded-lg ">

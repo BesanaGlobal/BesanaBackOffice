@@ -180,13 +180,13 @@ height: 50rem;
    fill: #369024;
 }
 .director rect{
-   fill: #01dfee;
+   fill: #369024;
 }
-.DIRECTOR .field_0{
-   fill: white;
+.DIRECTOR rect{
+   fill: #369024;
 }
-.DIRECTOR .field_1{
-   fill: white;
+.DIRECTOR rect{
+   fill: #369024;
 }
 .besana rect{
    fill: gold;

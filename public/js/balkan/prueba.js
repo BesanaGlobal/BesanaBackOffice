@@ -245,7 +245,7 @@
       OrgChart.templates.socioactivo.node = '<rect x="0" y="0" height="80" width="300" fill="#008000" stroke-width="1" stroke="#aeaeae" rx="40" ry="40"></rect>';
 
       OrgChart.templates.director = Object.assign({}, OrgChart.templates.myTemplate);
-      OrgChart.templates.director.node = '<rect x="0" y="0" height="80" width="300" fill="#ff8862" stroke-width="1" stroke="#aeaeae" rx="40" ry="40"></rect>' ;
+      OrgChart.templates.director.node = '<rect x="0" y="0" height="80" width="300" fill="#008000" stroke-width="1" stroke="#aeaeae" rx="40" ry="40"></rect>' ;
     
       OrgChart.templates.besana = Object.assign({}, OrgChart.templates.myTemplate);
       OrgChart.templates.besana.node = '<rect x="0" y="0" height="100" width="300" fill="#419616" stroke-width="1" stroke="#aeaeae" rx="40" ry="40"></rect>';

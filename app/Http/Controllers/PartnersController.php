@@ -70,13 +70,24 @@ class PartnersController extends Controller
                                 'Phone' => $value->Phone
                             ]);
                             break;
+                            case 'SOCIO PROMOTOR':
+                                array_push($admin, [
+                                    'id' => $value->idSon,
+                                    'pid' => $value->idFhater,
+                                    'tags' => ["sociopromotor"],
+                                    'User' => $value->userName,
+                                    'img' => "img/ranks/socioactivo.png",
+                                    'Email' => $value->Email,
+                                    'Phone' => $value->Phone
+                                ]);
+                                break;
                         case 'DIRECTOR':
                             array_push($admin, [
                                 'id' => $value->idSon,
                                 'pid' => $value->idFhater,
                                 'tags' => ["director"],
                                 'User' => $value->userName,
-                                'img' => "img/ranks/director.png",
+                                'img' => "img/ranks/DIRECTOR.png",
                                 'Email' => $value->Email,
                                 'Phone' => $value->Phone
                             ]);
@@ -101,6 +112,17 @@ class PartnersController extends Controller
                                     'img' => "img/ranks/socioactivo.png",
                                     'Email' => $value->Email,
                                     'Phone' => $value->Phone,
+                                ]);
+                                break;
+                            case 'SOCIO PROMOTOR':
+                                array_push($father, [
+                                    'id' => $value->idSon,
+                                    'pid' => $value->idFhater,
+                                    'tags' => ["sociopromotor"],
+                                    'User' => $value->userName,
+                                    'img' => "img/ranks/socioactivo.png",
+                                    'Email' => $value->Email,
+                                    'Phone' => $value->Phone
                                 ]);
                                 break;
                             case 'DIRECTOR':
@@ -128,13 +150,24 @@ class PartnersController extends Controller
                                     'Phone' => '',
                                 ]);
                                 break;
+                            case 'SOCIO PROMOTOR':
+                                array_push($father, [
+                                    'id' => $value->idSon,
+                                    'pid' => $value->idFhater,
+                                    'tags' => ["sociopromotor"],
+                                    'User' => $value->userName,
+                                    'img' => "img/ranks/socioactivo.png",
+                                    'Email' => $value->Email,
+                                    'Phone' => $value->Phone
+                                ]);
+                                break;
                             case 'DIRECTOR':
                                 array_push($father, [
                                     'id' => $value->idSon,
                                     'pid' => $value->idFhater,
                                     'tags' => ["director"],
                                     'User' => $value->userName,
-                                    'img' => "img/ranks/director.png",
+                                    'img' => "img/ranks/DIRECTOR.png",
                                     'Email' => '',
                                     'Phone' => '',
                                 ]);

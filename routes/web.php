@@ -6,6 +6,7 @@ use App\Http\Controllers\SocioactivoController;
 use App\Http\Livewire\MyShops;
 use App\Http\Livewire\PagePay;
 use App\Http\Livewire\SocioActivo;
+use App\Http\Livewire\Shipping;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
@@ -68,6 +69,9 @@ Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middlewa
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
 Route::get('/register/verify/{code}', [Register::class, 'verify']);
 Route::get('register', Register::class)->name('login.register');
+
+//shipping
+Route::get('/shipping', Shipping::class)->middleware(['auth','isafiliado'])->name('shipping');
 
 //dashboard
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth'])->name('dash');

@@ -220,7 +220,7 @@
                                                             <div class="v-text-align" style="font-size: 14px; line-height: 160%; text-align: justify; word-wrap: break-word;">
                                                                 <p style="line-height: 160%; font-size: 14px;"><span style="font-family: 'Open Sans', sans-serif; font-size: 16px; line-height: 25.6px;"><strong>Hola {{$Name}}!</strong></span></p>
                                                                 <p style="line-height: 160%; font-size: 14px;"> </p>
-                                                                <p style="line-height: 160%; font-size: 14px;"><span style="color: #e03e2d; font-size: 16px; line-height: 25.6px; font-family: 'Open Sans', sans-serif;"><strong><span style="line-height: 25.6px; font-size: 16px;">Gracias por preferirnos!</span></strong></span></p>
+                                                                <p style="line-height: 160%; font-size: 14px;"><span style="color: green; font-size: 16px; line-height: 25.6px; font-family: 'Open Sans', sans-serif;"><strong><span style="line-height: 25.6px; font-size: 16px;">Gracias por preferirnos!</span></strong></span></p>
                                                                 <p style="line-height: 160%; font-size: 14px;"> </p>
                                                                 <div>
                                                                     <div>Bienvenido a la familia Besana Global, estamos felices que te hayas registrado con nosotros.</div>
@@ -268,8 +268,8 @@
                                                             <div class="v-text-align" style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                                                                 <p style="font-size: 14px; line-height: 140%;">Enjoy your holiday,</p>
                                                                 <p style="font-size: 14px; line-height: 140%;"> </p>
-                                                                <p style="font-size: 14px; line-height: 140%;">Dave Helmuth</p>
-                                                                <p style="font-size: 14px; line-height: 140%;">CEO.</p>
+                                                                <p style="font-size: 14px; line-height: 140%;">Team Besana.</p>
+                                                                
                                                             </div>
 
                                                         </td>

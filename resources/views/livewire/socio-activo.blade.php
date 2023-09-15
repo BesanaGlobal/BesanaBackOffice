@@ -175,7 +175,7 @@
                 @enderror
             </div>
             {{-- confirm email --}}
-            <div class="w-full mt-2 mb-3">
+            <div class="w-full mt-2 mb-3 pb-4">
                 <label class="-intro-x text-gray-600 font-bold" for="confirmEmail"> {{__('Confirm Email')}}:</label>
                 <input id="confirmEmail" class="-intro-x login__input form-control py-3 block" type="email" wire:model="confirmEmail" :value="old('confirmEmail')" required autofocus placeholder="{{__('Confirm Email')}}" />
                 @error('confirmEmail')
@@ -185,7 +185,7 @@
                 @enderror
             </div>
             {{-- addres  --}}
-            <span class="-intro-x  font-bold uppercase text-lg ">{{__('LOCATION DATA')}}:</span>
+            <span class="-intro-x  font-bold uppercase text-lg">{{__('LOCATION DATA')}}:</span>
             <div class="w-full grid grid-cols-1">
                 <label class="-intro-x text-gray-600 font-bold" for="Address"> {{__('Address')}}: </label>
                 <input placeholder="{{__('Address')}}" id="Address" class="-intro-x login__input form-control py-3 block" type="text" wire:model="Address" :value="old('Address')" required autofocus />
