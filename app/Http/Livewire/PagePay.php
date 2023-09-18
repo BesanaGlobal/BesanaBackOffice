@@ -40,7 +40,9 @@ class PagePay extends Component
 
   protected $listeners = [
     'pay' => 'pay',
-    'crearcliente' => 'crearcliente'
+    'crearcliente' => 'crearcliente',
+    'success' => 'success'
+    
   ];
 
   public function mount()
@@ -105,17 +107,13 @@ class PagePay extends Component
     $variable = config('services.stripe.STRIPE_SECRET');
     $this->stripe = new \Stripe\StripeClient($variable);
     $idAfiliado = Auth()->user()->idAffiliated;
-    $member = $member;
 
-    if($member == 1)
+    if($member)
     {
       $this->finishpay($idAfiliado, $tok);
-
-      User::where('idUser', $idAfiliado)->update(['active' => 1]);
-
-      $this->ClearCart();
-      $this->dispatchBrowserEvent('noty', ['msg' => 'Compra de membresia exitosa!']);
-
+      $this->updateAffiliated($idAfiliado);
+      $this->dispatchBrowserEvent('noticia', ['msg' => 'Compra exitosa, ya puede ingresar a su oficina!']);
+      
     }else{
       $this->finishpay($idAfiliado, $tok);
 
@@ -129,9 +127,11 @@ class PagePay extends Component
         $mensaje = 'Compra Exitosa!!';
       }
       return redirect('/products')->with('success', $mensaje);
-    }
+    } 
+  }
 
-    
+  public function updateAffiliated($idAfiliado){
+    User::where('idAffiliated', $idAfiliado)->update(['active' => 1]);
   }
 
   public function finishpay($idAfiliado, $token)
@@ -246,6 +246,10 @@ class PagePay extends Component
         'quantity' => - 1
       ]);
     }
+  }
+
+  public function success(){
+    $this->ClearCart();
   }
 
 }

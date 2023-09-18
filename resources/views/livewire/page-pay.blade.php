@@ -161,17 +161,19 @@
 
 <script>
 
-    window.addEventListener('noty', event => { 
-        Swal.fire(
-            'Good job!',
-            event.detail.msg,
-            'success'
-        ).then(result => {
-                if (result.isConfirmed) {
-                    window.location = '/dash'
-                }
-            }
-        )
+
+
+
+    window.addEventListener('noticia', event => {
+        Swal.fire('', event.detail.msg).then(result => {
+                        if (result.isConfirmed) {
+                            Livewire.emit('success')
+                            window.location = '/login'
+                        }
+                    }
+
+                )
+        
     })
 
     const city = "{{$b->City}}"

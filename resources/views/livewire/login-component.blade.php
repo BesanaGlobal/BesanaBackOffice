@@ -79,4 +79,14 @@
                 )
     })
 
+    window.addEventListener('notycia', event => {
+        Swal.fire('', event.detail.msg).then(result => {
+                        if (result.isConfirmed) {
+                            window.location = '/addpackage'
+                        }
+                    }
+
+                )
+    })
+
 </script>

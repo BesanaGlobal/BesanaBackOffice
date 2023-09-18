@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginComponent extends Component
 {
     public $username, $password, $mensaje;
+    
 
 
     public function render()
@@ -46,20 +47,6 @@ class LoginComponent extends Component
         } else {
             $this->dispatchBrowserEvent('noty', ['msg' => 'User not Exist!.']);
         }
-
-
-        // if (!\Auth::attempt([
-        //     'userName' => $this->username,
-        //     'password' => $this->password
-        // ])) {
-        //     $this->dispatchBrowserEvent('noty', ['msg' => 'Wrong email or password.']);
-
-        //     // throw new \Exception('Wrong email or password.');
-        // }else{
-        //     $this->dispatchBrowserEvent('noty', ['msg' => 'Successfull.']);
-
-
-        // }
-
     }
+
 }
