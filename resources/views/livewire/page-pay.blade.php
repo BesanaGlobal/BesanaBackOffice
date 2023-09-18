@@ -67,13 +67,17 @@
                     @if ($pro->attributes->membresia > 0)
                     <h1>{{$pro->attributes->membresia}}</h1>
                     <tr class="border-4  border-b-gray-500">
-                        <td class="text-center"><span class="badge badge-info">{{1}}</span></td>
+                        <td class="text-center">
+                            <span class="badge badge-info">{{1}}</span>
+                            <input type="hidden" id="member" name="member" value="1">
+                        </td>
                         <td class=" pr-5"> <span class="">Membresia </span></td>
                         <td class=" text-right">$ 24.95</td>
                         <td class=" text-right ">$ 0</td>
                         <td class="text-right">{{number_format(floatval(24.95),2)}}</td>
                     </tr>
                     @endif
+                    @if($pro->name != "MEMBERSHIP")
                     <tr class="border-4  border-b-gray-500">
                         <td class="text-center">
                             <button class="btn btn-primary" wire:click="incrementQuantity({{$pro->id}})">+</button>
@@ -85,6 +89,7 @@
                         <td class=" text-right ">$ {{$taxunique}}</td>
                         <td class="text-right">{{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
                     </tr>
+                    @endif
                     @empty
                     <tr class="border-4 border-indigo-200 border-b-indigo-500">
                         <td colspan="6">NO DATA</td>
@@ -159,6 +164,19 @@
 
 <script>
 
+    window.addEventListener('noty', event => { 
+        Swal.fire(
+            'Good job!',
+            event.detail.msg,
+            'success'
+        ).then(result => {
+                if (result.isConfirmed) {
+                    window.location = '/dash'
+                }
+            }
+        )
+    })
+
     const city = "{{$b->City}}"
     const keystripe = "{{ $STRIPE_KEY }} ";
     const stripe = Stripe(keystripe);
@@ -207,6 +225,7 @@
         const email = document.getElementById('email').value;
         const address = document.getElementById('address').value;
         const totalfull = document.getElementById('totalfull').value;
+        const member = document.getElementById('member').value ? document.getElementById('member').value : 0 ;
 
         cardButton.disabled = true;
 
@@ -218,7 +237,7 @@
             } else {
                 // Enviar el token a tu servidor
                 var input = document.createElement('input');
-                Livewire.emit('pay', result.token.id, name, totalfull)
+                Livewire.emit('pay', result.token.id, name, totalfull, member)
                 //  form.submit();
                 console.log(result.token.id)
             }

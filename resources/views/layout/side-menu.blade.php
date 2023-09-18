@@ -4,6 +4,7 @@
     @yield('subhead')
 @endsection
 
+
 @section('content')
     @include('../layout/components/mobile-menu')
 

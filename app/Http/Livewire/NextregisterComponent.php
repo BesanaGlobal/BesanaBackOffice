@@ -60,7 +60,7 @@ class NextregisterComponent extends Component
       $this->onzasPrice($onzas);
       $taxState = 0;
           switch ($this->state) {
-            case 'NEVADA':
+            case 'Nevada':
                 $taxState=8.375;
                 
               break;
@@ -121,17 +121,17 @@ class NextregisterComponent extends Component
         $this->onzasPrice($onzas);
         $taxState = 0;
             switch ($this->state) {
-              case 'NEVADA':
+              case 'Nevada':
                   $taxState=8.375;
                   
                 break;
-              case 'CALIFORNIA':
+              case 'California':
                   $taxState=6.5;
                 break;
-              case 'UTAH':
+              case 'Utah':
                   $taxState=4.7;
                 break;
-              case 'OTHER':
+              case 'Other':
                   $taxState=0;
                 break;
             

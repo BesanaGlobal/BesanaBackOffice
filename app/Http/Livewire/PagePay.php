@@ -87,26 +87,40 @@ class PagePay extends Component
       return view('pages/dashboard-overview-1')->extends('layout.side-menu')->section('subcontent');
     }
   }
-  public function pay($token, $name, $total)
+  public function pay($token, $name, $total, $member)
   {
 
     $tok = $token;
     $variable = config('services.stripe.STRIPE_SECRET');
     $this->stripe = new \Stripe\StripeClient($variable);
     $idAfiliado = Auth()->user()->idAffiliated;
+    $member = $member;
 
-    $this->finishpay($idAfiliado, $tok);
+    if($member == 1)
+    {
+      $this->finishpay($idAfiliado, $tok);
 
-    $this->ClearCart();
-    $mensaje = '';
-    $language = session()->get('locale');
+      User::where('idUser', $idAfiliado)->update(['active' => 1]);
 
-    if ($language == 'en') {
-      $mensaje = 'successful purchase!!.';
-    } else {
-      $mensaje = 'Compra Exitosa!!';
+      $this->ClearCart();
+      $this->dispatchBrowserEvent('noty', ['msg' => 'Compra de membresia exitosa!']);
+
+    }else{
+      $this->finishpay($idAfiliado, $tok);
+
+      $this->ClearCart();
+      $mensaje = '';
+      $language = session()->get('locale');
+  
+      if ($language == 'en') {
+        $mensaje = 'successful purchase!!.';
+      } else {
+        $mensaje = 'Compra Exitosa!!';
+      }
+      return redirect('/products')->with('success', $mensaje);
     }
-    return redirect('/products')->with('success', $mensaje);
+
+    
   }
 
   public function finishpay($idAfiliado, $token)

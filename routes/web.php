@@ -19,6 +19,8 @@ use App\Http\Livewire\NextregisterComponent;
 use App\Http\Livewire\PayComponent;
 use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
+use App\Http\Livewire\ShippingDataTable;
+use App\Http\Livewire\ShippingView;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
 
@@ -72,6 +74,7 @@ Route::get('register', Register::class)->name('login.register');
 
 //shipping
 Route::get('/shipping', Shipping::class)->middleware(['auth','isafiliado'])->name('shipping');
+Route::get('/shipping/{id}', ShippingView::class)->middleware(['auth','isafiliado'])->name('shippingView');
 
 //dashboard
 Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth'])->name('dash');

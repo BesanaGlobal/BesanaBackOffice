@@ -6,6 +6,7 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use App\Models\Affiliate;
 
 class ShippingDataTable extends DataTableComponent
@@ -14,10 +15,12 @@ class ShippingDataTable extends DataTableComponent
     public ?int $searchFilterDebounce = 50;
     public array $perPageAccepted = [5,10,25,50,100];
 
+
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
-        $this->setDefaultReorderSort('Name', 'desc');
+        
     }
 
     public function columns(): array
@@ -85,24 +88,21 @@ class ShippingDataTable extends DataTableComponent
                 ->buttons([
                     LinkColumn::make('View')
                         ->title(fn($row) => 'ver')
-                        ->location(fn($row) => route('login', $row))
+                        ->location(fn($row) => route('shippingView', $row->idAffiliated))
                         ->attributes(function($row){
                             return [
-                                'class' => 'px-3 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-white'
+                                'class' => 'px-3 py-2 btn bg-green-600 hover:btn h-12 w-32 bg-green-700 rounded-lg text-white opacity-100',
+                                
                             ];
                         })
                     ]),
 
-
-
-
-
-
-
-
-
-            
-            
         ];
     }
+
+
+    
+
+
+
 }
