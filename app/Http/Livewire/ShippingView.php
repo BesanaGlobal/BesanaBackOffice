@@ -13,10 +13,10 @@ class ShippingView extends Component
    
     public function mount(Affiliate $id){
         $this->data = Affiliate::where('idAffiliated', 2)
-        ->with('sales.detailSales.product')
+        ->with(['sales.detailSales.product'])
         ->get();
 
-        // dd($this->data)
+        // dd($this->data);
     }
 
     public function render()

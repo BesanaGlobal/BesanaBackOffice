@@ -67,20 +67,31 @@ class PagePay extends Component
 
         if ($value->attributes->membresia) {
           $membresia = 24.95;
+        
+        
         }
         $totalonzas += $value->attributes->onzas * $value->quantity;
 
         $this->taxtotal += $value->attributes->tax;
       }
-      // dd($this->taxTotal);
+      
       $this->totalOnzas($totalonzas);
 
       $this->taxes();
-      // dd($this->taxes);
       $taxsub = number_format(floatval($this->subtotal * $this->taxes / 100), 2);
-      //  dd($taxsub);//17.07
-      // number_format(floatval($this->subtotal+$taxsub*),2);
-      $this->subtotalweb = $this->subtotal + $taxsub + $membresia;
+      
+     
+      foreach ($this->cantidadProductos as $key => $value) {
+        if ($value->name == "MEMBERSHIP") {
+          $this->subtotalweb = $this->subtotal + $taxsub ;
+        }else{
+          $this->subtotalweb = $this->subtotal + $taxsub + $membresia;
+        }
+
+      }
+
+
+      
       $this->totalImpuestoShipping = number_format(floatval($this->subtotalweb + $this->shipping), 2);
       return view('livewire.page-pay', compact('b', 'STRIPE_KEY',))->extends('layout.side-menu')->section('subcontent');
     } else {

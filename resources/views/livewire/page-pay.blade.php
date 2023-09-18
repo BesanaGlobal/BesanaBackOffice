@@ -57,7 +57,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+                  
                     @forelse($cantidadProductos as $pro)
                         @php
                             $taxunique=number_format(floatval(($pro->price*$this->taxes)/100),2);
@@ -65,7 +65,6 @@
                             $taxtotal+=$taxblade;
                         @endphp
                     @if ($pro->attributes->membresia > 0)
-                    <h1>{{$pro->attributes->membresia}}</h1>
                     <tr class="border-4  border-b-gray-500">
                         <td class="text-center">
                             <span class="badge badge-info">{{1}}</span>
@@ -77,7 +76,6 @@
                         <td class="text-right">{{number_format(floatval(24.95),2)}}</td>
                     </tr>
                     @endif
-                    @if($pro->name != "MEMBERSHIP")
                     <tr class="border-4  border-b-gray-500">
                         <td class="text-center">
                             <button class="btn btn-primary" wire:click="incrementQuantity({{$pro->id}})">+</button>
@@ -89,7 +87,6 @@
                         <td class=" text-right ">$ {{$taxunique}}</td>
                         <td class="text-right">{{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
                     </tr>
-                    @endif
                     @empty
                     <tr class="border-4 border-indigo-200 border-b-indigo-500">
                         <td colspan="6">NO DATA</td>

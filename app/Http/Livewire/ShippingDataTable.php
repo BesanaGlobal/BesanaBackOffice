@@ -92,7 +92,6 @@ class ShippingDataTable extends DataTableComponent
                         ->attributes(function($row){
                             return [
                                 'class' => 'px-3 py-2 btn bg-green-600 hover:btn h-12 w-32 bg-green-700 rounded-lg text-white opacity-100',
-                                
                             ];
                         })
                     ]),
