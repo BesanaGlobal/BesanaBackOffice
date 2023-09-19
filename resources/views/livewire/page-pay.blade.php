@@ -82,7 +82,10 @@
                             <span class="badge badge-info ml-4 mr-4">{{$pro->quantity}}</span>
                             <button class="btn btn-primary" wire:click="decrementQuantity({{$pro->id}})">-</button>
                         </td>
-                        <td class=" pr-5"> <span class=""> {{$pro->name}}</span></td>
+                        <td class=" pr-5"> 
+                            <span class=""> {{$pro->name}}</span>
+                            <input type="hidden" id="package" name="package" value="{{$pro->name}}">
+                        </td>
                         <td class=" text-right">$ {{ number_format(floatval($pro->price),2) }}</td>
                         <td class=" text-right ">$ {{$taxunique}}</td>
                         <td class="text-right">{{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
@@ -154,6 +157,9 @@
     </div>
 </div>
 
+
+
+
 @push('javascript')
 
 
@@ -174,6 +180,11 @@
 
                 )
         
+    })
+
+    
+    window.addEventListener('noticiaError', event => {
+        Swal.fire('', event.detail.msg)
     })
 
     const city = "{{$b->City}}"
@@ -221,6 +232,7 @@
         event.preventDefault();
         let nameCard = document.getElementById('nameCard').value
         const name = document.getElementById('name').value;
+        const package = document.getElementById('package').value;
         const email = document.getElementById('email').value;
         const address = document.getElementById('address').value;
         const totalfull = document.getElementById('totalfull').value;
@@ -232,13 +244,14 @@
             name: nameCard
         }).then(function(result) {
             if (result.error) {
-                console.log(result.error)
+                Livewire.emit('stripeError', result.error.message)
+                // console.log(result.error.message)
             } else {
                 // Enviar el token a tu servidor
                 var input = document.createElement('input');
-                Livewire.emit('pay', result.token.id, name, totalfull, member)
+                Livewire.emit('pay', result.token.id, name, totalfull, member, package)
                 //  form.submit();
-                console.log(result.token.id)
+                // console.log(result.token.id)
             }
             cardButton.disabled = false;
         });

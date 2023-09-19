@@ -326,7 +326,7 @@ class Register extends Component
                 '{$user->idAffiliated}',
                 '{$website}',
                 '{$confirmation_code}',
-                3,
+                1,
                 {$fhater}
                 )")), true);
 
