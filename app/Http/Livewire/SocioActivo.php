@@ -188,8 +188,6 @@ class SocioActivo extends Component
     ];
 
 
-
-
     public $States;
     public $Cities;
 

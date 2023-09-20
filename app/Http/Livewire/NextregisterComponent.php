@@ -59,46 +59,104 @@ class NextregisterComponent extends Component
     switch ($this->state) {
       case 'Nevada':
         $taxState = 8.375;
-
         break;
       default:
         $taxState = 0;
         break;
     }
     $newprice = 0;
-    if ($id != 1) {
-      $newprice = $price - 24.95;
-      \Cart::session(Auth()->user()->idUser)->add(array(
-        'id' => $id, // inique row ID
-        'name' => $paquete,
-        'price' => $newprice,
-        'attributes' => array(
-          'producto' => $newprice,
-          'tax' => $this->taxes,
-          'shipping' => $this->shipping,
-          'membresia' => 24.95,
-          'puntos' => $puntos,
-          'onzas' => 10
-        ),
-        'quantity' => 1,
-      ));
-    } else {
-      $priceTax = $price;
-      $newprice = $price;
-      \Cart::session(Auth()->user()->idUser)->add(array(
-        'id' => $id, // inique row ID
-        'name' => $paquete,
-        'price' => $newprice,
-        'attributes' => array(
-          'producto' => $newprice,
-          'tax' => 0,
-          'shipping' => 0,
-          'membresia' => 24.95,
-          'puntos' => 0,
-          'onzas' => 0
-        ),
-        'quantity' => 1,
-      ));
+
+    switch($id){
+      case 1 :
+        $priceTax = $price;
+        $newprice = $price;
+        \Cart::session(Auth()->user()->idUser)->add(array(
+          'id' => $id, // inique row ID
+          'name' => $paquete,
+          'price' => $newprice,
+          'attributes' => array(
+            'producto' => $newprice,
+            'tax' => 0,
+            'shipping' => 0,
+            'membresia' => 24.95,
+            'puntos' => 0,
+            'onzas' => 0
+          ),
+          'quantity' => 1,
+        ));
+        break;
+
+      case 2 :
+        $newprice = $price - 24.95;
+        \Cart::session(Auth()->user()->idUser)->add(array(
+          'id' => $id, // inique row ID
+          'name' => $paquete,
+          'price' => $newprice,
+          'attributes' => array(
+            'producto' => $newprice,
+            'tax' => $this->taxes,
+            'shipping' => $this->shipping,
+            'membresia' => 24.95,
+            'puntos' => $puntos,
+            'onzas' => 1.8
+          ),
+          'quantity' => 1,
+        )); 
+        break;
+
+      case 3 :
+        $newprice = $price - 24.95;
+        \Cart::session(Auth()->user()->idUser)->add(array(
+          'id' => $id, // inique row ID
+          'name' => $paquete,
+          'price' => $newprice,
+          'attributes' => array(
+            'producto' => $newprice,
+            'tax' => $this->taxes,
+            'shipping' => $this->shipping,
+            'membresia' => 24.95,
+            'puntos' => $puntos,
+            'onzas' => 1.8
+          ),
+          'quantity' => 3,
+        ));      
+        break;
+
+      case 4 :
+        $newprice = $price - 24.95;
+        \Cart::session(Auth()->user()->idUser)->add(array(
+          'id' => $id, // inique row ID
+          'name' => $paquete,
+          'price' => $newprice,
+          'attributes' => array(
+            'producto' => $newprice,
+            'tax' => $this->taxes,
+            'shipping' => $this->shipping,
+            'membresia' => 24.95,
+            'puntos' => $puntos,
+            'onzas' => 1.8
+          ),
+          'quantity' => 3,
+        ));
+        break;
+
+      case 5 :
+        $newprice = $price - 24.95;
+        \Cart::session(Auth()->user()->idUser)->add(array(
+          'id' => $id, // inique row ID
+          'name' => $paquete,
+          'price' => $newprice,
+          'attributes' => array(
+            'producto' => $newprice,
+            'tax' => $this->taxes,
+            'shipping' => $this->shipping,
+            'membresia' => 24.95,
+            'puntos' => $puntos,
+            'onzas' => 1.8
+          ),
+          'quantity' => 10,
+        ));  
+        break;
     }
 
     return redirect()->route('cart-pay');

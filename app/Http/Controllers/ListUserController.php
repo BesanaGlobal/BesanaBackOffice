@@ -23,20 +23,8 @@ class ListUserController extends Controller
         $id=User::where('idUser',$idLog)->first();
         $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
 
-
-        // dd(Auth()->user()->idUser);
-        // if (Auth()->user()->idUser==1) {
-        //     $data = Affiliate::all();
-        //     return view('afiliados.listar',compact('data'));
-        // } else {
-        //     return redirect()->route('dash');
-        // }
-
         $data = $afiliado->myAffiliates($id->idAffiliated);
-        // dd($data);
         
-
-
        return view('afiliados.listar',compact('data', 'id'));
         
     }

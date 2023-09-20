@@ -32,7 +32,7 @@ class Arbol extends Model
 //        return $this->hasMany(Affiliate::class, 'idAffiliated');
 //    }
 
-    public function affiliado(): BelongsTo
+    public function affiliadoSponsor(): BelongsTo
     {
         return $this->belongsTo(Affiliate::class,'idFhater');
     }

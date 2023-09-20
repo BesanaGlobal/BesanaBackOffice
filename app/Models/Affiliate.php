@@ -51,13 +51,14 @@ class Affiliate extends Model
 		'idRank'
     ];
 
-    // public function webSite(): HasOne{
-    //     return $this->hasOne(Website::class);
+	// public function rank(): HasOne
+    // {
+    //     return $this->hasOne(Rank::class, 'idRank');
     // }
 
-	public function rank(): HasOne
+	public function rank(): BelongsTo
     {
-        return $this->hasOne(Rank::class, 'idRank');
+        return $this->belongsTo(Rank::class, 'idRank');
     }
 
 	public function user(): HasOne
@@ -80,6 +81,13 @@ class Affiliate extends Model
         return $this->hasMany(Arbol::class, 'idFhater');
     }
 
+	public function childrenSponsor(): HasMany
+    {
+        return $this->hasMany(RelSponsor::class, 'idAffiliatedChild');
+    }
+
+
+	
 	public function childrenByLevel($id, $level) {
 
 		$level1 = Affiliate::find($id)->children()->pluck('idSon');

@@ -36,7 +36,7 @@ class Rank extends Model
 
     public function affiliate(): BelongsTo
     {
-        return $this->belongsTo(Affiliate::class);
+        return $this->belongsTo(Affiliate::class, 'idRank');
     }
 
 
