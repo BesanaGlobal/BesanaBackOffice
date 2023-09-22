@@ -33,16 +33,16 @@ class ApiController extends Controller
             array(
                 'Sale',
                 $id,
-                8,//IDPROD
-                0,//IDWEBSITE
-                $total,
-                'CASH',
                 0,
-                null,
-                $fechaHoraMySQL, 
+                $id,
+                $total,
+                'CREDIT CARD',
+                0,
+                0,
+                $fechaHoraMySQL,
                 'website',
                 $shipping,
-                0// Convertir a nulo si es una cadena vacía
+                0
             )
         );
 
