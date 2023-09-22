@@ -15,13 +15,14 @@ class SideMenu
      */
     public static function menu()
     {
-        $user = Auth()->user();
-        $afiliado = Affiliate::where('idAffiliated', $user->idAffiliated)->with('rank')->get();
+        
         // dd($afiliado[0]->rank->RankName);
 
             if (!Auth()->user()) {
                 return [];
             }else{
+                $user = Auth()->user();
+                $afiliado = Affiliate::where('idAffiliated', $user->idAffiliated)->with('rank')->get();
                 if (Auth()->user()->active) {   
                     if(Auth()->user()->idUser == 1){
                         return[
