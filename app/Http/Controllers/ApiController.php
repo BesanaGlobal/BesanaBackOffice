@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Affiliate;
 use App\Models\DetailSale;
+use App\Models\Sale;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,27 +26,43 @@ class ApiController extends Controller
         $variable           = config('services.stripe.STRIPE_SECRET');
         $fechaHoraActual    = Carbon::now();
         $idAfiliado         = User::where('userName',$userName)->first();
+
+        
         //se obtiene el id del user
         $id             = intval($idAfiliado->idAffiliated);  
         $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
         //SE INSERTA LA COMPRA EN LA BASE DE DATOS.
-        $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?)', 
-            array(
-                'Sale',
-                $id,
-                0,
-                $id,
-                $total,
-                'CREDIT CARD',
-                0,
-                0,
-                $fechaHoraMySQL,
-                'website',
-                $shipping,
-                0
-            )
-        );
+        // $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?)', 
+        //     array(
+        //         'Sale',
+        //         $id,
+        //         0,
+        //         $id,
+        //         $total,
+        //         'CREDIT CARD',
+        //         0,
+        //         '0000-00-00 00:00:00',
+        //         $fechaHoraMySQL,
+        //         'website',
+        //         $shipping,
+        //         0
+        //     )
+        // );
 
+        $result = new Sale();
+        $result->idWebsite = $id;
+        $result->idProd = 0 ;
+        $result->idAffiliated = $id;
+        $result->datetimeb = $fechaHoraMySQL;
+        $result->price = $total;
+        $result->ActivatedBuy = 0;
+        $result->TipoPago = 'CREDIT CARD';
+        $result->webShop = 'website';
+        $result->WebNameClient = "";
+        $result->WebEmailClient = "";
+        $result->Shipping = $shipping;
+
+       $result->save();
         //OBTENER EL TAX SEGUN EL ESTADO
         foreach($Products as  $value){
             //CREAMOS EL DETALLE DE LA VENTA
