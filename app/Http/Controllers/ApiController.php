@@ -17,8 +17,15 @@ class ApiController extends Controller
         //VARIABLES
         $objeto             = $request->json()->all();
         $userName           = $objeto['user']['userName'];
-        $state              = $objeto['user']['state'];        
-        $email              = $objeto['user']['email'];
+        $fisrtName          = $objeto['user']['name'];
+        $lastName           = $objeto['user']['lastName'];
+        $userAddress        = $objeto['user']['address'];
+        $userCountry        = $objeto['user']['country'];
+        $userCity           = $objeto['user']['city'];
+        $userState          = $objeto['user']['state'];        
+        $userZipCode        = $objeto['user']['zipCode'];        
+        $userWorkPhone      = $objeto['user']['workPhone'];        
+        $userEmail          = $objeto['user']['email'];
         $Products           = $objeto['producDetail'];
         $total              = $request->total;
         $shipping           = $request->shipping;
@@ -32,7 +39,7 @@ class ApiController extends Controller
         $id             = intval($idAfiliado->idAffiliated);  
         $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
         //SE INSERTA LA COMPRA EN LA BASE DE DATOS.
-        $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?)', 
+        $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
              array(
                  'Sale',
                  $id,
@@ -43,40 +50,31 @@ class ApiController extends Controller
                  0,
                  $fechaHoraMySQL,
                  'website',
+                 $fisrtName,
+                 $userWorkPhone,        
+                 $userEmail,
+                 $userAddress,
+                 $userCountry,
+                 $userState,  
+                 $userCity,
+                 $userZipCode,
                  $shipping,
                  0
              )
          );
 
-        //$result = new Sale();
-        //$result->idWebsite = $id;
-        //$result->idProd = 17 ;
-        //$result->idAffiliated = $id;
-        //$result->datetimeb = $fechaHoraMySQL;
-        //$result->price = $total;
-        //$result->ActivatedBuy = 0;
-        //$result->TipoPago = 'CREDIT CARD';
-        //$result->webShop = 'website';
-        //$result->WebNameClient = "";
-        //$result->WebEmailClient = "";
-        //$result->Shipping = $shipping;
-
-       //$result->save();
-	//$idSale = Sale::orderBy('idSale', 'desc')->first();
-        //OBTENER EL TAX SEGUN EL ESTADO
         foreach($Products as  $value){
             //CREAMOS EL DETALLE DE LA VENTA
             $subtotal=($value['price']+$value['taxProduct']);
             $description ="Cantidad: ".$value['quantityProduct']. " Producto: ".$value['nameProduct']." Subtotal: "."\n";
-	    $detailV= new DetailSale();           
-	    $detailV->id_sale =$result[0]->last_inserted_id;
+	        $detailV= new DetailSale();           
+	        $detailV->id_sale =$result[0]->last_inserted_id;
             $detailV->id_product=$value['idProduct'];
             $detailV->NameProduct=$value['nameProduct'];
             $detailV->precioVenta=$value['price'];
             $detailV->cantidad=$value['quantityProduct'];
             $detailV->Tax=$value['taxProduct'];
             $detailV->subtotal=$subtotal;
-
             $detailV->save();
         }
 
@@ -86,7 +84,7 @@ class ApiController extends Controller
             'amount' => $total*100,
             'currency' => 'usd',
             'description' => $description,
-            'receipt_email'=>$email,
+            'receipt_email'=>$userEmail,
             'source' => $tokenCard,
         ]);
 
@@ -103,7 +101,6 @@ class ApiController extends Controller
             return response()->json(['mensaje' => 'no','idafiliado'=>$idAfiliado,'data'=>$sponsor->sponsor]);
         }
         return response()->json(['mensaje' => 'yes','data'=>$sponsor->sponsor]);
-        // return response()->json(['error' => 'Registro no encontrado'], 404);
 
     }
 }
