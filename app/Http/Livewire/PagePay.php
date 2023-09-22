@@ -151,20 +151,30 @@ class PagePay extends Component
   {
     $fechaHoraActual = Carbon::now();
     $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
-    $result = DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?)', array(
-      'Sale',
-      $idAfiliado,
-      8, //idprod
-      0, //idwebsite
-      $this->totalImpuestoShipping,
-      'CASH',
-      0,
-      null,
-      $fechaHoraMySQL,
-      'office',
-      $this->shipping,
-      0 // Convertir a nulo si es una cadena vacía
-    ));
+    
+    $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+             array(
+                 'Sale',
+                 $idAfiliado,
+                 17,
+                 Null,
+                 $this->total,
+                 'CREDIT CARD',
+                 0,
+                 $fechaHoraMySQL,
+                 'office',
+                 $this->user->Name,
+                 $this->user->Phone,        
+                 $this->user->Email,
+                 $this->user->Address,
+                 $this->user->Country,
+                 $this->user->State,  
+                 $this->user->City,
+                 $this->user->ZipCode,
+                 $this->shipping,
+                 0
+             )
+         );
 
     $idSale = $result[0]->last_inserted_id;
     $this->DetailSale($idSale, $token);
