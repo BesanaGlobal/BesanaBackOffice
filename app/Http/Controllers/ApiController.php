@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Affiliate;
-use App\Models\Sale;
 use App\Models\DetailSale;
 use App\Models\User;
 use Carbon\Carbon;
@@ -29,7 +28,7 @@ class ApiController extends Controller
         //se obtiene el id del user
         $id             = intval($idAfiliado->idAffiliated);  
         $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
-        // SE INSERTA LA COMPRA EN LA BASE DE DATOS.
+        //SE INSERTA LA COMPRA EN LA BASE DE DATOS.
         $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?)', 
             array(
                 'Sale',
@@ -47,21 +46,6 @@ class ApiController extends Controller
             )
         );
 
-
-        // $result = Sale::create([
-        //     'idWebsite' => $id,
-        //     'idProd' => null,
-        //     'datetimeb' => Carbon::now(),
-        //     'idAffiliated' => $id,
-        //     'price' => $total,
-        //     'ActivatedBuy' => 0,
-        //     'TipoPago' => 'CASH',
-        //     'webShop' => 'website',
-        //     'WebNameClient' => $userName,
-        //     'WebEmailClient' => $email,
-        //     'Shipping' => $shipping,
-        // ]);
-   
         //OBTENER EL TAX SEGUN EL ESTADO
         foreach($Products as  $value){
             //CREAMOS EL DETALLE DE LA VENTA
@@ -78,7 +62,7 @@ class ApiController extends Controller
 
             $detailV->save();
         }
-   
+
         //crear el cargo en stripe
         $stripe = new \Stripe\StripeClient($variable);
         $stripe->charges->create([
@@ -97,7 +81,7 @@ class ApiController extends Controller
     {
         $data=json_decode($sponsor);
         $idAfiliado=User::where('userName',$sponsor->sponsor)->get();
-        
+
         if ($idAfiliado->isEmpty()) {
             return response()->json(['mensaje' => 'no','idafiliado'=>$idAfiliado,'data'=>$sponsor->sponsor]);
         }

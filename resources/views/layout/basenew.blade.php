@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ $dark_mode ? 'dark' : '' }}{{ $color_scheme != 'default' ? ' ' . $color_scheme : '' }}">
 <head>
-   
-
     <meta charset="utf-8">
     <link href="{{ asset('img/logonew.png') }}" rel="shortcut icon">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -20,7 +18,6 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
 
 </head>
 <body class="py-5 md:py-0 bg-black/[0.15] dark:bg-transparent overflow-auto">

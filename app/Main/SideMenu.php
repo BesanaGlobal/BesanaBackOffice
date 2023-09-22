@@ -3,6 +3,7 @@
 namespace App\Main;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Affiliate;
 
 class SideMenu
 {
@@ -14,7 +15,10 @@ class SideMenu
      */
     public static function menu()
     {
-            // dd(Auth()->user());
+        $user = Auth()->user();
+        $afiliado = Affiliate::where('idAffiliated', $user->idAffiliated)->with('rank')->get();
+        // dd($afiliado[0]->rank->RankName);
+
             if (!Auth()->user()) {
                 return [];
             }else{
@@ -135,6 +139,36 @@ class SideMenu
                         ];
                     };
                     //SI NO ES MASTER
+                    if ($afiliado[0]->rank->RankName == "SOCIO PROMOTOR") {
+                        return [
+                            'dashboard' => [
+                                'icon' => 'home',
+                                'title' => 'Home',
+                                'route_name' => 'dash',
+                                'params' => [
+                                    'layout' => 'side-menu'
+                                ],
+                            ],
+                            'devider',
+                            'Clientes' => [
+                                'icon' => 'user-plus',
+                                'route_name' => 'users-layout-2',
+                                'params' => [
+                                    'layout' => 'side-menu'
+                                ],
+                                'title' => 'Customers'
+                            ],
+                            'devider',
+                            'Wallet' => [
+                                'icon' => 'dollar-sign',
+                                'route_name' => 'dash',
+                                'params' => [
+                                    'layout' => 'side-menu'
+                                ],
+                                'title' => 'Wallet'
+                            ],
+                        ];
+                    }
                     return [
                         'dashboard' => [
                                 'icon' => 'home',
@@ -195,14 +229,6 @@ class SideMenu
                                 ],
                                 'title' => 'Customers'
                             ],
-                            // 'Prospectos' => [
-                            //     'icon' => 'user-plus',
-                            //     'route_name' => 'users-layout-3',
-                            //     'params' => [
-                            //         'layout' => 'side-menu'
-                            //     ],
-                            //     'title' => 'Prospects'
-                            // ],
                             'devider',
                             'Wallet' => [
                                 'icon' => 'dollar-sign',
@@ -244,8 +270,5 @@ class SideMenu
                 }
                 
             }
-            
-       
-        
     }
 }

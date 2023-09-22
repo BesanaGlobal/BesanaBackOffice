@@ -15,10 +15,19 @@
             <img alt="Besanaglobal.com" class=" w-16 md:w-auto" src="{{ asset('img/besana.png') }}">
             @if (Auth::user())
             @if (Auth::user()->active==1)
+            @php
+                $userRank = auth()->user()->with('affiliate.rank')->where('idAffiliated', auth()->user()->idAffiliated)->get();
+                if(Auth::user()->userName == "BesanaMaster"){
+                    $rank = "Master";
+                }else{
+                    $rank = $userRank[0]->affiliate->rank->RankName;
+                }
+            @endphp
             <span class=" text-bold text-lime-400 font-black uppercase text-xl ">{{__('Active')}}</span>
-            
+            <span class=" text-bold text-lime-200  uppercase text-white">{{$rank}}</span>
             @else
-            <span class=" text-bold text-red-700 font-black uppercase text-xl ">{{__('Inactive')}}</span>
+            <span class=" text-bold text-red-700 font-black uppercase text-xl">{{__('Inactive')}}</span>
+            <span class=" text-bold text-lime-400 font-black uppercase text-xl">{{$rank}}</span>
             @endif
             @endif
         </a>

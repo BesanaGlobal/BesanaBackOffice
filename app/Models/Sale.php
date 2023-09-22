@@ -42,9 +42,14 @@ class Sale extends Model
         return $this->hasMany(DetailSale::class, 'id_sale');
     }
 
-    public function affiliate(): BelongsTo
+    // public function affiliate(): BelongsTo
+    // {
+    //     return $this->belongsTo(Affiliate::class, 'idAffiliated');
+    // }
+
+     public function affiliate(): HasOne
     {
-        return $this->belongsTo(Affiliate::class, 'idAffiliated');
+        return $this->hasOne(Affiliate::class, 'idAffiliated');
     }
 
 

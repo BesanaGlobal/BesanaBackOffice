@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -32,9 +33,9 @@ class User extends Authenticatable
 
     ];
 
-    public function affiliate(): BelongsTo
+    public function affiliate(): HasOne
     {
-        return $this->belongsTo(Affiliate::class);
+        return $this->hasOne(Affiliate::class, 'idAffiliated');
     }
 
     public function walletweek()
