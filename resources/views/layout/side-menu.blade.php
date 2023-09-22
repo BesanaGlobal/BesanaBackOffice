@@ -20,14 +20,17 @@
                 if(Auth::user()->userName == "BesanaMaster"){
                     $rank = "Master";
                 }else{
-                    $rank = $userRank[0]->affiliate->rank->RankName;
+                    if($userRank[0]->affiliate->rank->RankName != null){
+                        $rank = $userRank[0]->affiliate->rank->RankName;
+                    }else{
+                        $rank = "";
+                    }
                 }
             @endphp
             <span class=" text-bold text-lime-400 font-black uppercase text-xl ">{{__('Active')}}</span>
             <span class=" text-bold text-lime-200  uppercase text-white">{{$rank}}</span>
             @else
             <span class=" text-bold text-red-700 font-black uppercase text-xl">{{__('Inactive')}}</span>
-            <span class=" text-bold text-lime-400 font-black uppercase text-xl">{{$rank}}</span>
             @endif
             @endif
         </a>

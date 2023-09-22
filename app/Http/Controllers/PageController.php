@@ -30,7 +30,7 @@ class PageController extends Controller
         
         $idLog=Auth()->user()->idUser;
         $id=User::where('idUser',$idLog)->first();
-        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
 
         $walletWeek=WalletWeek::where(
             'id_user','=',  $id->idAffiliated,

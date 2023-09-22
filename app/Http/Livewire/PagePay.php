@@ -104,17 +104,24 @@ class PagePay extends Component
     $this->stripe = new \Stripe\StripeClient($variable);
     $idAfiliado = Auth()->user()->idAffiliated;
 
-    if ($member) {
-      if($package != "MEMBERSHIP"){
+    if($member == 1){
+
+      if($package !== "MEMBERSHIP"){
         $this->updateRank($idAfiliado);
       } 
+
       $this->finishpay($idAfiliado, $tok);
       $this->updateAffiliated($idAfiliado);
-      $this->dispatchBrowserEvent('noticia', ['msg' => 'Compra exitosa, ya puede ingresar a su oficina!']);
-    } else {
-      $this->finishpay($idAfiliado, $tok);
 
+      $this->dispatchBrowserEvent('package', ['msg' => 'Compra exitosa, ya puede ingresar a su oficina!']);
+      
+      
+    }else{
+
+      $this->finishpay($idAfiliado, $tok);
+      $this->updateAffiliated($idAfiliado);
       $this->ClearCart();
+
       $mensaje = '';
       $language = session()->get('locale');
 
@@ -124,7 +131,11 @@ class PagePay extends Component
         $mensaje = 'Compra Exitosa!!';
       }
       return redirect('/products')->with('success', $mensaje);
+
     }
+      
+      
+    
   }
 
   public function updateAffiliated($idAfiliado)

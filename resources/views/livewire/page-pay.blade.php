@@ -170,11 +170,23 @@
 
 
 
-    window.addEventListener('noticia', event => {
+    window.addEventListener('package', event => {
         Swal.fire('', event.detail.msg).then(result => {
                         if (result.isConfirmed) {
                             Livewire.emit('success')
                             window.location = '/login'
+                        }
+                    }
+
+                )
+        
+    })
+
+    window.addEventListener('noticia', event => {
+        Swal.fire('', event.detail.msg).then(result => {
+                        if (result.isConfirmed) {
+                            Livewire.emit('success')
+                            window.location = '/products'
                         }
                     }
 
@@ -232,12 +244,10 @@
         event.preventDefault();
         let nameCard = document.getElementById('nameCard').value
         const name = document.getElementById('name').value;
-        const package = document.getElementById('package').value;
+        let package = document.getElementById('package').value;
         const email = document.getElementById('email').value;
         const address = document.getElementById('address').value;
         const totalfull = document.getElementById('totalfull').value;
-        const member = document.getElementById('member').value ? document.getElementById('member').value : 0 ;
-
         cardButton.disabled = true;
 
         stripe.createToken(cardElement, {
@@ -249,7 +259,13 @@
             } else {
                 // Enviar el token a tu servidor
                 var input = document.createElement('input');
-                Livewire.emit('pay', result.token.id, name, totalfull, member, package)
+                if (document.getElementById('member') !== null) {
+                    let member = document.getElementById('member').value;
+                    Livewire.emit('pay', result.token.id, name, totalfull, member ,package)                    
+                }else{
+                    Livewire.emit('pay', result.token.id, name, totalfull, 0, package)
+
+                }
                 //  form.submit();
                 // console.log(result.token.id)
             }

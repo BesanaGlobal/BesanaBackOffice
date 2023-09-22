@@ -33,9 +33,9 @@ class User extends Authenticatable
 
     ];
 
-    public function affiliate(): HasOne
+    public function affiliate(): BelongsTo
     {
-        return $this->hasOne(Affiliate::class, 'idAffiliated');
+        return $this->belongsTo(Affiliate::class, 'idAffiliated');
     }
 
     public function walletweek()

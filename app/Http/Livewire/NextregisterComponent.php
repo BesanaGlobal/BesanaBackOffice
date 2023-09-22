@@ -116,9 +116,9 @@ class NextregisterComponent extends Component
             'shipping' => $this->shipping,
             'membresia' => 24.95,
             'puntos' => $puntos,
-            'onzas' => 1.8
+            'onzas' => 3
           ),
-          'quantity' => 3,
+          'quantity' => 1,
         ));      
         break;
 
@@ -134,9 +134,9 @@ class NextregisterComponent extends Component
             'shipping' => $this->shipping,
             'membresia' => 24.95,
             'puntos' => $puntos,
-            'onzas' => 1.8
+            'onzas' => 3
           ),
-          'quantity' => 3,
+          'quantity' => 1,
         ));
         break;
 
@@ -152,9 +152,9 @@ class NextregisterComponent extends Component
             'shipping' => $this->shipping,
             'membresia' => 24.95,
             'puntos' => $puntos,
-            'onzas' => 1.8
+            'onzas' => 10
           ),
-          'quantity' => 10,
+          'quantity' => 1,
         ));  
         break;
     }
