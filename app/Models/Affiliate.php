@@ -364,7 +364,7 @@ class Affiliate extends Model
 					'phone' => $promoter->affiliate->Phone,
 					'pointsOffice' => $dt->cantidad * $dt->product->puntos,
 					'pointsWeb' => 0,
-					'active' => $promoter->affiliate->user->active,
+					// 'active' => $promoter->affiliate->user->active,
 					];
 				$partnersOffice->put($promoter->affiliate->Name, $data);
 			}
@@ -380,7 +380,7 @@ class Affiliate extends Model
 					'phone' => $promoter->affiliate->Phone,
 					'pointsOffice' => 0,
 					'pointsWeb' => $dt->cantidad * $dt->product->puntosWebsite,
-					'active' => $promoter->affiliate->user->active,
+					// 'active' => $promoter->affiliate->user->active,
 					];
 				$partnersWeb->put($promoter->affiliate->Name, $data);
 			}
