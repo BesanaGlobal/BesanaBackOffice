@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Affiliate;
 use App\Models\DetailSale;
-use App\Models\Sale;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,7 +12,6 @@ class ApiController extends Controller
 {
     public function Buy(Request $request)
     {
-        //VARIABLES
         $objeto             = $request->json()->all();
         $userName           = $objeto['user']['userName'];
         $fisrtName          = $objeto['user']['name'];
@@ -34,12 +31,10 @@ class ApiController extends Controller
         $fechaHoraActual    = Carbon::now();
         $idAfiliado         = User::where('userName',$userName)->first();
 
-        
-        //se obtiene el id del user
         $id             = intval($idAfiliado->idAffiliated);  
         $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
-        //SE INSERTA LA COMPRA EN LA BASE DE DATOS.
-        $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+
+        $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
              array(
                  'Sale',
                  $id,
@@ -59,6 +54,7 @@ class ApiController extends Controller
                  $userCity,
                  $userZipCode,
                  $shipping,
+                 0,
                  0
              )
          );
@@ -78,7 +74,6 @@ class ApiController extends Controller
             $detailV->save();
         }
 
-        //crear el cargo en stripe
         $stripe = new \Stripe\StripeClient($variable);
         $stripe->charges->create([
             'amount' => $total*100,

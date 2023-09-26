@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Affiliate;
 use Livewire\Component;
 
 

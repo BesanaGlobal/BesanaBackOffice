@@ -2,16 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Website;
-
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use App\Models\Affiliate;
 use App\Models\DetailSale;
-use App\Models\Point;
-use App\Models\Product;
 use App\Models\User;
-use App\Models\Sale;
 use Carbon\Carbon;
 use Stripe;
 
@@ -114,8 +109,7 @@ class PagePay extends Component
       $this->updateAffiliated($idAfiliado);
 
       $this->dispatchBrowserEvent('package', ['msg' => 'Compra exitosa, ya puede ingresar a su oficina!']);
-      
-      
+       
     }else{
 
       $this->finishpay($idAfiliado, $tok);
@@ -132,9 +126,7 @@ class PagePay extends Component
       }
       return redirect('/products')->with('success', $mensaje);
 
-    }
-      
-      
+    }  
     
   }
 
@@ -152,7 +144,7 @@ class PagePay extends Component
     $fechaHoraActual = Carbon::now();
     $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
     
-    $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+    $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
              array(
                  'Sale',
                  $idAfiliado,
@@ -172,6 +164,7 @@ class PagePay extends Component
                  $this->user->City,
                  $this->user->ZipCode,
                  $this->shipping,
+                 0,
                  0
              )
          );
@@ -225,6 +218,7 @@ class PagePay extends Component
       return $this->shipping = intval($shippinadd + 7);
     }
   }
+
   public function taxes()
   {
     $state = $this->user->State;

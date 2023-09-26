@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Affiliate;
+use App\Models\Sale;
 use Livewire\Component;
 
 
@@ -10,10 +11,9 @@ class ShippingView extends Component
 {
     public $data;
  
-   
-    public function mount(Affiliate $id){
-        $this->data = Affiliate::where('idAffiliated', 2)
-        ->with(['sales.detailSales.product'])
+    public function mount(Sale $id){
+        $this->data = Sale::where('idSale', $id)
+        // ->with(['affiliate','detailSales.product'])
         ->get();
 
         // dd($this->data);
