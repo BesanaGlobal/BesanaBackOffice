@@ -12,11 +12,9 @@ class ShippingView extends Component
     public $data;
  
     public function mount(Sale $id){
-        $this->data = Sale::where('idSale', $id)
-        // ->with(['affiliate','detailSales.product'])
+        $this->data = Sale::where('idSale', $id->idSale)
+        ->with(['affiliate','detailSales.product'])
         ->get();
-
-        // dd($this->data);
     }
 
     public function render()

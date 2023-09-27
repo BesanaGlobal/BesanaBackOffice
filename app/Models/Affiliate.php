@@ -51,11 +51,6 @@ class Affiliate extends Model
 		'idRank'
     ];
 
-	// public function rank(): HasOne
-    // {
-    //     return $this->hasOne(Rank::class, 'idRank');
-    // }
-
 	public function rank(): BelongsTo
     {
         return $this->belongsTo(Rank::class, 'idRank');
@@ -86,36 +81,45 @@ class Affiliate extends Model
         return $this->hasMany(RelSponsor::class, 'idAffiliatedChild');
     }
 
+	// public function childrenByLevel($id, $level) {
 
-	
-	public function childrenByLevel($id, $level) {
+	// 	$level1 = Affiliate::find($id)->children()->pluck('idSon');
+	// 	$levels = collect();
+	// 	$levels->push($level1);
+	// 	for ($i = 1; $i <= 10; $i++) {
+	// 		$levels[$i] = collect();
+	// 		foreach ($levels[$i - 1] as $n) {
+	// 			$levels[$i] = $levels[$i]->merge(Affiliate::find($n)->children()->pluck('idSon'));
+	// 		}
+	// 	}
+	// 	return $levels[$level];
 
-		$level1 = Affiliate::find($id)->children()->pluck('idSon');
-		$levels = collect();
-		$levels->push($level1);
-		for ($i = 1; $i <= 10; $i++) {
-			$levels[$i] = collect();
-			foreach ($levels[$i - 1] as $n) {
-				$levels[$i] = $levels[$i]->merge(Affiliate::find($n)->children()->pluck('idSon'));
-			}
+	// }
+
+	public function childrenByLevel($id, $level)
+	{
+		if ($level == 0) {
+			return collect([$id]);
 		}
-		return $levels[$level];
+	
+		$children = $this->find($id)->children()->pluck('idSon');
+	
+		if ($children->isEmpty()) {
+			return collect();
+		}
+	
+		return $children->flatMap(function ($childId) use ($level) {
+			return $this->childrenByLevel($childId, $level - 1);
+		});
+	}
 
-	  }
-
-	  public function viewChildren($id){
+	public function viewChildren($id){
 		$niveles = Affiliate::childrenByLevel($id, 1);
 		return $niveles;
 
-	  }
+	}
 
-	  public function websiteLink($id){
-		// $web = Affiliate::find($id)
-		// ->with(['website' => function ($query) use ($id){
-		// 	$query->where('idWebsite', '<>',0);
-		// }])
-		// ->get();
-
+	public function websiteLink($id){
 		$web = DB::table('affiliates')
 		->where('affiliates.idAffiliated',$id)
 		->join('websites', 'affiliates.idAffiliated', '=', 'websites.idAffiliated')
@@ -124,45 +128,28 @@ class Affiliate extends Model
 		->first();
 
 		return $web;
-	  }
-
+	}
 
 	//LISTO
 	/** bloque de puntos obtenidos en la compra en el web site y oficina de usuarios clientes,
 	 *  solo usando el nombre de referencia. */
 	public function getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id) {
-		 set_time_limit(20000);
 
-		$office = Sale::where('webShop', 'oficina')
-		->where('idAffiliated', $id)
-		->whereMonth('datetimeb', now()->month)
-		->whereYear('datetimeb', now()->year)
-		->with('detailSales.product')
-		->get();
+		$office =DB::select("CALL Sp_SalesForOfficeAndMonth($id)");
 		
 		$officePoints = collect();
 		foreach($office as $detail){
-			foreach($detail->detailSales as $dt){
-				$officePoints = $officePoints->merge($dt->cantidad * $dt->product->puntos);
-			}
+			$officePoints = $officePoints->merge($detail->cantidad * $detail->puntos);
 		}
-
-		$web = Sale::where('webShop', 'website')
-		->where('idAffiliated', $id)
-		->whereMonth('datetimeb', now()->month)
-		->whereYear('datetimeb', now()->year)
-		->with('detailSales.product')
-		->get();
+		
+		$web =DB::select("CALL Sp_SalesForWebsiteAndMonth($id)");
 		
 		$webPoints = collect();
 		foreach($web as $detail){
-			foreach($detail->detailSales as $dt){
-				$webPoints = $webPoints->merge($dt->cantidad * $dt->product->puntosWebsite);
-			}
+			$webPoints = $webPoints->merge($detail->cantidad * $detail->puntosWebsite);
 		}
 
 		$points = $webPoints->sum() + $officePoints->sum();
-		// $result = $office + $web;
 		return $points;
 		
 	}
@@ -179,27 +166,13 @@ class Affiliate extends Model
 			$level1Points = collect();
 
 			foreach($level1 as $l1){
-				$level1Points = $level1Points->merge(Sale::with('detailSales.product')
-				->with(['affiliate.user' => function($query){
-					$query->where('active', 1);
-				}])
-				->whereHas('affiliate', function ($query) {
-					$query->where('idRank', 1);	
-				})
-				->with('affiliate')
-				->where('webShop', 'website')
-				->where('idAffiliated', $l1)
-				->whereMonth('datetimeb', now()->month)
-				->whereYear('datetimeb', now()->year)
-				->get());
+				$level1Points = $level1Points->merge(DB::select("CALL Sp_TotalPointsByPromotersInTheWebsiteBuy($l1)"));
 			}
 
 			$promoters = collect();
 
 			foreach($level1Points as $promoter){
-				foreach($promoter->detailSales as $dt){
-					$promoters->put($promoter->affiliate->Name, $dt->cantidad * $dt->product->puntosWebsite);
-				}
+				$promoters->put($promoter->Name, $promoter->cantidad * $promoter->puntosWebsite);
 			}
 			$total_points = $total_points->merge($promoters->sum());
 			
@@ -216,55 +189,27 @@ class Affiliate extends Model
 		for($i = 0; $i <= 8; $i++){
 
 			$level1 = Affiliate::childrenByLevel($id, $i);
-			$oficePoints = collect();
+			$officePoints = collect();
 			$webPoints = collect();
 
 			foreach($level1 as $l1){
-				$oficePoints = $oficePoints->merge(Sale::with('detailSales.product')
-				->with(['affiliate.user' => function($query){
-					$query->where('active', 1);
-				}])
-				->whereHas('affiliate', function ($query) {
-					$query->where('idRank', '<>', 1);	
-				})
-				->with('affiliate')
-				->where('webShop', 'oficina')
-				->where('idAffiliated', $l1)
-				->whereMonth('datetimeb', now()->month)
-				->whereYear('datetimeb', now()->year)
-				->get());
+				$officePoints = $officePoints->merge(DB::select("CALL Sp_TotalPointsByActivePartnersOffice($l1)"));
 			}
 
 			$officePartners = collect();
 
-			foreach($oficePoints as $partners){
-				foreach($partners->detailSales as $dt){
-					$officePartners->put($partners->affiliate->Name, $dt->cantidad * $dt->product->puntos);
-				}
+			foreach($officePoints as $partners){
+				$officePartners->put($partners->Name, $partners->cantidad * $partners->puntos);
 			}
 
 			foreach($level1 as $l1){
-				$webPoints = $webPoints->merge(Sale::with('detailSales.product')
-				->with(['affiliate.user' => function($query){
-					$query->where('active', 1);
-				}])
-				->whereHas('affiliate', function ($query) {
-					$query->where('idRank', '<>', 1);	
-				})
-				->with('affiliate')
-				->where('webShop', 'website')
-				->where('idAffiliated', $l1)
-				->whereMonth('datetimeb', now()->month)
-				->whereYear('datetimeb', now()->year)
-				->get());
+				$webPoints = $webPoints->merge(DB::select("CALL Sp_TotalPointsByActivePartnersWebsite($l1)"));
 			}
 
 			$webPartners = collect();
 
 			foreach($webPoints as $partners){
-				foreach($partners->detailSales as $dt){
-					$webPartners->put($partners->affiliate->Name, $dt->cantidad * $dt->product->puntosWebsite);
-				}
+				$webPartners->put($partners->Name, $partners->cantidad * $partners->puntosWebsite);
 			}
 
 			$total_points = $total_points->merge($officePartners->sum() + $webPartners->sum());
@@ -278,42 +223,27 @@ class Affiliate extends Model
 	//Listo
 	/**Bloque que busca mis Socios Promotores Directos */
 	public function getActivePromotersByAffiliated($id){
-		$level1 = Affiliate::childrenByLevel($id, 0);
+		$level1 = Affiliate::childrenByLevel($id, 1);
 		$level1Points = collect();
 
 		foreach($level1 as $l1){
-			$level1Points = $level1Points->merge(Sale::with('detailSales.product')
-			->with(['affiliate.user' => function($query){
-				$query->where('active', 1);
-			}])
-			->whereHas('affiliate', function ($query) {
-				$query->where('idRank', 1);	
-			})
-			->with('affiliate')
-			->where('webShop', 'website')
-			->where('idAffiliated', $l1)
-			->whereMonth('datetimeb', now()->month)
-			->whereYear('datetimeb', now()->year)
-			->get());
+			$level1Points = $level1Points->merge(DB::select("CALL Sp_TotalPointsByPromotersInTheWebsiteBuy($l1)"));
 		}
 		$promoters = collect();
 
 		foreach($level1Points as $promoter){
-			foreach($promoter->detailSales as $dt){
 				$data = [
-					'name' => $promoter->affiliate->Name,
-					'email' => $promoter->affiliate->Email,
-					'phone' => $promoter->affiliate->Phone,
-					'points' => $dt->cantidad * $dt->product->puntosWebsite,
-					'active' => $promoter->affiliate->user->active,
+					'name' => $promoter->Name,
+					'email' => $promoter->Email,
+					'phone' => $promoter->Phone,
+					'points' => $promoter->cantidad * $promoter->puntosWebsite,
+					'active' => $promoter->active,
 					];
-				$promoters->put($promoter->affiliate->Name, $data);
-			}
+				$promoters->put($promoter->Name, $data);
 		}
 		return $promoters;
 			
 	}
-
 
 	//Listo
 	/**Bloque que busca mis Socios Activos Directos */
@@ -324,67 +254,36 @@ class Affiliate extends Model
 		$level1PointsWeb = collect();
 
 		foreach($level1 as $l1){
-			$level1PointsOffice = $level1PointsOffice->merge(Sale::with('detailSales.product')
-			->with(['affiliate.user' => function($query){
-				$query->where('active', 1);
-			}])
-			->whereHas('affiliate', function ($query) {
-				$query->where('idRank', '<>', 1);	
-			})
-			->with('affiliate')
-			->where('webShop', 'oficina')
-			->where('idAffiliated', $l1)
-			->whereMonth('datetimeb', now()->month)
-			->whereYear('datetimeb', now()->year)
-			->get());
-
-			$level1PointsWeb = $level1PointsWeb->merge(Sale::with('detailSales.product')
-			->with(['affiliate.user' => function($query){
-				$query->where('active', 1);
-			}])
-			->whereHas('affiliate', function ($query) {
-				$query->where('idRank','<>', 1);	
-			})
-			->with('affiliate')
-			->where('webShop', 'website')
-			->where('idAffiliated', $l1)
-			->whereMonth('datetimeb', now()->month)
-			->whereYear('datetimeb', now()->year)
-			->get());
-
+			$level1PointsOffice = $level1PointsOffice->merge(DB::select("CALL Sp_TotalPointsByActivePartnersOffice($l1)"));
+			$level1PointsWeb = $level1PointsWeb->merge(DB::select("CALL Sp_TotalPointsByActivePartnersWebsite($l1)"));
 		}
 
 		$partnersOffice = collect();
 
 		foreach($level1PointsOffice as $promoter){
-			foreach($promoter->detailSales as $dt){
 				$data = [
-					'name' => $promoter->affiliate->Name,
-					'email' => $promoter->affiliate->Email,
-					'phone' => $promoter->affiliate->Phone,
-					'pointsOffice' => $dt->cantidad * $dt->product->puntos,
+					'name' => $promoter->Name,
+					'email' => $promoter->Email,
+					'phone' => $promoter->Phone,
+					'pointsOffice' => $promoter->cantidad * $promoter->puntos,
 					'pointsWeb' => 0,
-					// 'active' => $promoter->affiliate->user->active,
+					// 'active' => $promoter->active,
 					];
-				$partnersOffice->put($promoter->affiliate->Name, $data);
-			}
+				$partnersOffice->put($promoter->Name, $data);
 		}
 
 		$partnersWeb = collect();
 
 		foreach($level1PointsWeb as $promoter){
-			foreach($promoter->detailSales as $dt){
 				$data = [
-					'name' => $promoter->affiliate->Name,
-					'email' => $promoter->affiliate->Email,
-					'phone' => $promoter->affiliate->Phone,
+					'name' => $promoter->Name,
+					'email' => $promoter->Email,
+					'phone' => $promoter->Phone,
 					'pointsOffice' => 0,
-					'pointsWeb' => $dt->cantidad * $dt->product->puntosWebsite,
+					'pointsWeb' => $promoter->cantidad * $promoter->puntosWebsite,
 					// 'active' => $promoter->affiliate->user->active,
 					];
-				$partnersWeb->put($promoter->affiliate->Name, $data);
-			}
-			
+				$partnersWeb->put($promoter->Name, $data);
 		}
 
 		$partners = collect();
@@ -430,7 +329,6 @@ class Affiliate extends Model
 	/** Bloque de listado de mis afiliados hijos */
 	public function myAffiliates($id){
 
-		// $level1 = Affiliate::childrenByLevel($id, 0);
 		$level1 = DB::table('relsponsor')
         ->where('relsponsor.idAffiliatedParent', $id)
         ->get();

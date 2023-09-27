@@ -27,7 +27,7 @@ class ShippingDataTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("ID", "IdSale")
+            Column::make("ID", "idSale")
                 ->sortable()
                 ->searchable(),
             Column::make("Client Name", "WebNameClient")
@@ -59,7 +59,7 @@ class ShippingDataTable extends DataTableComponent
                 ->buttons([
                     LinkColumn::make('View')
                         ->title(fn($row) => 'ver')
-                        ->location(fn($row) => route('shippingView', $row->IdSale))
+                        ->location(fn($row) => route('shippingView', $row->idSale))
                         ->attributes(function($row){
                             return [
                                 'class' => 'px-3 py-2 btn bg-green-600 hover:btn h-12 w-32 bg-green-700 rounded-lg text-white opacity-100',
