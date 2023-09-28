@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SocioactivoController;
 use App\Http\Livewire\MyShops;
 use App\Http\Livewire\PagePay;
 use App\Http\Livewire\SocioActivo;
@@ -19,9 +18,8 @@ use App\Http\Livewire\NextregisterComponent;
 use App\Http\Livewire\PayComponent;
 use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
-use App\Http\Livewire\ShippingDataTable;
 use App\Http\Livewire\ShippingView;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\AffiliateEdit;
 use Illuminate\Support\Facades\App;
 
 Route::get('/home',function(){ return view('inicio'); })->name('home');
@@ -56,8 +54,7 @@ Route::get('myShops', MyShops::class )->middleware(['auth'])->name('myshops');
 
 //affiliates
 Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth'])->name('ListUsers');
-// Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','afiliado'])->name('ListUsers');
-Route::get('afiliado/{id}', [ListUserController::class, 'edit'])->middleware(['auth','afiliado'])->name('afiliado');
+Route::get('/ListUsers/{id}', AffiliateEdit::class)->middleware(['auth','isafiliado'])->name('affiliateEdit');
 
 //products
 Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'])->name('addproduct');

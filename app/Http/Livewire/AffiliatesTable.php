@@ -5,13 +5,10 @@ namespace App\Http\Livewire;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use App\Models\Affiliate;
-use App\Models\RelSponsor;
-use App\Models\User;
-use Illuminate\Contracts\Session\Session;
 
 class AffiliatesTable extends DataTableComponent
 {
@@ -42,7 +39,23 @@ class AffiliatesTable extends DataTableComponent
             Column::make("Rank", "rank.RankName")
                 ->sortable(),
             BooleanColumn::make("Status", "user.active")
-                ->sortable()
+                ->sortable(),
+            ButtonGroupColumn::make('Acciones')
+                ->attributes(function($row){
+                    return [
+                        'class' => 'space-x-2',
+                    ];
+                })
+                ->buttons([
+                    LinkColumn::make('View')
+                        ->title(fn($row) => 'Editar')
+                        ->location(fn($row) => route('affiliateEdit', $row->idAffiliated))
+                        ->attributes(function($row){
+                            return [
+                                'class' => 'px-3 py-2 btn bg-green-600 hover:btn h-12 w-32 bg-green-700 rounded-lg text-white opacity-100',
+                            ];
+                        })
+                    ]),
         ];
     }
 
