@@ -1,18 +1,21 @@
 <?php
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\ProductController;
-use App\Http\Livewire\MyShops;
-use App\Http\Livewire\PagePay;
-use App\Http\Livewire\SocioActivo;
-use App\Http\Livewire\Shipping;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DarkModeController;
 use App\Http\Controllers\ColorSchemeController;
 use App\Http\Controllers\PartnersController;
 use App\Http\Controllers\WalletController;
+
+use App\Http\Livewire\MyShops;
+use App\Http\Livewire\PagePay;
+use App\Http\Livewire\SocioActivo;
+use App\Http\Livewire\Shipping;
 use App\Http\Livewire\LoginComponent;
 use App\Http\Livewire\NextregisterComponent;
 use App\Http\Livewire\PayComponent;
@@ -20,7 +23,6 @@ use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
 use App\Http\Livewire\ShippingView;
 use App\Http\Livewire\AffiliateEdit;
-use Illuminate\Support\Facades\App;
 
 Route::get('/home',function(){ return view('inicio'); })->name('home');
 Route::get('lenguage/{locale}',function ($locale) {
@@ -126,7 +128,6 @@ Route::middleware('auth')->group(function() {
         //file manager
         Route::get('file-manager-page', 'fileManager')->name('file-manager');
 
-
         //OTHERS Page
         Route::get('dashboard-overview-2-page', 'dashboardOverview2')->name('dashboard-overview-2');
         Route::get('dashboard-overview-3-page', 'dashboardOverview3')->name('dashboard-overview-3');
@@ -141,7 +142,6 @@ Route::middleware('auth')->group(function() {
         Route::get('seller-detail-page', 'sellerDetail')->name('seller-detail');
         Route::get('reviews-page', 'reviews')->name('reviews');
         Route::get('inbox-page', 'inbox')->name('inbox');
-        
         Route::get('point-of-sale-page', 'pointOfSale')->name('point-of-sale');
         Route::get('chat-page', 'chat')->name('chat');
         Route::get('post-page', 'post')->name('post');
@@ -166,7 +166,6 @@ Route::middleware('auth')->group(function() {
         Route::get('faq-layout-1-page', 'faqLayout1')->name('faq-layout-1');
         Route::get('faq-layout-2-page', 'faqLayout2')->name('faq-layout-2');
         Route::get('faq-layout-3-page', 'faqLayout3')->name('faq-layout-3');
-        // Route::get('login-page', 'login')->name('login');
         Route::get('register-page', 'register')->name('register');
         Route::get('error-page-page', 'errorPage')->name('error-page');
         Route::get('update-profile-page', 'updateProfile')->name('update-profile');

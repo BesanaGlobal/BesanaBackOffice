@@ -23,40 +23,61 @@ class AffiliatesTable extends DataTableComponent
     
     public function columns(): array
     {
-        return [
-            Column::make("Id", "idAffiliated")
-                ->sortable(),
-            Column::make("Name", "Name")
-                ->sortable(),
-            Column::make("LastName", "LastName")
-                ->sortable(),
-            Column::make("Email", "Email")
-                ->sortable(),
-            Column::make("Phone", "AlternativePhone")
-                ->sortable(),
-            Column::make("Created", "CreatedAt")
-                ->sortable(),
-            Column::make("Rank", "rank.RankName")
-                ->sortable(),
-            BooleanColumn::make("Status", "user.active")
-                ->sortable(),
-            ButtonGroupColumn::make('Acciones')
-                ->attributes(function($row){
-                    return [
-                        'class' => 'space-x-2',
-                    ];
-                })
-                ->buttons([
-                    LinkColumn::make('View')
-                        ->title(fn($row) => 'Editar')
-                        ->location(fn($row) => route('affiliateEdit', $row->idAffiliated))
-                        ->attributes(function($row){
-                            return [
-                                'class' => 'px-3 py-2 btn bg-green-600 hover:btn h-12 w-32 bg-green-700 rounded-lg text-white opacity-100',
-                            ];
-                        })
-                    ]),
-        ];
+        if (auth()->user()->idAffiliated != 1) {
+            return [
+                Column::make("Id", "idAffiliated")
+                    ->sortable(),
+                Column::make("Name", "Name")
+                    ->sortable(),
+                Column::make("LastName", "LastName")
+                    ->sortable(),
+                Column::make("Email", "Email")
+                    ->sortable(),
+                Column::make("Phone", "AlternativePhone")
+                    ->sortable(),
+                Column::make("Created", "CreatedAt")
+                    ->sortable(),
+                Column::make("Rank", "rank.RankName")
+                    ->sortable(),
+                BooleanColumn::make("Status", "user.active")
+                    ->sortable(),
+            ];
+        }else{
+            return [
+                Column::make("Id", "idAffiliated")
+                    ->sortable(),
+                Column::make("Name", "Name")
+                    ->sortable(),
+                Column::make("LastName", "LastName")
+                    ->sortable(),
+                Column::make("Email", "Email")
+                    ->sortable(),
+                Column::make("Phone", "AlternativePhone")
+                    ->sortable(),
+                Column::make("Created", "CreatedAt")
+                    ->sortable(),
+                Column::make("Rank", "rank.RankName")
+                    ->sortable(),
+                BooleanColumn::make("Status", "user.active")
+                    ->sortable(),
+                ButtonGroupColumn::make('Acciones')
+                    ->attributes(function($row){
+                        return [
+                            'class' => 'space-x-2',
+                        ];
+                    })
+                    ->buttons([
+                        LinkColumn::make('View')
+                            ->title(fn($row) => 'Editar')
+                            ->location(fn($row) => route('affiliateEdit', $row->idAffiliated))
+                            ->attributes(function($row){
+                                return [
+                                    'class' => 'px-3 py-2 btn bg-green-600 hover:btn h-12 w-32 bg-green-700 rounded-lg text-white opacity-100',
+                                ];
+                            })
+                        ]),
+            ];
+        }
     }
 
 

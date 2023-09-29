@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ApiController;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 

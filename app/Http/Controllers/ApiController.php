@@ -31,8 +31,8 @@ class ApiController extends Controller
         $fechaHoraActual    = Carbon::now();
         $idAfiliado         = User::where('userName',$userName)->first();
 
-        $id             = intval($idAfiliado->idAffiliated);  
-        $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
+        $id                 = intval($idAfiliado->idAffiliated);  
+        $fechaHoraMySQL     = $fechaHoraActual->format('Y-m-d H:i:s');
 
         $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
              array(
@@ -60,27 +60,26 @@ class ApiController extends Controller
          );
 
         foreach($Products as  $value){
-            //CREAMOS EL DETALLE DE LA VENTA
-            $subtotal=($value['price']+$value['taxProduct']);
-            $description ="Cantidad: ".$value['quantityProduct']. " Producto: ".$value['nameProduct']." Subtotal: "."\n";
-	        $detailV= new DetailSale();           
-	        $detailV->id_sale =$result[0]->last_inserted_id;
-            $detailV->id_product=$value['idProduct'];
-            $detailV->NameProduct=$value['nameProduct'];
-            $detailV->precioVenta=$value['price'];
-            $detailV->cantidad=$value['quantityProduct'];
-            $detailV->Tax=$value['taxProduct'];
-            $detailV->subtotal=$subtotal;
+            $subtotal               =   ($value['price']+$value['taxProduct']);
+            $description            =   "Cantidad: ".$value['quantityProduct']. " Producto: ".$value['nameProduct']." Subtotal: "."\n";
+	        $detailV                =   new DetailSale();           
+	        $detailV->id_sale       =   $result[0]->last_inserted_id;
+            $detailV->id_product    =   $value['idProduct'];
+            $detailV->NameProduct   =   $value['nameProduct'];
+            $detailV->precioVenta   =   $value['price'];
+            $detailV->cantidad      =   $value['quantityProduct'];
+            $detailV->Tax           =   $value['taxProduct'];
+            $detailV->subtotal      =   $subtotal;
             $detailV->save();
         }
 
         $stripe = new \Stripe\StripeClient($variable);
         $stripe->charges->create([
-            'amount' => $total*100,
-            'currency' => 'usd',
-            'description' => $description,
-            'receipt_email'=>$userEmail,
-            'source' => $tokenCard,
+            'amount'        =>  $total*100,
+            'currency'      =>  'usd',
+            'description'   =>  $description,
+            'receipt_email' =>  $userEmail,
+            'source'        =>  $tokenCard,
         ]);
 
         return response()->json(['data'=>$stripe]);
@@ -89,12 +88,13 @@ class ApiController extends Controller
 
     public function Sponsor(Request $sponsor)
     {
-        $data=json_decode($sponsor);
-        $idAfiliado=User::where('userName',$sponsor->sponsor)->get();
+        $data           =   json_decode($sponsor);
+        $idAfiliado     =   User::where('userName',$sponsor->sponsor)->get();
 
         if ($idAfiliado->isEmpty()) {
             return response()->json(['mensaje' => 'no','idafiliado'=>$idAfiliado,'data'=>$sponsor->sponsor]);
         }
+        
         return response()->json(['mensaje' => 'yes','data'=>$sponsor->sponsor]);
 
     }

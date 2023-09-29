@@ -6,14 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use LDAP\Result;
-use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Sum;
-
-use App\Models\Sale;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Affiliate extends Model
 {
@@ -119,7 +113,6 @@ class Affiliate extends Model
 		});
 	}
 
-
 	public function websiteLink($id){
 		$web = DB::table('affiliates')
 		->where('affiliates.idAffiliated',$id)
@@ -131,16 +124,13 @@ class Affiliate extends Model
 		return $web;
 	}
 
-	//LISTO
-	/** bloque de puntos obtenidos en la compra en el web site y oficina de usuarios clientes,
-	 *  solo usando el nombre de referencia. */
 	public function getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id) {
 
-		$office =DB::select("CALL Sp_SalesForOfficeAndMonth($id)");
-		$web =DB::select("CALL Sp_SalesForWebsiteAndMonth($id)");
+		$office 		=	DB::select("CALL Sp_SalesForOfficeAndMonth($id)");
+		$web 			=	DB::select("CALL Sp_SalesForWebsiteAndMonth($id)");
 
-		$officePoints = collect();
-		$webPoints = collect();
+		$officePoints 	= 	collect();
+		$webPoints 		= 	collect();
 
 		foreach($office as $detail){
 			$officePoints = $officePoints->merge($detail->cantidad * $detail->puntos);
@@ -151,18 +141,16 @@ class Affiliate extends Model
 		}
 
 		$points = $webPoints->sum() + $officePoints->sum();
+		
 		return $points;
 		
 	}
 
-	//LISTO
-	/** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
-	* solo usando el nombre de referencia. */
 	public function getTotalPointsByPromotersInTheWebsiteBuy($id) {
 
-		$total_points = collect();
-		$level1Points = collect();
-		$promoters = collect();
+		$total_points 	= collect();
+		$level1Points 	= collect();
+		$promoters 		= collect();
 
 		for($i = 1; $i <= 2; $i++){
 
@@ -183,18 +171,15 @@ class Affiliate extends Model
 		return $total_points->sum();
 	}
 
-	//Listo
-	/** bloque de puntos obtenidos en la compra en la oficina y en el website de usuarios que son socios activos, 
-	* solo usando el nombre de referencia. */
 	public function getTotalPointsByActivePartners($id) {
 
-		$total_points = collect();
+		$total_points 	= collect();
 		
-		$officePoints = collect();
-		$webPoints = collect();
+		$officePoints 	= collect();
+		$webPoints 		= collect();
 
 		$officePartners = collect();
-		$webPartners = collect();
+		$webPartners 	= collect();
 		
 		for($i = 1; $i <= 8; $i++){
 
@@ -224,11 +209,9 @@ class Affiliate extends Model
 
 	}
 
-	//Listo
-	/**Bloque que busca mis Socios Promotores Directos */
 	public function getActivePromotersByAffiliated($id){
-		$level1 = $this->childrenByLevel($id, 1);
-		$level1Points = collect();
+		$level1 		= $this->childrenByLevel($id, 1);
+		$level1Points 	= collect();
 
 		foreach($level1 as $l1){
 			$level1Points = $level1Points->merge(DB::select("CALL Sp_TotalPointsByPromotersInTheWebsiteBuy($l1)"));
@@ -237,11 +220,11 @@ class Affiliate extends Model
 
 		foreach($level1Points as $promoter){
 				$data = [
-					'name' => $promoter->Name,
-					'email' => $promoter->Email,
-					'phone' => $promoter->Phone,
-					'points' => $promoter->cantidad * $promoter->puntosWebsite,
-					'active' => $promoter->active,
+					'name' 		=> $promoter->Name,
+					'email' 	=> $promoter->Email,
+					'phone' 	=> $promoter->Phone,
+					'points' 	=> $promoter->cantidad * $promoter->puntosWebsite,
+					'active' 	=> $promoter->active,
 					];
 				$promoters->put($promoter->Name, $data);
 		}
@@ -249,17 +232,15 @@ class Affiliate extends Model
 			
 	}
 
-	//Listo
-	/**Bloque que busca mis Socios Activos Directos */
 	public function getActivePartnersByAffiliated($id){
 
-		$level1 = $this->childrenByLevel($id, 1);
+		$level1 			= $this->childrenByLevel($id, 1);
 		
 		$level1PointsOffice = collect();
-		$level1PointsWeb = collect();
+		$level1PointsWeb 	= collect();
 
-		$partnersOffice = collect();
-		$partnersWeb = collect();
+		$partnersOffice 	= collect();
+		$partnersWeb 		= collect();
 
 		foreach($level1 as $l1){
 			$level1PointsOffice = $level1PointsOffice->merge(DB::select("CALL Sp_TotalPointsByActivePartnersOffice($l1)"));
@@ -268,11 +249,11 @@ class Affiliate extends Model
 
 		foreach($level1PointsOffice as $promoter){
 				$data = [
-					'name' => $promoter->Name,
-					'email' => $promoter->Email,
-					'phone' => $promoter->Phone,
-					'pointsOffice' => $promoter->cantidad * $promoter->puntos,
-					'pointsWeb' => 0,
+					'name' 			=> $promoter->Name,
+					'email' 		=> $promoter->Email,
+					'phone' 		=> $promoter->Phone,
+					'pointsOffice' 	=> $promoter->cantidad * $promoter->puntos,
+					'pointsWeb' 	=> 0,
 					// 'active' => $promoter->active,
 					];
 				$partnersOffice->put($promoter->Name, $data);
@@ -280,11 +261,11 @@ class Affiliate extends Model
 
 		foreach($level1PointsWeb as $promoter){
 				$data = [
-					'name' => $promoter->Name,
-					'email' => $promoter->Email,
-					'phone' => $promoter->Phone,
-					'pointsOffice' => 0,
-					'pointsWeb' => $promoter->cantidad * $promoter->puntosWebsite,
+					'name' 			=> $promoter->Name,
+					'email' 		=> $promoter->Email,
+					'phone' 		=> $promoter->Phone,
+					'pointsOffice' 	=> 0,
+					'pointsWeb' 	=> $promoter->cantidad * $promoter->puntosWebsite,
 					// 'active' => $promoter->affiliate->user->active,
 					];
 				$partnersWeb->put($promoter->Name, $data);
@@ -297,40 +278,42 @@ class Affiliate extends Model
 
 	}
 
-	//LISTO
-	/** bloque de puntos por clientes en el web site*/
 	public function getClientByAffiliatedInTheWebsite($id){
 
-		$clientsWeb = Sale::join('detailsale', 'detailsale.id_sale', '=', 'sales.idsale')
-		->join('products', 'detailsale.id_product', '=', 'products.idprod')
-		->where('sales.webshop', 'website')
-		->where('sales.idaffiliated', $id)
-		->whereMonth('sales.datetimeb',  now()->month)
-		->whereYear('sales.datetimeb',  now()->year)
-		->groupBy('sales.idaffiliated', 'sales.webnameclient', 'sales.webemailclient', 'sales.datetimeb')
-		->select('sales.idaffiliated', 'sales.webnameclient', 'sales.webemailclient', DB::raw('SUM(detailsale.cantidad * products.puntoswebsite) AS puntosWeb'), 'sales.datetimeb')
-		->get();
+		$buyWebsite = DB::select("CALL Sp_SalesForWebsiteAndMonth($id)");
+		$clients 	= collect();
 
-        return $clientsWeb;
+		foreach($buyWebsite as $client){
+			$data = [
+				'name' 			=> $client->WebNameClient,
+				'email'			=> $client->WebEmailClient,
+				'pointsWebsite' => $client->cantidad * $client->puntosWebsite,
+				'dateTimeb' 	=> $client->datetimeb,
+				];
+
+			$clients->put($client->WebNameClient, $data);
+		}
+
+        return $clients;
     }
 
-	//LISTO
-	/** bloque de puntos por compras en la oficina*/
 	public function getBuyAffiliatedInTheOffice($id){
-		$buyOffice = Sale::join('detailsale', 'detailsale.id_sale', '=', 'sales.idsale')
-		->join('products', 'detailsale.id_product', '=', 'products.idprod')
-		->where('sales.webShop', 'oficina')
-		->where('sales.idaffiliated', $id)
-		->whereMonth('sales.datetimeb',  now()->month)
-		->whereYear('sales.datetimeb',  now()->year)
-		->groupBy('sales.datetimeb')
-		->select(DB::raw('SUM(detailsale.cantidad * products.puntos) AS puntosOficina'), 'sales.datetimeb')
-		->get();
+		$buyOffice 	= DB::select("CALL Sp_SalesForOfficeAndMonth($id)");
+		$clients 	= collect();
 
-        return $buyOffice;
+		foreach($buyOffice as $client){
+			$data = [
+				'name' 			=> $client->WebNameClient,
+				'pointsOffice' 	=> $client->cantidad * $client->puntos,
+				'dateTimeb' 	=> $client->datetimeb,
+				];
+
+			$clients->put($client->WebNameClient, $data);
+		}
+
+        return $clients;
     }
 
-	/** Bloque de listado de mis afiliados hijos */
 	public function myAffiliates($id){
 
 		$level1 = DB::table('relsponsor')
@@ -346,9 +329,8 @@ class Affiliate extends Model
 			->join('users', 'affiliates.idAffiliated', '=', 'users.idAffiliated')
 			->select('affiliates.name','affiliates.lastName','users.CreatedAt', 'ranks.RankName', 'users.userName', 'affiliates.Email', 'affiliates.Phone', 'users.active')
 			->get());
-			
-
 		}
+
 		return $myAffiliates;
 	}
 

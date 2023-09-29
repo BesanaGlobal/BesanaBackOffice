@@ -3,19 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Affiliate;
 use App\Models\User;
 use App\Models\WalletMonth;
 use App\Models\WalletWeek;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Mail;
-use RealRashid\SweetAlert\Facades\Alert;
-// Use Alert;
-use DB;
-
-
 
 class PageController extends Controller
 {
@@ -27,41 +22,21 @@ class PageController extends Controller
      */
     public function dashboardOverview1()
     {
-        
-        $idLog=Auth()->user()->idUser;
-        $id=User::where('idUser',$idLog)->first();
-        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
-
-        $walletWeek=WalletWeek::where(
-            'id_user','=',  $id->idAffiliated,
-        )->get();
-    
-        $walletMonth=WalletMonth::where([
-            ['id_user', '=', $id->idAffiliated],
-        ])->get();
-
         /** ver tablas de la bd */
         // $tablas = $afiliado->verTablas();
         // dd($tablas);
 
-        /** bloque de puntos obtenidos en la compra en el web site y en la oficina de usuarios clientes, 
-         * solo usando el nombre de referencia. */
-         $totalPoints = $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idAffiliated);
-        //  dd($totalPoints);
+        $idLog                  =   Auth()->user()->idUser;
+        $id                     =   User::where('idUser',$idLog)->first();
+        $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+        $walletWeek             =   WalletWeek::where('id_user', $id->idAffiliated)->get();
+        $walletMonth            =   WalletMonth::where('id_user', $id->idAffiliated)->get();
 
-        /** bloque de puntos obtenidos en la compra en el web site de usuarios que son socios promotores, 
-         * solo usando el nombre de referencia. */
-         $totalPointsPromoters = $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idAffiliated);
-        // dd($totalPointsPromoters);
-
-        /** bloque de puntos obtenidos en la compra en la oficina de usuarios que son socios activos, 
-         * solo usando el nombre de referencia. */
-        $totalPointsActive = $afiliado->getTotalPointsByActivePartners($id->idAffiliated);
-        // dd($totalPointsActive);
-
-        $website = $afiliado->websiteLink($id->idAffiliated);
-        // dd($website);
-
+        $totalPoints            =   $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idAffiliated);
+        $totalPointsPromoters   =   $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idAffiliated);
+        $totalPointsActive      =   $afiliado->getTotalPointsByActivePartners($id->idAffiliated);
+        $website                =   $afiliado->websiteLink($id->idAffiliated);
+   
         return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth', 'totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'website'));
     }
 
@@ -319,12 +294,11 @@ class PageController extends Controller
 
     public function activepartners()
     {
-        $idLog=Auth()->user()->idUser;
-        $id=User::where('idUser',$idLog)->first();
-        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+        $idLog          =   Auth()->user()->idUser;
+        $id             =   User::where('idUser',$idLog)->first();
+        $afiliado       =   Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
 
-        $activePartners = $afiliado->getActivePartnersByAffiliated($id->idAffiliated);
-        // dd($activePartners); 
+        $activePartners =   $afiliado->getActivePartnersByAffiliated($id->idAffiliated);
         
         return view('pages.active-partners', compact('activePartners'));
     }
@@ -332,14 +306,12 @@ class PageController extends Controller
 
     public function sociospromotor()
     {
-        $idLog=Auth()->user()->idUser;
-        $id=User::where('idUser',$idLog)->first();
-        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+        $idLog           =   Auth()->user()->idUser;
+        $id              =   User::where('idUser',$idLog)->first();
+        $afiliado        =   Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
 
         $activePromoters = $afiliado->getActivePromotersByAffiliated($id->idAffiliated);
-        // dd($activePromoters); 
         
-
         return view('pages.sociospromotor', compact('activePromoters'));
     }
     /**
@@ -350,15 +322,12 @@ class PageController extends Controller
      */
     public function usersLayout2()
     {
-        $idLog=Auth()->user()->idUser;
-        $id=User::where('idUser',$idLog)->first();
-        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+        $idLog      =   Auth()->user()->idUser;
+        $id         =   User::where('idUser',$idLog)->first();
+        $afiliado   =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
 
-        $clients = $afiliado->getClientByAffiliatedInTheWebsite($id->idAffiliated);
-        // dd($clients);
-
-        $office = $afiliado->getBuyAffiliatedInTheOffice($id->idAffiliated);
-        // dd($office);
+        $clients    =   $afiliado->getClientByAffiliatedInTheWebsite($id->idAffiliated);
+        $office     =   $afiliado->getBuyAffiliatedInTheOffice($id->idAffiliated);
 
         return view('pages/users-layout-2', compact('clients', 'office'));
     }
@@ -608,30 +577,26 @@ class PageController extends Controller
     }
 
     public function sendEmailPassword(Request $request){
-        $e=$request->email;
-        $email = Affiliate::where('Email',$e)->first();
+        $e          =   $request->email;
+        $email      =   Affiliate::where('Email',$e)->first();
         if ($email) {
-            $password = Str::random(10);
-            $user = User::where('idAffiliated',$email->idAffiliated)->first();
-            $name=$user->userName;
-            $user->Password = Hash::make($password);
+            $password       =   Str::random(10);
+            $user           =   User::where('idAffiliated',$email->idAffiliated)->first();
+            $name           =   $user->userName;
+            $user->Password =   Hash::make($password);
             $user->save();
-            $datos=['Email'=>$request->email,'Name'=>$name, 'password'=>$password];
+            $datos          =   ['Email'=>$request->email,'Name'=>$name, 'password'=>$password];
             Mail::send('livewire.register.sendEmailPassword',$datos, function($message) use ($datos) {
                 $message->to($datos['Email'], $datos['Name'])->subject('Nueva Contraseña-Besana');
             });
             
             session()->flash('success', '¡Contreseña enviada al correo!');
 
-            return redirect()
-            ->back();
+            return redirect()->back();
               
         }else{
-            return redirect()
-            ->back()
-            ->withErrors([
-                'message' => 'Email no Existe!',
-            ]);
+            
+            return redirect()->back()->withErrors(['message' => 'Email no Existe!']);
         }
     }
 
