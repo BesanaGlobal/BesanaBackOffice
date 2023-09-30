@@ -154,6 +154,14 @@
 height: 50rem;
 }
 
+[data-n-tags='sociopromotor'] rect {
+   fill: red;
+}
+
+
+
+
+
 [data-n-tags='socioactivo'] rect {
    fill: #369024;
 }
@@ -161,7 +169,7 @@ height: 50rem;
    fill: #369024;
 }
 [data-n-id='3'] rect {
-   fill: #2d07c3;
+   fill: red;
 }
 
 [data-n-id='4'] rect {

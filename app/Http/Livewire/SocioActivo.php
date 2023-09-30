@@ -20,44 +20,40 @@ class SocioActivo extends Component
     public $LastName;
     public $DateBirth;
     public $selectCity;
-    public $SSN = "";
-    public $RFC = "";
-    public $CURP = "";
-    public $DPI = "";
-    public $IP = "";
-    public $fechaingreso = null;
+    public $SSN;
+    public $RFC;
+    public $CURP;
+    public $DPI;
+    public $IP;
+    public $fechaingreso;
     public $invitedby;
     public $userName;
     public $Password;
     public $confirmPassword;
-    
-    public $SonAfiliate = [];
-    public $asignarSocio = false;
+    public $SonAfiliate;
+    public $asignarSocio;
     public $asignacionSocio;
-    public $WorkPhone = "";
+    public $WorkPhone;
     public $AlternativePhone;
     public $Email;
     public $confirmEmail;
     public $Address;
-    public $selectedCountry = null;
-    public $selectedState = null;
-    public $selectedCity= null;
-    
+    public $selectedCountry;
+    public $selectedState;
+    public $selectedCity;
     public $ZipCode;
-
-    public $nohijos = false;
-    public $terminos = false;
-   
-    public array $data;
-    public $message;
-    
     public $fhater;
     public $Latitude;
     public $Longitude;
     public $confirmation_code;
     public $password_confirmation;
 
+    public $nohijos     = false;
+    public $terminos    = false;
 
+    public $message;   
+    public array $data;
+    
     public $Countries  = [
         'EE UU' => [
             'Alabama',
@@ -187,7 +183,6 @@ class SocioActivo extends Component
          ]
     ];
 
-
     public $States;
     public $Cities;
 
@@ -196,25 +191,23 @@ class SocioActivo extends Component
         if (!is_null($country)) {
            $this->States = $this->Countries[$country];
         }
+        
     }
 
     public function mount(String $id='besana')
     {
         $this->fechaingreso = date('Y-m-d');
-        $this->selectCity = 1;
-        $this->invitedby = $id;
-        $this->lenguaje = 'spanish';
+        $this->selectCity   = 1;
+        $this->invitedby    = $id;
+        $this->lenguaje     = 'spanish';
 
     }
 
     public function render()
     {
-        $idafiliado = Auth()->user()->idAffiliated;
-        // $this->SonAfiliate = DB::select('CALL sp_consultarhijos(?)', array(
-        //     $idafiliado
-        // ));
+        $idafiliado         = Auth()->user()->idAffiliated;
 
-        $this->SonAfiliate = DB::table('relsponsor')
+        $this->SonAfiliate  = DB::table('relsponsor')
         ->join('affiliates', 'relsponsor.idAffiliatedChild', '=', 'affiliates.idAffiliated')
         ->join('users', 'affiliates.idAffiliated', '=', 'users.idAffiliated')
         ->where('relsponsor.idAffiliatedParent', $idafiliado)
@@ -228,102 +221,106 @@ class SocioActivo extends Component
         ])
         ->get();
 
-        $this->invitedby = Auth()->user()->userName;
+        $this->invitedby    = Auth()->user()->userName;
 
         return view('livewire.socio-activo')->extends('layout.basenew')->section('subcontent');
     }
 
     public function datahijos()
     {
-        $idafiliado = User::select('idAffiliated')->where('userName', '=', $this->invitedby)->first();
+        $idafiliado             = User::select('idAffiliated')->where('userName', '=', $this->invitedby)->first();
         $this->SonAfiliate;
-        $this->asignarSocio = false;
+        $this->asignarSocio     = false;
+
         if ($idafiliado) {
-            $this->nohijos = false;
-            $this->SonAfiliate = DB::select('CALL sp_consultarhijos(?)', array(
+            $this->nohijos      = false;
+            $this->SonAfiliate  = DB::select('CALL sp_consultarhijos(?)', array(
                 $idafiliado->idAffiliated
             ));
             sleep(1);
         } else {
             $this->nohijos = true;
         }
+
     }
 
     protected $rules = [
-        'SSN' => 'required_if:selectCity,1|unique:affiliates',
-        'RFC' => 'required_if:selectCity,2|unique:affiliates',
-        'CURP' => 'required_if:selectCity,2|unique:affiliates',
-        'DPI' => 'required_if:selectCity,3|unique:affiliates',
-        'IP' => 'required_if:selectCity,4|unique:affiliates',
-        'fechaingreso' => 'required',
-        'invitedby' => 'required',
-        'Email' => 'required|unique:affiliates',
-        'confirmEmail' => 'required|same:Email',
-        'userName' => 'required|unique:users',
-        'Name' => 'required|string',
-        'LastName' => 'required|string',
-        'AlternativePhone' => 'required|string',
-        'WorkPhone' => 'string',
-        'DateBirth' => 'required|string',
-        'ZipCode' => 'required|string',
-        'Password' => 'required',
+        'SSN'                   => 'required_if:selectCity,1|unique:affiliates',
+        'RFC'                   => 'required_if:selectCity,2|unique:affiliates',
+        'CURP'                  => 'required_if:selectCity,2|unique:affiliates',
+        'DPI'                   => 'required_if:selectCity,3|unique:affiliates',
+        'IP'                    => 'required_if:selectCity,4|unique:affiliates',
+        'fechaingreso'          => 'required',
+        'invitedby'             => 'required',
+        'Email'                 => 'required|unique:affiliates',
+        'confirmEmail'          => 'required|same:Email',
+        'userName'              => 'required|unique:users',
+        'Name'                  => 'required|string',
+        'LastName'              => 'required|string',
+        'AlternativePhone'      => 'required|string',
+        'WorkPhone'             => 'string',
+        'DateBirth'             => 'required|string',
+        'ZipCode'               => 'required|string',
+        'Password'              => 'required',
         'password_confirmation' => 'required|same:Password',
-        'Address'=>'required',
-        'selectedCountry'=>'required',
-        'selectedCity'=>'required',
-        'selectedState'=>'required',
+        'Address'               => 'required',
+        'selectedCountry'       => 'required',
+        'selectedCity'          => 'required',
+        'selectedState'         => 'required',
     ];
 
     protected $messages = [
-        'SSN.unique' => 'El SSN ya esta en uso',
-        'RFC.unique' => 'El RFC ya esta en uso',
-        'CURP.unique' => 'El CURP ya esta en uso',
-        'DPI.unique' => 'El DPI ya esta en uso',
-        'IP.unique' => 'El ID Personal ya esta en uso',
-        'userName.unique' => 'El usuario ya esta en uso',
-        'password_confirmation.same' => 'las contraseñas no coinciden',
-        'Email.unique' => 'El Correo ya esta en uso',
-        'confirmEmail.same' => 'Los correos no coinciden',
+        'SSN.unique'                        => 'El SSN ya esta en uso',
+        'RFC.unique'                        => 'El RFC ya esta en uso',
+        'CURP.unique'                       => 'El CURP ya esta en uso',
+        'DPI.unique'                        => 'El DPI ya esta en uso',
+        'IP.unique'                         => 'El ID Personal ya esta en uso',
+        'userName.unique'                   => 'El usuario ya esta en uso',
+        'password_confirmation.same'        => 'las contraseñas no coinciden',
+        'Email.unique'                      => 'El Correo ya esta en uso',
+        'confirmEmail.same'                 => 'Los correos no coinciden',
 
-        'SSN.required_if' => 'El SSN es requerido',
-        'RFC.required_if' => 'El RFC es requerido',
-        'CURP.required_if' => 'El CURP es requerido',
-        'DPI.required_if' => 'El DPI es requerido',
-        'IP.required_if' => 'El ID Personal es requerido',
-        'userName.required' => 'El usuario es requerido',
-        'password_confirmation.required' => 'la contraseña es requerida',
-        'Password.required' => 'la contraseña es requerida',
-        'Email.required' => 'El Correo es requerido',
-        'confirmEmail.required' => 'EL correo es requerido',
+        'SSN.required_if'                   => 'El SSN es requerido',
+        'RFC.required_if'                   => 'El RFC es requerido',
+        'CURP.required_if'                  => 'El CURP es requerido',
+        'DPI.required_if'                   => 'El DPI es requerido',
+        'IP.required_if'                    => 'El ID Personal es requerido',
+        'userName.required'                 => 'El usuario es requerido',
+        'password_confirmation.required'    => 'la contraseña es requerida',
+        'Password.required'                 => 'la contraseña es requerida',
+        'Email.required'                    => 'El Correo es requerido',
+        'confirmEmail.required'             => 'EL correo es requerido',
     ];
 
     public function create()
     {
-        $confirmation_code = Str::random(25);
-        $datos = $this->validate();
-        $datos['confirmation_code'] = $confirmation_code;
-        $mytime = Carbon::now();
-        $null = 'null';
-        $createdAt = Carbon::parse($datos['DateBirth']);
-        $dateBirth = $createdAt->format('M d Y');
-        $datecreated = $mytime->format('Y-m-d h:i');
-        $website = 'https://besanaglobal.com?sponsor=' . $datos['userName'];
-        $pass = Hash::make($datos['Password']);
+        $confirmation_code              = Str::random(25);
+        $datos                          = $this->validate();
+        $datos['confirmation_code']     = $confirmation_code;
+        $mytime                         = Carbon::now();
+        $null                           = 'null';
+        $createdAt                      = Carbon::parse($datos['DateBirth']);
+        $dateBirth                      = $createdAt->format('M d Y');
+        $datecreated                    = $mytime->format('Y-m-d h:i');
+        $website                        = 'https://besanaglobal.com?sponsor=' . $datos['userName'];
+        $pass                           = Hash::make($datos['Password']);
 
-        //User::where('userName', $datos['invitedby'])->first();
+      
         if (User::where('userName', $datos['invitedby'])->first()) {
-            $user = User::where('userName', $datos['invitedby'])->first();
-            $fhater = $user->idAffiliated;
+            $user       = User::where('userName', $datos['invitedby'])->first();
+            $fhater     = $user->idAffiliated;
+            
             if ($this->asignarSocio) {
                 $fhater = intval($this->asignacionSocio);
             }
 
-            $ssn = $datos['SSN'] ? $datos['SSN'] : null ;
-            $rfc = $datos['RFC'] ? $datos['RFC'] : null ;
-            $curp = $datos['CURP'] ? $datos['CURP'] : null ;
-            $dpi = $datos['DPI'] ? $datos['DPI'] : null ; 
-            $ip = $datos['IP'] ? $datos['IP'] : null;
+            $ssn    = $datos['SSN']       ? $datos['SSN']       : null;
+            $rfc    = $datos['RFC']       ? $datos['RFC']       : null;
+            $curp   = $datos['CURP']      ? $datos['CURP']      : null;
+            $dpi    = $datos['DPI']       ? $datos['DPI']       : null; 
+            $ip     = $datos['IP']        ? $datos['IP']        : null;
             $WPhone = $datos['WorkPhone'] ? $datos['WorkPhone'] : null;
+            
             try {
                 $this->data = json_decode(json_encode(DB::select("CALL SpAffiliated (
                 'NEW',
@@ -366,37 +363,35 @@ class SocioActivo extends Component
                 });
 
                 $this->dispatchBrowserEvent('noty', ['msg' => 'Hemos enviado un mensaje por correo, para realizar la confirmacion de mismo!.']);
-                // $this->reset('SSN', 'Name', 'LastName', 'AlternativePhone', 'Workphone', 'DateBirth', 'Email', 'Address', 'Country', 'State', 'City', 'ZipCode',  'userName', 'confirmEmail','invitedby','asignacionSocio');
-                // $this->dispatchBrowserEvent('noty', ['msg' => 'Nuevo socio Activo: ' . $datos['userName']]);
-                
+            
                 session()->flash('mensaje', '¡Registro Exitoso!');
                 
-                $this->Name = "";
-                $this->LastName = "";
-                $this->DateBirth = "";
-                $this->selectCity = "1";
-                $this->SSN = "";
-                $this->RFC = "";
-                $this->CURP = "";
-                $this->DPI = "";
-                $this->IP = "";
-                $this->fechaingreso = "";
+                $this->Name             = "";
+                $this->LastName         = "";
+                $this->DateBirth        = "";
+                $this->selectCity       = "1";
+                $this->SSN              = "";
+                $this->RFC              = "";
+                $this->CURP             = "";
+                $this->DPI              = "";
+                $this->IP               = "";
+                $this->fechaingreso     = "";
                 $this->invitedby;
-                $this->userName = "";
-                $this->Password = "";
-                $this->confirmPassword = "";
-                $this->WorkPhone = "";
+                $this->userName         = "";
+                $this->Password         = "";
+                $this->confirmPassword  = "";
+                $this->WorkPhone        = "";
                 $this->AlternativePhone = "";
-                $this->Email = "";
-                $this->confirmEmail = "";
-                $this->Address = "";
-                $this->selectedCountry = "";
-                $this->selectedState = "";
-                $this->selectedCity = "";
-                $this->ZipCode = "";
-                $this->fhater = "";
-                $this->Latitude = "";
-                $this->Longitude = "";
+                $this->Email            = "";
+                $this->confirmEmail     = "";
+                $this->Address          = "";
+                $this->selectedCountry  = "";
+                $this->selectedState    = "";
+                $this->selectedCity     = "";
+                $this->ZipCode          = "";
+                $this->fhater           = "";
+                $this->Latitude         = "";
+                $this->Longitude        = "";
 
                 return;
             } catch (\Throwable $th) {
@@ -413,13 +408,11 @@ class SocioActivo extends Component
     {
         $user = Affiliate::where('confirmation_code', $code)->first();
 
-
         if (!$user) {
-
             return redirect('/login');
         } else {
-            $user->ConfirmedEmail = true;
-            $user->confirmation_code = null;
+            $user->ConfirmedEmail       = true;
+            $user->confirmation_code    = null;
             $user->save();
             return redirect('/login')->with('notification', 'You have confirmed your email correctly!');
         }

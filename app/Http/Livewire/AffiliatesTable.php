@@ -9,6 +9,7 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Affiliate;
+use App\Models\RelSponsor;
 
 class AffiliatesTable extends DataTableComponent
 {
@@ -84,12 +85,19 @@ class AffiliatesTable extends DataTableComponent
     public function builder(): Builder
     {
         if(auth()->user()->idAffiliated != 1){
+
+            $queryBuilder = collect();
+            
+            $sponsor = RelSponsor::where('idAffiliatedParent', auth()->user()->idAffiliated)->get();
+            foreach ($sponsor as $l1) {
+                $queryBuilder = $queryBuilder->merge($l1->idAffiliatedChild);
+            }
+
             return Affiliate::query()
             ->with('user')
             ->with('rank')
-            ->whereHas('childrenSponsor', function ($query) {
-                $query->where('idAffiliatedParent', auth()->user()->idAffiliated);
-            });
+            ->whereIn('affiliates.idAffiliated', $queryBuilder);
+            
         }else{
             return Affiliate::query()
             ->with('user')

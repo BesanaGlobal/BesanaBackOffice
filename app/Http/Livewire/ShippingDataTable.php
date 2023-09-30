@@ -31,25 +31,35 @@ class ShippingDataTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Client Name", "WebNameClient")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Phone", "WebWorkPhoneClient")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Email", "WebEmailClient")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Country", "WebCountryClient")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("State", "WebStateClient")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("City", "WebCityClient")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Address", "WebAddressClient")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Price", "price")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Shopping", "WebShop")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             BooleanColumn::make("Sent", "Sent")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             ButtonGroupColumn::make('Acciones')
                 ->attributes(function($row){
                     return [
@@ -76,7 +86,6 @@ class ShippingDataTable extends DataTableComponent
         
         return Sale::query()
         ->with('affiliate');
-        // ->orderBy('IdSale', 'desc');
     }
 
 }

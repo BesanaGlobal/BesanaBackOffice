@@ -2,12 +2,12 @@
 
 @section('subcontent')
 <style>
-    #tree{
+  #tree{
     width:100%;
     height:100%;
     background-color: #535050
   }
-  
+
   .chart-menu {
     border-width: 10px !important; 
     border-color: #98FA85 !important; 
@@ -33,16 +33,9 @@
   }
 </style>
 <div >
- 
     <div data-tree="{{$data}}" id="tree" class="partner_tree object-cover" style="height: max-content"></div>
-  
 </div>
 
-
-<!-- <script src="{{asset('js/balkan/orgchart.js')}}" ></script> -->
-
-
 <script src="{{asset('js/balkan/prueba.js')}}" ></script>
-
 
 @endsection

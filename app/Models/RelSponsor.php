@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class RelSponsor extends Model
 {
     use HasFactory;
-    protected $table ='relsponsor';
-     public $timestamps = false;
-     protected $primaryKey = 'idRel';
+    protected $table        = 'relsponsor';
+     public $timestamps     = false;
+     protected $primaryKey  = 'idRel';
 
     protected $fillable = [
       
