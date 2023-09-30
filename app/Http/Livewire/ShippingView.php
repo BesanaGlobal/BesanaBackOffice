@@ -15,7 +15,18 @@ class ShippingView extends Component
         $this->data = Sale::where('idSale', $id->idSale)
         ->with(['affiliate','detailSales.product'])
         ->get();
-    
+       
+    }
+
+    public function updateSend(){
+        $sale  = Sale::where('idSale',$this->data[0]->idSale);
+      
+        $sale->update([
+            'Sent'   =>  1,
+        ]);
+
+        $this->dispatchBrowserEvent('noty', ['msg' => 'Cambiando estatus a Enviado!']);
+
     }
 
     public function render()

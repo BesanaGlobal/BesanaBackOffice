@@ -61,7 +61,16 @@
             </tbody>
         </table>
         <div class="py-3 text-right" >
-            <a href="#" class="btn btn-primary">Regresar</a>
+            <button wire:click.prevent="updateSend" class="btn btn-primary btn-lg">Enviar</button>
+            <a href="{{route('shipping')}}" class="btn btn-dark btn-lg">Regresar</a>
         </div>
     </div>
 </div>
+
+<script>
+
+    window.addEventListener('noty', event => {
+        Swal.fire('',event.detail.msg)
+    })
+
+</script>

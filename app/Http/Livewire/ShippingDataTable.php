@@ -39,18 +39,18 @@ class ShippingDataTable extends DataTableComponent
             Column::make("Email", "WebEmailClient")
                 ->sortable()
                 ->searchable(),
-            Column::make("Country", "WebCountryClient")
-                ->sortable()
-                ->searchable(),
-            Column::make("State", "WebStateClient")
-                ->sortable()
-                ->searchable(),
-            Column::make("City", "WebCityClient")
-                ->sortable()
-                ->searchable(),
-            Column::make("Address", "WebAddressClient")
-                ->sortable()
-                ->searchable(),
+            // Column::make("Country", "WebCountryClient")
+            //     ->sortable()
+            //     ->searchable(),
+            // Column::make("State", "WebStateClient")
+            //     ->sortable()
+            //     ->searchable(),
+            // Column::make("City", "WebCityClient")
+            //     ->sortable()
+            //     ->searchable(),
+            // Column::make("Address", "WebAddressClient")
+            //     ->sortable()
+            //     ->searchable(),
             Column::make("Price", "price")
                 ->sortable()
                 ->searchable(),
