@@ -52,12 +52,12 @@
                         <td class=" text-right ">$ {{$dt->precioVenta}}</td>
                         <td class=" text-right ">$ {{$dt->subtotal}}</td>
                     </tr>
-                    <tr>
-                        <td colspan="3" style="text-align: right;">Total</td>
-                        <td style="text-align: right;"> $ {{$value->price}} </td>
-                    </tr>
                     @endforeach
                 @endforeach
+                <tr>
+                    <td colspan="3" style="text-align: right;">Total</td>
+                    <td style="text-align: right;"> $ {{$value->price}} </td>
+                </tr>
             </tbody>
         </table>
         <div class="py-3 text-right" >

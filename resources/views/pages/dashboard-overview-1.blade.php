@@ -46,56 +46,8 @@
                     </div>
 
                     <div class="grid grid-cols-12 gap-1 mt-5">
-                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                            <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="flex">
-                                        <img src="{{asset('svg/socioactivo.svg')}}" alt="cliente" class="object-fit w-14 h-14">
-                                        <div class="ml-auto">
-                                            <div class="report-box__indicator bg-success tooltip cursor-pointer" title="33% Higher than last month">
-                                                33% <i data-lucide="chevron-up" class="object-contain w-4 h-4 ml-0.5"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsActive}}  Pts.</div>
-                                    <div class="text-base text-slate-500 mt-1">Volumen de Socios Activos</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                            <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="flex">
-                                        <img src="{{asset('svg/promotores.svg')}}" alt="cliente" class=" object-fit w-14 h-14">
-                
-                                        <div class="ml-auto">
-                                            <div class="report-box__indicator bg-danger tooltip cursor-pointer" title="2% Lower than last month">
-                                                2% <i data-lucide="chevron-down" class="w-4 h-4 ml-0.5"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsPromoters}}  Pts.</div>
-                                    <div class="text-base text-slate-500 mt-1">Volumen de Socios Promotores</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                            <div class="report-box zoom-in">
-                                <div class="box p-5">
-                                    <div class="flex">
-                                        <img src="{{asset('svg/clientes.svg')}}" alt="cliente" class="object-fit w-20 h-14 ">
-                
-                                        <div class="ml-auto">
-                                            <div class="report-box__indicator bg-success tooltip cursor-pointer" title="12% Higher than last month">
-                                                12% <i data-lucide="chevron-up" class="w-4 h-4 ml-0.5"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPoints}} Pts.</div>
-                                    <div class="text-base text-slate-500 mt-1">Volumen de Clientes</div>
-                                </div>
-                            </div>
-                        </div>
+                        
+
                         <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                             <div class="report-box">
                                 <div class="box p-5">

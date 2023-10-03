@@ -5,6 +5,28 @@
 @endsection
 
 @section('subcontent')
+
+    <div class="grid grid-cols-12 gap-1 mt-5">
+        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+            <div class="report-box zoom-in">
+                <div class="box p-5">
+                    <div class="flex">
+                        <img src="{{asset('svg/clientes.svg')}}" alt="cliente" class="object-fit w-20 h-14 ">
+
+                        <div class="ml-auto">
+                            <div class="report-box__indicator bg-success tooltip cursor-pointer" title="12% Higher than last month">
+                                12% <i data-lucide="chevron-up" class="w-4 h-4 ml-0.5"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPoints}} Pts.</div>
+                    <div class="text-base text-slate-500 mt-1">Volumen de Clientes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <h2 class="intro-y text-lg font-medium mt-10">Mis compras</h2>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">

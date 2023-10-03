@@ -291,7 +291,7 @@ class Affiliate extends Model
 				'dateTimeb' 	=> $client->datetimeb,
 				];
 
-			$clients->put($client->WebNameClient, $data);
+			$clients->put($client->datetimeb, $data);
 		}
 
         return $clients;

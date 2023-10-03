@@ -23,9 +23,7 @@
                     <div class="intro-x  text-slate-400 xl:hidden text-center">Unos clics más para Iniciar sesión en su cuenta.</div>
                     @include('common.notification')
                     <div class="intro-x mt-2">                  
-                        <form  method="POST" 
-                        wire:submit.prevent="login"        
-                        >
+                        <form  method="POST" wire:submit.prevent="login">
                         @csrf
                             <label for="userName" class="text-gray-500">{{__('User')}}:</label>
                             <input id="userName" type="text" class="intro-x login__input form-control py-3 px-4 block" placeholder="Usuario" wire:model="username">

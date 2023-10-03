@@ -30,14 +30,11 @@ class PageController extends Controller
         $id                     =   User::where('idUser',$idLog)->first();
         $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
         $walletWeek             =   WalletWeek::where('id_user', $id->idAffiliated)->get();
-        $walletMonth            =   WalletMonth::where('id_user', $id->idAffiliated)->get();
-
-        $totalPoints            =   $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idAffiliated);
-        $totalPointsPromoters   =   $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idAffiliated);
-        $totalPointsActive      =   $afiliado->getTotalPointsByActivePartners($id->idAffiliated);
+        $walletMonth            =   WalletMonth::where('id_user', $id->idAffiliated)->get();   
+       
         $website                =   $afiliado->websiteLink($id->idAffiliated);
    
-        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth', 'totalPoints', 'totalPointsPromoters', 'totalPointsActive', 'website'));
+        return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth',  'website'));
     }
 
     public function solicitaWeek(Request $request){
@@ -294,25 +291,26 @@ class PageController extends Controller
 
     public function activepartners()
     {
-        $idLog          =   Auth()->user()->idUser;
-        $id             =   User::where('idUser',$idLog)->first();
-        $afiliado       =   Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
-
-        $activePartners =   $afiliado->getActivePartnersByAffiliated($id->idAffiliated);
+        $idLog                  =   Auth()->user()->idUser;
+        $id                     =   User::where('idUser',$idLog)->first();
+        $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
         
-        return view('pages.active-partners', compact('activePartners'));
+        $totalPointsActive      =   $afiliado->getTotalPointsByActivePartners($id->idAffiliated);
+        $activePartners         =   $afiliado->getActivePartnersByAffiliated($id->idAffiliated);
+        
+        return view('pages.active-partners', compact('activePartners','totalPointsActive'));
     }
 
 
     public function sociospromotor()
     {
-        $idLog           =   Auth()->user()->idUser;
-        $id              =   User::where('idUser',$idLog)->first();
-        $afiliado        =   Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
-
-        $activePromoters = $afiliado->getActivePromotersByAffiliated($id->idAffiliated);
+        $idLog                  =   Auth()->user()->idUser;
+        $id                     =   User::where('idUser',$idLog)->first();
+        $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+        $totalPointsPromoters   =   $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idAffiliated);
+        $activePromoters        = $afiliado->getActivePromotersByAffiliated($id->idAffiliated);
         
-        return view('pages.sociospromotor', compact('activePromoters'));
+        return view('pages.sociospromotor', compact('activePromoters','totalPointsPromoters'));
     }
     /**
      * Show specified view.
@@ -322,14 +320,14 @@ class PageController extends Controller
      */
     public function usersLayout2()
     {
-        $idLog      =   Auth()->user()->idUser;
-        $id         =   User::where('idUser',$idLog)->first();
-        $afiliado   =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+        $idLog              =   Auth()->user()->idUser;
+        $id                 =   User::where('idUser',$idLog)->first();
+        $afiliado           =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+        $totalPoints        =   $afiliado->getTotalGeneralPointsByClientsInTheWebsiteAndOffice($id->idAffiliated);
+        $clients            =   $afiliado->getClientByAffiliatedInTheWebsite($id->idAffiliated);
+        $office             =   $afiliado->getBuyAffiliatedInTheOffice($id->idAffiliated);
 
-        $clients    =   $afiliado->getClientByAffiliatedInTheWebsite($id->idAffiliated);
-        $office     =   $afiliado->getBuyAffiliatedInTheOffice($id->idAffiliated);
-
-        return view('pages/users-layout-2', compact('clients', 'office'));
+        return view('pages/users-layout-2', compact('clients', 'office', 'totalPoints'));
     }
 
     /**

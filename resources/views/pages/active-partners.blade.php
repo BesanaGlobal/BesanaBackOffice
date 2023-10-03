@@ -6,6 +6,34 @@
 
 @section('subcontent')
 <h2 class="intro-y text-lg font-medium mt-10">Mis Socios Activos</h2>
+
+
+
+<div class="grid grid-cols-12 gap-1 mt-5">
+    <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+        <div class="report-box zoom-in">
+            <div class="box p-5">
+                <div class="flex">
+                    <img src="{{asset('svg/socioactivo.svg')}}" alt="cliente" class="object-fit w-14 h-14">
+                    <div class="ml-auto">
+                        <div class="report-box__indicator bg-success tooltip cursor-pointer" title="33% Higher than last month">
+                            33% <i data-lucide="chevron-up" class="object-contain w-4 h-4 ml-0.5"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsActive}}  Pts.</div>
+                <div class="text-base text-slate-500 mt-1">Volumen de Socios Activos</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
             {{-- <button class="btn btn-primary shadow-md mr-2">Add New Product</button> --}}
