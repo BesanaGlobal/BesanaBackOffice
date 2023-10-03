@@ -74,8 +74,8 @@
                             </svg>    
                         </div>
                         <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
-                            <div class="text-slate-500 text-xs mt-0.5">Puntos adquiridos mediante la oficina: <strong>{{ $value['pointsOffice'] }} Pts.</strong></div>
-                            <div class="text-slate-500 text-xs mt-0.5">Momento de la compra: <strong>{{ $value['dateTimeb'] }}</strong></div>
+                            <div class="text-slate-500 text-xs mt-0.5">Puntos adquiridos mediante la oficina: <strong>{{ $value['totalPoints'] }} Pts.</strong></div>
+                            <div class="text-slate-500 text-xs mt-0.5">Momento de la compra: <strong>{{ $value['date'] }}</strong></div>
                         </div>
                     </div>
                 </div>
@@ -132,8 +132,8 @@
                             <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
                                 <a href="" class="font-medium">{{ $client['name'] }}</a>
                                 <div class="text-slate-500 text-xs mt-0.5">{{ $client['email'] }}</div>
-                                <div class="text-slate-500 text-xs mt-0.5">Puntos adquiridos mediante el website: {{ $client['pointsWebsite'] }}</div>
-                                <div class="text-slate-500 text-xs mt-0.5">Momento de la compra: {{ $client['dateTimeb'] }}</div>
+                                <div class="text-slate-500 text-xs mt-0.5">Puntos adquiridos mediante el website: {{ $client['totalPoints'] }}</div>
+                                <div class="text-slate-500 text-xs mt-0.5">Momento de la compra: {{ $client['date'] }}</div>
                             </div>
                             <div class="flex mt-4 lg:mt-0">
                                 <button class="btn btn-primary py-1 px-2 mr-2">Message</button>

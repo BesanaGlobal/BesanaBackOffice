@@ -281,37 +281,61 @@ class Affiliate extends Model
 	public function getClientByAffiliatedInTheWebsite($id){
 
 		$buyWebsite = DB::select("CALL Sp_SalesForWebsiteAndMonth($id)");
-		$clients 	= collect();
-
+		$data = [];
 		foreach($buyWebsite as $client){
-			$data = [
+			array_push($data, [
 				'name' 			=> $client->WebNameClient,
 				'email'			=> $client->WebEmailClient,
 				'pointsWebsite' => $client->cantidad * $client->puntosWebsite,
 				'dateTimeb' 	=> $client->datetimeb,
-				];
-
-			$clients->put($client->datetimeb, $data);
+				]);
 		}
 
-        return $clients;
+		$groupedData = array_reduce($data, function($carry, $item) {
+			$key = $item['name'] . $item['dateTimeb'];
+			if (!isset($carry[$key])) {
+				$carry[$key] = [
+					'name' 		=> $item['name'],
+					'email'	 	=> $item['email'],
+					'date' 		=> $item['dateTimeb'],
+					'totalPoints' => 0
+				];
+			}
+			$carry[$key]['totalPoints'] += $item['pointsWebsite'];
+			return $carry;
+		}, []);
+
+		
+
+        return $groupedData;
     }
 
 	public function getBuyAffiliatedInTheOffice($id){
 		$buyOffice 	= DB::select("CALL Sp_SalesForOfficeAndMonth($id)");
-		$clients 	= collect();
+		$data = [];
 
 		foreach($buyOffice as $client){
-			$data = [
+			array_push($data, [
 				'name' 			=> $client->WebNameClient,
 				'pointsOffice' 	=> $client->cantidad * $client->puntos,
 				'dateTimeb' 	=> $client->datetimeb,
-				];
-
-			$clients->put($client->WebNameClient, $data);
+				]);
 		}
 
-        return $clients;
+		$groupedData = array_reduce($data, function($carry, $item) {
+			$key = $item['name'] . $item['dateTimeb'];
+			if (!isset($carry[$key])) {
+				$carry[$key] = [
+					'name' 		=> $item['name'],
+					'date' 		=> $item['dateTimeb'],
+					'totalPoints' => 0
+				];
+			}
+			$carry[$key]['totalPoints'] += $item['pointsOffice'];
+			return $carry;
+		}, []);
+
+        return $groupedData;
     }
 
 	public function myAffiliates($id){
