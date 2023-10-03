@@ -294,7 +294,6 @@ class PageController extends Controller
         $idLog                  =   Auth()->user()->idUser;
         $id                     =   User::where('idUser',$idLog)->first();
         $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
-        
         $totalPointsActive      =   $afiliado->getTotalPointsByActivePartners($id->idAffiliated);
         $activePartners         =   $afiliado->getActivePartnersByAffiliated($id->idAffiliated);
         
@@ -308,7 +307,7 @@ class PageController extends Controller
         $id                     =   User::where('idUser',$idLog)->first();
         $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
         $totalPointsPromoters   =   $afiliado->getTotalPointsByPromotersInTheWebsiteBuy($id->idAffiliated);
-        $activePromoters        = $afiliado->getActivePromotersByAffiliated($id->idAffiliated);
+        $activePromoters        =   $afiliado->getActivePromotersByAffiliated($id->idAffiliated);
         
         return view('pages.sociospromotor', compact('activePromoters','totalPointsPromoters'));
     }

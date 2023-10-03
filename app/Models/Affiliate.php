@@ -104,9 +104,9 @@ class Affiliate extends Model
 	
 		$children = $this->find($id)->childrenSponsor()->pluck('idAffiliatedChild');
 	
-		if ($children->isEmpty()) {
-			return collect();
-		}
+		// if ($children->isEmpty()) {
+		// 	return collect();
+		// }
 	
 		return $children->flatMap(function ($childId) use ($level) {
 			return $this->childrenByLevel($childId, $level - 1);
@@ -148,133 +148,170 @@ class Affiliate extends Model
 
 	public function getTotalPointsByPromotersInTheWebsiteBuy($id) {
 
-		$total_points 	= collect();
 		$level1Points 	= collect();
-		$promoters 		= collect();
+		$level1 		= collect();
+		$data 			= [];
 
 		for($i = 1; $i <= 2; $i++){
 
-			$level1 = $this->childrenByLevel($id, $i);
-			
-			foreach($level1 as $l1){
-				$level1Points = $level1Points->merge(DB::select("CALL Sp_TotalPointsByPromotersInTheWebsiteBuy($l1)"));
-			}
-			
+			$level1 = $level1->merge($this->childrenByLevel($id, $i));
+		}
+
+		foreach($level1 as $l1){
+			$level1Points = $level1Points->merge(DB::select("CALL Sp_TotalPointsByPromotersInTheWebsiteBuy($l1)"));
 		}
 
 		foreach($level1Points as $promoter){
-			$promoters->put($promoter->Name, $promoter->cantidad * $promoter->puntosWebsite);
+			array_push($data,[
+				'name' 		=> $promoter->Name,
+				'points' 	=> $promoter->cantidad * $promoter->puntosWebsite,
+				]);
 		}
+		
+		$totalPoints = array_sum(array_column($data, 'points'));
 
-		$total_points = $total_points->merge($promoters->sum());
-
-		return $total_points->sum();
+		return $totalPoints;
 	}
 
 	public function getTotalPointsByActivePartners($id) {
 
-		$total_points 	= collect();
-		
+		$level1 		= collect();
 		$officePoints 	= collect();
 		$webPoints 		= collect();
-
-		$officePartners = collect();
-		$webPartners 	= collect();
+		$data 			= [];
 		
 		for($i = 1; $i <= 8; $i++){
 
-			$level1 = $this->childrenByLevel($id, $i);
-			
-			foreach($level1 as $l1){
-				$officePoints = $officePoints->merge(DB::select("CALL Sp_TotalPointsByActivePartnersOffice($l1)"));
-			}
+			$level1 = $level1->merge($this->childrenByLevel($id, $i));
 
-			foreach($level1 as $l1){
-				$webPoints = $webPoints->merge(DB::select("CALL Sp_TotalPointsByActivePartnersWebsite($l1)"));
-			}
+		}
+
+		foreach($level1 as $l1){
+			$officePoints 	= $officePoints->merge(DB::select("CALL Sp_TotalPointsByActivePartnersOffice($l1)"));
+			$webPoints 		= $webPoints->merge(DB::select("CALL Sp_TotalPointsByActivePartnersWebsite($l1)"));
+		}
 		
+		foreach($officePoints as $promoter){
+			array_push($data,[
+				'id' 		=> $promoter->idSale,				
+				'name' 		=> $promoter->WebNameClient,
+				'webshop'	=> $promoter->webShop,
+				'points' 	=> $promoter->cantidad * $promoter->puntos,
+				]);
 		}
 
-		foreach($officePoints as $partners){
-			$officePartners->put($partners->Name, $partners->cantidad * $partners->puntos);
+		foreach($webPoints as $promoter){
+			array_push($data,[
+				'id' 		=> $promoter->idSale,				
+				'name' 		=> $promoter->WebNameClient,
+				'webshop'	=> $promoter->webShop,
+				'points' 	=> $promoter->cantidad * $promoter->puntosWebsite,
+				]);
 		}
 
-		foreach($webPoints as $partners){
-			$webPartners->put($partners->Name, $partners->cantidad * $partners->puntosWebsite);
-		}
+		$totalPoints = array_sum(array_column($data, 'points'));
 
-		$total_points = $total_points->merge($officePartners->sum() + $webPartners->sum());
-
-		return $total_points->sum();
+		return $totalPoints;
 
 	}
 
 	public function getActivePromotersByAffiliated($id){
 		$level1 		= $this->childrenByLevel($id, 1);
 		$level1Points 	= collect();
+		$data 			= [];
 
 		foreach($level1 as $l1){
 			$level1Points = $level1Points->merge(DB::select("CALL Sp_TotalPointsByPromotersInTheWebsiteBuy($l1)"));
 		}
-		$promoters = collect();
 
 		foreach($level1Points as $promoter){
-				$data = [
+				array_push($data,[
 					'name' 		=> $promoter->Name,
 					'email' 	=> $promoter->Email,
 					'phone' 	=> $promoter->Phone,
 					'points' 	=> $promoter->cantidad * $promoter->puntosWebsite,
 					'active' 	=> $promoter->active,
-					];
-				$promoters->put($promoter->Name, $data);
+					]);
 		}
-		return $promoters;
+
+		$groupedData = array_reduce($data, function($carry, $item) {
+			$key = $item['name'] . $item['email'];
+			if (!isset($carry[$key])) {
+				$carry[$key] = [
+					'name' 			=> $item['name'],
+					'email'	 		=> $item['email'],
+					'phone'	 		=> $item['phone'],
+					'active'	 	=> $item['active'],
+					'totalPoints' 	=> 0
+				];
+			}
+			$carry[$key]['totalPoints'] += $item['points'];
+			return $carry;
+		}, []);
+
+		return $groupedData;
 			
 	}
 
 	public function getActivePartnersByAffiliated($id){
 
 		$level1 			= $this->childrenByLevel($id, 1);
-		
 		$level1PointsOffice = collect();
 		$level1PointsWeb 	= collect();
-
-		$partnersOffice 	= collect();
-		$partnersWeb 		= collect();
+		$data 				= [];
 
 		foreach($level1 as $l1){
 			$level1PointsOffice = $level1PointsOffice->merge(DB::select("CALL Sp_TotalPointsByActivePartnersOffice($l1)"));
-			$level1PointsWeb = $level1PointsWeb->merge(DB::select("CALL Sp_TotalPointsByActivePartnersWebsite($l1)"));
+			$level1PointsWeb 	= $level1PointsWeb->merge(DB::select("CALL Sp_TotalPointsByActivePartnersWebsite($l1)"));
 		}
 
 		foreach($level1PointsOffice as $promoter){
-				$data = [
+			array_push($data,[
 					'name' 			=> $promoter->Name,
 					'email' 		=> $promoter->Email,
 					'phone' 		=> $promoter->Phone,
+					'webshop' 		=> $promoter->webShop,
 					'pointsOffice' 	=> $promoter->cantidad * $promoter->puntos,
 					'pointsWeb' 	=> 0,
-					// 'active' => $promoter->active,
-					];
-				$partnersOffice->put($promoter->Name, $data);
+					'active' 		=> $promoter->active,
+					]);
+				
 		}
 
 		foreach($level1PointsWeb as $promoter){
-				$data = [
+			array_push($data,[
 					'name' 			=> $promoter->Name,
 					'email' 		=> $promoter->Email,
 					'phone' 		=> $promoter->Phone,
+					'webshop' 		=> $promoter->webShop,
 					'pointsOffice' 	=> 0,
 					'pointsWeb' 	=> $promoter->cantidad * $promoter->puntosWebsite,
-					// 'active' => $promoter->affiliate->user->active,
-					];
-				$partnersWeb->put($promoter->Name, $data);
+					'active' 		=> $promoter->active,
+					]);
+				
 		}
 
-		$partners = collect();
-		$partners = $partnersOffice->merge($partnersWeb)->unique('name');
+		$groupedData = array_reduce($data, function($carry, $item) {
+			$key = $item['name'] . $item['email'];
+			if (!isset($carry[$key])) {
+				$carry[$key] = [
+					'name' 			=> $item['name'],
+					'email'	 		=> $item['email'],
+					'phone'	 		=> $item['phone'],
+					'pointsWeb' 	=> 0,
+					'pointsOffice' 	=> 0,
+					'active'	 	=> $item['active'],
+					'totalPoints' 	=> 0
+				];
+			}
+			$carry[$key]['totalPoints'] 	+= $item['pointsOffice'] + $item['pointsWeb'];
+			$carry[$key]['pointsWeb'] 		+= $item['pointsWeb'];
+			$carry[$key]['pointsOffice'] 	+= $item['pointsOffice'];
+			return $carry;
+		}, []);
 
-		return $partners;
+	
+		return $groupedData;
 
 	}
 
@@ -304,8 +341,6 @@ class Affiliate extends Model
 			$carry[$key]['totalPoints'] += $item['pointsWebsite'];
 			return $carry;
 		}, []);
-
-		
 
         return $groupedData;
     }

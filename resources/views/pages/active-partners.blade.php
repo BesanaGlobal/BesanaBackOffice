@@ -82,7 +82,7 @@
                         <th class="text-center whitespace-nowrap">TELEFONO</th>
                         <th class="text-center whitespace-nowrap">VOLUMEN DE CLIENTE WEB</th>
                         <th class="text-center whitespace-nowrap">VOLUMEN DE CLIENTE OFFICE</th>
-                        <!-- <th class="text-center whitespace-nowrap">ESTADO</th> -->
+                        <th class="text-center whitespace-nowrap">ESTADO</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,12 +100,16 @@
                         @foreach ($activePartners as $key => $value)
                             <tr class="intro-x">
                                 <td class="w-40">{{ $loop->iteration }}</td>
-                                <td class="text-center">{{ $key }}</td>
+                                <td class="text-center">{{ $value['name'] }}</td>
                                 <td class="text-center">{{ $value['email'] }}</td>
                                 <td class="text-center">{{ $value['phone'] }}</td>
                                 <td class="text-center">{{ $value['pointsWeb'] }} Pts. Web</td>
                                 <td class="text-center">{{ $value['pointsOffice'] }} Pts. Office</td>
-                               
+                                <td class="w-40">
+                                    <div class="flex items-center justify-center {{ $value['active'] == '1' ? 'text-success' : 'text-danger' }}">
+                                        <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> {{ $value['active'] == '1'  ? 'Active' : 'Inactive' }}
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     @endif
