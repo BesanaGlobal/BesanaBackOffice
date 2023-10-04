@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class Affiliate extends Model
 {
@@ -141,8 +142,9 @@ class Affiliate extends Model
 		}
 
 		$points = $webPoints->sum() + $officePoints->sum();
-		
+	
 		return $points;
+		
 		
 	}
 
@@ -174,6 +176,9 @@ class Affiliate extends Model
 	}
 
 	public function getTotalPointsByActivePartners($id) {
+
+		$cacheKey = 'total_points_by_active_partners_' . $id;
+		$totalPoints = cache()->remember($cacheKey, 3600, function () use ($id) {
 
 		$level1 		= collect();
 		$officePoints 	= collect();
@@ -213,7 +218,10 @@ class Affiliate extends Model
 
 		return $totalPoints;
 
-	}
+	});
+
+	return $totalPoints;
+}
 
 	public function getActivePromotersByAffiliated($id){
 		$level1 		= $this->childrenByLevel($id, 1);
