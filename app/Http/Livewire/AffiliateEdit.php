@@ -203,6 +203,7 @@ class AffiliateEdit extends Component
         $this->AlternativePhone = $affiliate[0]->AlternativePhone;
         $this->Email            = $affiliate[0]->Email;
         $this->Address          = $affiliate[0]->Address;
+        $this->selectedCountry  = $affiliate[0]->Country;
         $this->selectedState    = $affiliate[0]->State;
         $this->selectedCity     = $affiliate[0]->City; 
         $this->ZipCode          = $affiliate[0]->ZipCode;
@@ -225,17 +226,17 @@ class AffiliateEdit extends Component
             $this->selectCity = 4;
         }
 
-        if($affiliate[0]->Country == "Usa" || $affiliate[0]->Country == "United States" ){
-            $this->selectedCountry = "EE UU";
-        }
+        // if($affiliate[0]->Country == "Usa" || $affiliate[0]->Country == "United States" ){
+        //     $this->selectedCountry = "EE UU";
+        // }
 
-        if($affiliate[0]->Country == "Guatemalaa"){
-            $this->selectedCountry = "Guatemala";
-        }
+        // if($affiliate[0]->Country == "Guatemalaa"){
+        //     $this->selectedCountry = "Guatemala";
+        // }
 
-        if($affiliate[0]->Country == "Panama"){
-            $this->selectedCountry = "Panamá";
-        }
+        // if($affiliate[0]->Country == "Panama"){
+        //     $this->selectedCountry = "Panamá";
+        // }
 
     }
 
