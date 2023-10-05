@@ -345,7 +345,7 @@ class SocioActivo extends Component
                 {$datos['AlternativePhone']},
                 '-12.34566',
                 '12.34566',
-                '{$datos['fechaingreso']}',
+                '{$datecreated}',
                 null,
                 '2023-01-23 03:40:31',
                 1,
