@@ -27,38 +27,52 @@ class AffiliatesTable extends DataTableComponent
         if (auth()->user()->idAffiliated != 1) {
             return [
                 Column::make("Id", "idAffiliated")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Name", "Name")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("LastName", "LastName")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Email", "Email")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Phone", "AlternativePhone")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Created", "CreatedAt")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Rank", "rank.RankName")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 BooleanColumn::make("Status", "user.active")
                     ->sortable(),
             ];
         }else{
             return [
                 Column::make("Id", "idAffiliated")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Name", "Name")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("LastName", "LastName")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Email", "Email")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Phone", "AlternativePhone")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Created", "CreatedAt")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Column::make("Rank", "rank.RankName")
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 BooleanColumn::make("Status", "user.active")
                     ->sortable(),
                 ButtonGroupColumn::make('Acciones')
