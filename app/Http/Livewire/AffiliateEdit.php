@@ -295,6 +295,7 @@ class AffiliateEdit extends Component
             'AlternativePhone' =>  $this->AreaCodeAlternativePhone . $this->AlternativePhone,
             'Email'            =>  $this->Email,
             'Address'          =>  $this->Address,
+            'Country'          =>  $this->selectedCountry,
             'State'            =>  $this->selectedState,
             'City'             =>  $this->selectedCity, 
             'ZipCode'          =>  $this->ZipCode,
