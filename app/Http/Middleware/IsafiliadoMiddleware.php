@@ -17,11 +17,10 @@ class IsafiliadoMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+        $user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
         $activo=Auth()->user()->active;
             if (Auth()->user()->active) {
                  return $next($request);
-
             }
             return redirect()->route('addpackage');
 

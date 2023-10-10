@@ -76,7 +76,7 @@ Route::get('/shipping', Shipping::class)->middleware(['auth','isafiliado'])->nam
 Route::get('/shipping/{id}', ShippingView::class)->middleware(['auth','isafiliado'])->name('shippingView');
 
 //dashboard
-Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth'])->name('dash');
+Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','afiliado'])->name('dash');
 // Route::get('/dash',[PageController::class,'dashboardOverview1'] )->middleware(['auth','isafiliado'])->name('dash');
 
 //active partners register
