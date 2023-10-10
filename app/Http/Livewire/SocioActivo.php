@@ -391,8 +391,6 @@ class SocioActivo extends Component
                 $this->fhater           = "";
                 $this->Latitude         = "";
                 $this->Longitude        = "";
-                $this->selectCity       = 0;
-                $this->asignarSocio     = false;
 
                 return;
             } catch (\Throwable $th) {
