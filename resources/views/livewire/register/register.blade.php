@@ -153,7 +153,7 @@
                 </div>
                 <div class="-intro-x flex flex-col md:ml-3">
                     <label class="-intro-x text-white" for="Phone"> {{__('Phone')}}:</label>
-                    <input id="WorkPhone" class="-intro-x  form-control py-3" type="number" wire:model="WorkPhone" :value="old('WorkPhone')" autofocus required/>
+                    <input id="WorkPhone" class="-intro-x  form-control py-3" type="number" wire:model="WorkPhone" :value="old('WorkPhone')"/>
                 </div>
             </div>
             <div class="flex flex-col mt-3">

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\AssignOp\Concat;
+use Illuminate\Validation\Rule;
 
 class SocioActivo extends Component
 {
@@ -197,7 +198,7 @@ class SocioActivo extends Component
     public function mount(String $id='besana')
     {
         $this->fechaingreso = date('Y-m-d');
-        $this->selectCity   = 1;
+        $this->selectCity   = 0;
         $this->invitedby    = $id;
         $this->lenguaje     = 'spanish';
 
@@ -245,11 +246,12 @@ class SocioActivo extends Component
     }
 
     protected $rules = [
-        'SSN'                   => 'required_if:selectCity,1|unique:affiliates',
-        'RFC'                   => 'required_if:selectCity,2|unique:affiliates',
-        'CURP'                  => 'required_if:selectCity,2|unique:affiliates',
-        'DPI'                   => 'required_if:selectCity,3|unique:affiliates',
-        'IP'                    => 'required_if:selectCity,4|unique:affiliates',
+        'selectCity'            => 'required',
+        'SSN'                   => 'required_if:selectCity,1|nullable|unique:affiliates,SSN',
+        'RFC'                   => 'required_if:selectCity,2|nullable|unique:affiliates,RFC',
+        'CURP'                  => 'required_if:selectCity,2|nullable|unique:affiliates,CURP',
+        'DPI'                   => 'required_if:selectCity,3|nullable|unique:affiliates,DPI',
+        'IP'                    => 'required_if:selectCity,4|nullable|unique:affiliates,IP',
         'fechaingreso'          => 'required',
         'invitedby'             => 'required',
         'Email'                 => 'required|unique:affiliates',
@@ -258,6 +260,7 @@ class SocioActivo extends Component
         'Name'                  => 'required|string',
         'LastName'              => 'required|string',
         'AlternativePhone'      => 'required|string',
+        'WorkPhone'             => 'nullable|string',
         'DateBirth'             => 'required|string',
         'ZipCode'               => 'required|string',
         'Password'              => 'required',
@@ -293,6 +296,7 @@ class SocioActivo extends Component
 
     public function create()
     {
+       
         $confirmation_code              = Str::random(25);
         $datos                          = $this->validate();
         $datos['confirmation_code']     = $confirmation_code;
@@ -304,7 +308,6 @@ class SocioActivo extends Component
         $website                        = 'https://besanaglobal.com?sponsor=' . $datos['userName'];
         $pass                           = Hash::make($datos['Password']);
 
-      
         if (User::where('userName', $datos['invitedby'])->first()) {
             $user       = User::where('userName', $datos['invitedby'])->first();
             $fhater     = $user->idAffiliated;
@@ -318,9 +321,10 @@ class SocioActivo extends Component
             $curp   = $datos['CURP']      ? $datos['CURP']      : null;
             $dpi    = $datos['DPI']       ? $datos['DPI']       : null; 
             $ip     = $datos['IP']        ? $datos['IP']        : null;
-            $WPhone = $datos['WorkPhone'] ? $datos['WorkPhone'] : null;
-            
+            $WPhone = $datos['WorkPhone'] ? $datos['WorkPhone'] : 0;
+           
             try {
+
                 $this->data = json_decode(json_encode(DB::select("CALL SpAffiliated (
                 'NEW',
                 0,
@@ -331,8 +335,8 @@ class SocioActivo extends Component
                 '{$ip}',
                 '{$datos['Name']}',
                 '{$datos['LastName']}',
-                '{$datos['AlternativePhone']}',
-                '{$WPhone}',
+                {$datos['AlternativePhone']},
+                {$WPhone},
                 '{$datos['DateBirth']}',
                 '{$datos['Email']}',
                 null,
@@ -368,17 +372,13 @@ class SocioActivo extends Component
                 $this->Name             = "";
                 $this->LastName         = "";
                 $this->DateBirth        = "";
-                $this->selectCity       = "1";
+                $this->selectCity       = "";
                 $this->SSN              = "";
                 $this->RFC              = "";
                 $this->CURP             = "";
                 $this->DPI              = "";
                 $this->IP               = "";
-                $this->fechaingreso     = "";
-                $this->invitedby;
                 $this->userName         = "";
-                $this->Password         = "";
-                $this->confirmPassword  = "";
                 $this->WorkPhone        = "";
                 $this->AlternativePhone = "";
                 $this->Email            = "";
@@ -391,6 +391,8 @@ class SocioActivo extends Component
                 $this->fhater           = "";
                 $this->Latitude         = "";
                 $this->Longitude        = "";
+                $this->selectCity       = 0;
+                $this->asignarSocio     = false;
 
                 return;
             } catch (\Throwable $th) {

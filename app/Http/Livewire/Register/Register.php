@@ -21,12 +21,12 @@ class Register extends Component
     public $LastName;
     public $DateBirth;
     public $selectCity;
-    public $SSN = "";
-    public $RFC = "";
-    public $CURP = "";
-    public $DPI = "";
-    public $IP = "";
-    public $fechaingreso = null;
+    public $SSN;
+    public $RFC;
+    public $CURP;
+    public $DPI;
+    public $IP;
+    public $fechaingreso;
     public $invitedby;
     public $userName;
     public $Password;
@@ -41,9 +41,9 @@ class Register extends Component
     public $Email;
     public $confirmEmail;
     public $Address;
-    public $selectedCountry = null;
-    public $selectedState = null;
-    public $selectedCity= null;
+    public $selectedCountry;
+    public $selectedState;
+    public $selectedCity;
     public $ZipCode;
 
     public $nohijos = false;
@@ -202,10 +202,10 @@ class Register extends Component
     public function mount()
     {
         
-        $this->invitedby = request('sponsor') ? request('sponsor') : "Besana";
-        $this->lenguaje = 'spanish';
+        $this->invitedby    = request('sponsor') ? request('sponsor') : "Besana";
+        $this->lenguaje     = 'spanish';
         $this->fechaingreso = date('Y-m-d');
-        $this->selectCity = 1;
+        $this->selectCity   = 1;
     }
 
     public function render()
@@ -215,73 +215,73 @@ class Register extends Component
 
 
     protected $rules = [
-        'SSN' => 'required_if:selectCity,1|unique:affiliates',
-        'RFC' => 'required_if:selectCity,2|unique:affiliates',
-        'CURP' => 'required_if:selectCity,2|unique:affiliates',
-        'DPI' => 'required_if:selectCity,3|unique:affiliates',
-        'IP' => 'required_if:selectCity,4|unique:affiliates',
-        'fechaingreso' => 'required',
-        'invitedby' => 'required',
-        'Email' => 'required|unique:affiliates',
-        'confirmEmail' => 'required|same:Email',
-        'userName' => 'required|unique:users',
-        'Name' => 'required|string',
-        'LastName' => 'required|string',
-        'AlternativePhone' => 'required',
-        'WorkPhone' => 'string',
-        'DateBirth' => 'required|string',
-        'Address'=>'required',
-        'selectedCountry'=>'required',
-        'selectedCity'=>'required',
-        'selectedState'=>'required',
-        'ZipCode' => 'required|string',
-        'Password' => 'required',
+        'SSN'                   => 'required_if:selectCity,1|nullable|unique:affiliates',
+        'RFC'                   => 'required_if:selectCity,2|nullable|unique:affiliates',
+        'CURP'                  => 'required_if:selectCity,2|nullable|unique:affiliates',
+        'DPI'                   => 'required_if:selectCity,3|nullable|unique:affiliates',
+        'IP'                    => 'required_if:selectCity,4|nullable|unique:affiliates',
+        'fechaingreso'          => 'required',
+        'invitedby'             => 'required',
+        'Email'                 => 'required|unique:affiliates',
+        'confirmEmail'          => 'required|same:Email',
+        'userName'              => 'required|unique:users',
+        'Name'                  => 'required|string',
+        'LastName'              => 'required|string',
+        'AlternativePhone'      => 'required',
+        'WorkPhone'             => 'nullable|string',
+        'DateBirth'             => 'required|string',
+        'Address'               => 'required',
+        'selectedCountry'       => 'required',
+        'selectedCity'          => 'required',
+        'selectedState'         => 'required',
+        'ZipCode'               => 'required|string',
+        'Password'              => 'required',
         'password_confirmation' => 'required|same:Password',
     ];
 
     protected $messages = [
-        'SSN.unique' => 'El SSN ya esta en uso',
-        'RFC.unique' => 'El RFC ya esta en uso',
-        'CURP.unique' => 'El CURP ya esta en uso',
-        'DPI.unique' => 'El DPI ya esta en uso',
-        'IP.unique' => 'El ID Personal ya esta en uso',
-        'userName.unique' => 'El usuario ya esta en uso',
-        'password_confirmation.same' => 'las contraseñas no coinciden',
-        'Email.unique' => 'El Correo ya esta en uso',
-        'confirmEmail.same' => 'Los correos no coinciden',
+        'SSN.unique'                        => 'El SSN ya esta en uso',
+        'RFC.unique'                        => 'El RFC ya esta en uso',
+        'CURP.unique'                       => 'El CURP ya esta en uso',
+        'DPI.unique'                        => 'El DPI ya esta en uso',
+        'IP.unique'                         => 'El ID Personal ya esta en uso',
+        'userName.unique'                   => 'El usuario ya esta en uso',
+        'password_confirmation.same'        => 'las contraseñas no coinciden',
+        'Email.unique'                      => 'El Correo ya esta en uso',
+        'confirmEmail.same'                 => 'Los correos no coinciden',
 
-        'SSN.required_if' => 'El SSN es requerido',
-        'RFC.required_if' => 'El RFC es requerido',
-        'CURP.required_if' => 'El CURP es requerido',
-        'DPI.required_if' => 'El DPI es requerido',
-        'IP.required_if' => 'El ID Personal es requerido',
-        'userName.required' => 'El usuario es requerido',
-        'password_confirmation.required' => 'la contraseña es requerida',
-        'Password.required' => 'la contraseña es requerida',
-        'Email.required' => 'El Correo es requerido',
-        'confirmEmail.required' => 'EL correo es requerido',
+        'SSN.required_if'                   => 'El SSN es requerido',
+        'RFC.required_if'                   => 'El RFC es requerido',
+        'CURP.required_if'                  => 'El CURP es requerido',
+        'DPI.required_if'                   => 'El DPI es requerido',
+        'IP.required_if'                    => 'El ID Personal es requerido',
+        'userName.required'                 => 'El usuario es requerido',
+        'password_confirmation.required'    => 'la contraseña es requerida',
+        'Password.required'                 => 'la contraseña es requerida',
+        'Email.required'                    => 'El Correo es requerido',
+        'confirmEmail.required'             => 'EL correo es requerido',
     ];
 
     public function create()
     {
         
-        $confirmation_code = Str::random(25);
-        $datos = $this->validate();
-        $datos['confirmation_code'] = $confirmation_code;
-        $mytime = Carbon::now();
-        $null = 'nulll';
-        $createdAt = Carbon::parse($datos['DateBirth']);
-        $dateBirth = $createdAt->format('M d Y');
-        $datecreated = $mytime->format('Y-m-d h:i');
-        $website = 'https://www.besanaglobal.com/' . $datos['userName'];
-        $pass = Hash::make($datos['Password']);
+        $confirmation_code              = Str::random(25);
+        $datos                          = $this->validate();
+        $datos['confirmation_code']     = $confirmation_code;
+        $mytime                         = Carbon::now();
+        $null                           = 'nulll';
+        $createdAt                      = Carbon::parse($datos['DateBirth']);
+        $dateBirth                      = $createdAt->format('M d Y');
+        $datecreated                    = $mytime->format('Y-m-d h:i');
+        $website                        = 'https://www.besanaglobal.com/' . $datos['userName'];
+        $pass                           = Hash::make($datos['Password']);
 
-        $ssn = $datos['SSN'] ? $datos['SSN'] : null;
-        $rfc = $datos['RFC'] ? $datos['RFC'] : null;
-        $curp = $datos['CURP'] ? $datos['CURP'] : null;
-        $dpi = $datos['DPI'] ? $datos['DPI'] : null;
-        $ip = $datos['IP'] ? $datos['IP'] : null;
-        $WPhone = $datos['WorkPhone'] ? $datos['WorkPhone'] : null;
+        $ssn    = $datos['SSN']         ? $datos['SSN']         : null;
+        $rfc    = $datos['RFC']         ? $datos['RFC']         : null;
+        $curp   = $datos['CURP']        ? $datos['CURP']        : null;
+        $dpi    = $datos['DPI']         ? $datos['DPI']         : null;
+        $ip     = $datos['IP']          ? $datos['IP']          : null;
+        $WPhone = $datos['WorkPhone']   ? $datos['WorkPhone']   : 0;
 
 
         
@@ -293,6 +293,7 @@ class Register extends Component
             } else {
                 $user = User::where('userName', 'BesanaMaster')->first();
             }
+
             $fhater = $user->idAffiliated;
             $this->data = json_decode(json_encode(DB::select("CALL SpAffiliated (
                 'NEW',
@@ -360,10 +361,7 @@ class Register extends Component
             );
             $this->dispatchBrowserEvent('noty', ['msg' => 'te hemos enviado un mensaje por correo, confirmalo!.']);
             $this->hydrate();
-            
-       
-            
-             // return redirect()->to('/login');
+
         } catch (\Throwable $th) {
 
             $this->dispatchBrowserEvent('noty', ['msg' => 'error de transaccion en base de datos: ' . $th]);
@@ -378,19 +376,11 @@ class Register extends Component
         $this->resetValidation();
     }
 
-    // public function hydrate(): void
-    // {
-    //     $this->resetErrorBag();
-    //     $this->resetValidation();
-    // }
-
     public function verify($code)
     {
         $user = Affiliate::where('confirmation_code', $code)->first();
 
-
         if (!$user) {
-
             return redirect('/login');
         } else {
             $user->ConfirmedEmail = true;
@@ -399,14 +389,7 @@ class Register extends Component
             return redirect('/login')->with('notification', 'You have confirmed your email correctly!');
         }
 
-        // $user->confirmed = true;
-        // $user->confirmation_code = null;
-        // $user->save();
 
     }
 
-    // public function Editar(Affiliate $affiliate){
-
-    //     dd($affiliate);
-    // }
 }

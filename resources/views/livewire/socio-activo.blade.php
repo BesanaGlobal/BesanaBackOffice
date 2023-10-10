@@ -3,6 +3,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4 p-2">
         <div class="col-1 p-2">
             <form wire:submit.prevent="create">
+                
                 @if (session()->has('mensaje'))
                 <div class=" w-full  alert alert-success">{{ session('mensaje') }}</div>
                 @endif
@@ -26,6 +27,8 @@
                     <div class="pt-2">
                         <label class="text-gray-600 font-bold" for="city-select">{{__('Origin')}}:</label>
                         <select name="city-select" id="city-select" class="form-control" wire:model="selectCity" required>
+                            <option value="0" selected disabled>SELECCIONE</option>
+                            <option disabled></option>
                             <option value="1">EE UU</option>
                             <option value="2">MEXICO</option>
                             <option value="3">GUATEMALA</option>
@@ -35,7 +38,7 @@
                     @if($selectCity == 1)
                     <div class="pt-2" id="SSN-DIV">
                         <label class="text-gray-600 font-bold" for="SSN">{{__('Enter your SSN')}}:</label>
-                        <input id="SSN" class="-intro-x  form-control w-full" type="text" wire:model="SSN" placeholder="{{__('Enter your SSN')}}" />
+                        <input id="SSN" class="-intro-x  form-control w-full" type="text" wire:model.defer="SSN" placeholder="{{__('Enter your SSN')}}" />
                         @error('SSN')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -46,7 +49,7 @@
                     @if($selectCity == 2)
                     <div class="pt-2" id="RFC-DIV">
                         <label class="text-gray-600 font-bold" for="RFC">{{__('Enter your RFC')}}:</label>
-                        <input id="RFC" class="-intro-x  form-control w-full" wire:model="RFC" type="text" placeholder="{{__('Enter your RFC')}}" />
+                        <input id="RFC" class="-intro-x  form-control w-full" wire:model.defer="RFC" type="text" placeholder="{{__('Enter your RFC')}}" />
                         @error('RFC')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -55,7 +58,7 @@
                     </div>
                     <div class="pt-2" id="CURP-DIV">
                         <label class="text-gray-600 font-bold" for="CURP">{{__('Enter your CURP')}}:</label>
-                        <input id="CURP" class="-intro-x  form-control w-full" wire:model="CURP" type="text" placeholder="{{__('Enter your CURP')}}" />
+                        <input id="CURP" class="-intro-x  form-control w-full" wire:model.defer="CURP" type="text" placeholder="{{__('Enter your CURP')}}" />
                         @error('CURP')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -66,7 +69,7 @@
                     @if($selectCity == 3)
                     <div class="pt-2" id="DPI-DIV">
                         <label class="text-gray-600 font-bold" for="DPI">{{__('Enter your DPI')}}:</label>
-                        <input id="DPI" class="-intro-x  form-control w-full" wire:model="DPI" type="text" placeholder="{{__('Enter your DPI')}}" />
+                        <input id="DPI" class="-intro-x  form-control w-full" wire:model.defer="DPI" type="text" placeholder="{{__('Enter your DPI')}}" />
                         @error('DPI')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -75,9 +78,9 @@
                     </div>
                     @endif
                     @if($selectCity == 4)
-                    <div class="pt-2" id="DPI-DIV">
-                        <label class="text-gray-600 font-bold" for="DPI">{{__('Enter your ID Personal')}}:</label>
-                        <input id="IP" class="-intro-x  form-control w-full" wire:model="IP" type="text" placeholder="{{__('Enter your ID Personal')}}" />
+                    <div class="pt-2" id="IP-DIV">
+                        <label class="text-gray-600 font-bold" for="IP">{{__('Enter your ID Personal')}}:</label>
+                        <input id="IP" class="-intro-x  form-control w-full" wire:model.defer="IP" type="text" placeholder="{{__('Enter your ID Personal')}}" />
                         @error('IP')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -248,9 +251,6 @@
     </div>
 </div>
 </div>
-
-
-
 
 
 
