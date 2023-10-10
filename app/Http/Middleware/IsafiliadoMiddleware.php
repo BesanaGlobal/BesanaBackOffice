@@ -23,7 +23,7 @@ class IsafiliadoMiddleware
             //      return $next($request);
             // }
 
-            if (!Auth::user()->active) {
+            if ($user->active == 0) {
                 return redirect()->route('addpackage');
             }
             // return redirect()->route('addpackage');
