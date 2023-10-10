@@ -19,10 +19,16 @@ class IsafiliadoMiddleware
     {
         $user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
         $activo=Auth()->user()->active;
-            if (Auth()->user()->active) {
-                 return $next($request);
+            // if (Auth()->user()->active) {
+            //      return $next($request);
+            // }
+
+            if (!Auth::user()->active) {
+                return redirect()->route('addpackage');
             }
-            return redirect()->route('addpackage');
+            // return redirect()->route('addpackage');
+            return $next($request);
+
 
     }
 }

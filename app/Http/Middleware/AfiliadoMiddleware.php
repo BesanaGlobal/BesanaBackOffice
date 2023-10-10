@@ -19,11 +19,13 @@ class AfiliadoMiddleware
     {
       $user=Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
       $activo=Auth()->user()->active;
-            if ($activo == 1) {
+            if ($activo) {
               
                 return $next($request);
+            }else{
+                return redirect()->route('login');
             }
 
-        return redirect()->route('login');
+        
     }
 }
