@@ -317,7 +317,7 @@ class Register extends Component
                 {$datos['AlternativePhone']},
                 '-12.34566',
                 '12.34566',
-                '{$datecreated}',
+                '{$datos['fechaingreso']}',
                 null,
                 '2023-01-23 03:40:31',
                 1,
