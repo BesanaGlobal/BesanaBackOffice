@@ -258,7 +258,6 @@ class SocioActivo extends Component
         'Name'                  => 'required|string',
         'LastName'              => 'required|string',
         'AlternativePhone'      => 'required|string',
-        'WorkPhone'             => 'string',
         'DateBirth'             => 'required|string',
         'ZipCode'               => 'required|string',
         'Password'              => 'required',
