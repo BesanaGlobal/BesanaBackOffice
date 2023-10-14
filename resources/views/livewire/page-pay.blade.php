@@ -199,10 +199,11 @@
         Swal.fire('', event.detail.msg)
     })
 
-    const city = "{{$b->City}}"
+    const city = "{{$b->City}}";
     const keystripe = "{{ $STRIPE_KEY }} ";
     const stripe = Stripe(keystripe);
-    const elements = stripe.elements(); 
+    const elements = stripe.elements();
+   
     const cardElement = elements.create('card', {
         style: {
             base: {
