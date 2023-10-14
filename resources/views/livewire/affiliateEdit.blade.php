@@ -3,6 +3,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4 p-2">
         <div class="col-1 p-2">
             <form wire:submit.prevent="update">
+            @csrf
                 <span class="font-bold uppercase text-lg">{{__('personal information')}}:</span>
                 <div class="w-full">
                     <div class="py-2">
@@ -120,6 +121,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="w-full p-3">
+                    <input type="checkbox" class="-intro-x bg-primary " style="background-color:green;" wire:model="selectBankAccount">
+                    <span>Quiere recibir los pagos mediante transferencia bancaria?</span>
+                    @if ($selectBankAccount)
+                    <div wire:ignore class="pt-3">
+                        <input type="text" class="-intro-x  form-control mt-3" id="bankAccount" name="bankAccount" wire:model='bankAccount' :value="old('BankAccount')" placeholder="Ingrese Número de cuenta bancaria" >
+                        <input type="text" class="-intro-x  form-control mt-3" id="routingNumber" name="routingNumber" wire:model='routingNumber' :value="old('RoutingNumber')" placeholder="Ingrese Número de ruta bancaria" >
+                        <select name="typeAccount" id="typeAccount" class="form-control mt-3"  wire:model='typeAccount'>
+                            <option value="Checking">Checking</option>
+                            <option value="Saving">Saving</option>
+                        </select>
+                        <input type="checkbox" class="-intro-x bg-primary " style="background-color:green;" wire:model="Authorization">
+                        <span>Yo <button class="intro-x underline text-sm text-info fw-bold hover:text-gray-900 mt-5" onclick="authorization()">Autorizo.</button></span>
+                    </div>
+                    @endif
+                </div>
         </div>
         {{-- fin columna uno --}}
         <div class="col-2  bg-gray-300 md:border-l-4 md:border-primary p-2">
@@ -219,6 +236,19 @@
 
     window.addEventListener('noty', event => {
         Swal.fire('',event.detail.msg)
-    })
+    });
+
+    function authorization() {
+        const texto = `Autorizo a Besana Global a iniciar depósitos y, 
+                        si es necesario, retiros para corregir entradas de depósito erróneas en mi(s) cuenta(s) 
+                        enumeradas anteriormente. Entiendo que esta autorización reemplaza 
+                        cualquier autorización anterior y permanecerá vigente hasta que la 
+                        compañía mencionada anteriormente haya recibido una notificación 
+                        por escrito de mi parte sobre su terminación en un tiempo suficiente para actuar.`;
+        Swal.fire({
+            title: 'Authorization',
+            text: texto,
+        })
+    };
 
 </script>

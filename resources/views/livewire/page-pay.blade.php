@@ -86,9 +86,9 @@
                             <span class=""> {{$pro->name}}</span>
                             <input type="hidden" id="package" name="package" value="{{$pro->name}}">
                         </td>
-                        <td class=" text-right">$ {{ number_format(floatval($pro->price),2) }}</td>
+                        <td class=" text-right">{{$pro->attributes->symbolCurrent}} {{ number_format(floatval($pro->price),2) }}</td>
                         <td class=" text-right ">$ {{$taxunique}}</td>
-                        <td class="text-right">{{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
+                        <td class="text-right">{{$pro->attributes->symbolCurrent}} {{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
                     </tr>
                     @empty
                     <tr class="border-4 border-indigo-200 border-b-indigo-500">
@@ -116,7 +116,7 @@
                     <tr>
                         <td></td>
                         <td class="text-center ">
-                            TOTAL: $.
+                            TOTAL: {{$pro->attributes->symbolCurrent}}.
                         </td>
                         <td></td>
                         <td>

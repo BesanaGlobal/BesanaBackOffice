@@ -29,18 +29,36 @@ class PageController extends Controller
         $idLog                  =   Auth()->user()->idUser;
         $id                     =   User::where('idUser',$idLog)->first();
         $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
-        $walletWeek             =   WalletWeek::where('id_user', $id->idAffiliated)->get();
-        $walletMonth            =   WalletMonth::where('id_user', $id->idAffiliated)->get();   
+        $walletWeek             =   WalletWeek::where('id_user', Auth()->user()->idUser)
+                                                ->whereDate('fechaInicio', '>=', date('Y-m-01'))
+                                                ->whereDate('fechaInicio', '<=', date('Y-m-t'))
+                                                ->where('estado','Pendiente')
+                                                ->get();
+        $walletMonth            =   WalletMonth::where('id_user', Auth()->user()->idUser)->get();   
        
         $website                =   $afiliado->websiteLink($id->idAffiliated);
+
+        
    
         return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth',  'website'));
     }
 
     public function solicitaWeek(Request $request){
-        $wallet=WalletWeek::findOrFail($request->id);
-        $wallet->estado='solicitado';
-        $wallet->save();
+
+
+       $wallet =  WalletWeek::where('id_user', $request->id)
+                    ->whereDate('fechaInicio', '>=', date('Y-m-01'))
+                    ->whereDate('fechaInicio', '<=', date('Y-m-t'))
+                    ->where('estado','Pendiente')
+                    ->get();
+
+        foreach($wallet as $value){
+            $value->estado      = 'solicitado';
+            $value->FechaFin    = date('Y-m-d');
+            $value->tipopago    = $request['tPago'];
+            $value->save();
+        }
+        
         session()->flash('success', '¡La información se ha procesado correctamente!');
 
         // Regresar a la misma vista con el mensaje de éxito

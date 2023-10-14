@@ -34,6 +34,11 @@ class AffiliateEdit extends Component
     public $selectedState;
     public $selectedCity;
     public $ZipCode;
+    public $selectBankAccount;
+    public $bankAccount;
+    public $routingNumber;
+    public $typeAccount;
+    public $Authorization;
     public $Latitude;
     public $Longitude;
     public $rank;
@@ -213,6 +218,18 @@ class AffiliateEdit extends Component
         $this->idRank           = $affiliate[0]->idRank;
         $this->nameRank         = $affiliate[0]->rank->RankName;
 
+        $this->bankAccount      = $affiliate[0]->BankAccount;
+        $this->routingNumber    = $affiliate[0]->RoutingNumber;
+        $this->typeAccount      = $affiliate[0]->TypeAccount;
+
+        if($this->bankAccount = null && $this->routingNumber = null && $this->typeAccount = null){
+            $this->selectBankAccount = true;
+            $this->Authorization     = true;
+        }else{
+            $this->selectBankAccount = false;
+            $this->Authorization     = false;
+        }
+
         if( $this->SSN != ""){
             $this->selectCity = 1;
         }
@@ -241,42 +258,45 @@ class AffiliateEdit extends Component
     }
 
     protected $rules = [
-        'SSN' => 'required_if:selectCity,1|unique:affiliates',
-        'RFC' => 'required_if:selectCity,2|unique:affiliates',
-        'CURP' => 'required_if:selectCity,2|unique:affiliates',
-        'DPI' => 'required_if:selectCity,3|unique:affiliates',
-        'IP' => 'required_if:selectCity,4|unique:affiliates',
-        'fechaingreso' => 'required',
-        'Email' => 'required|unique:affiliates',
-        'userName' => 'required|unique:users',
-        'Name' => 'required|string',
-        'LastName' => 'required|string',
-        'AlternativePhone' => 'required|string',
-        'WorkPhone' => 'string',
-        'DateBirth' => 'required|string',
-        'ZipCode' => 'required|string',
-        'Address'=>'required',
-        'selectedCountry'=>'required',
-        'selectedCity'=>'required',
-        'selectedState'=>'required',
+        'SSN'                   => 'required_if:selectCity,1|unique:affiliates',
+        'RFC'                   => 'required_if:selectCity,2|unique:affiliates',
+        'CURP'                  => 'required_if:selectCity,2|unique:affiliates',
+        'DPI'                   => 'required_if:selectCity,3|unique:affiliates',
+        'IP'                    => 'required_if:selectCity,4|unique:affiliates',
+        'fechaingreso'          => 'required',
+        'Email'                 => 'required|unique:affiliates',
+        'userName'              => 'required|unique:users',
+        'Name'                  => 'required|string',
+        'LastName'              => 'required|string',
+        'AlternativePhone'      => 'required|string',
+        'WorkPhone'             => 'string',
+        'DateBirth'             => 'required|string',
+        'bankAccount'           => 'nullable|string',
+        'routingNumber'         => 'nullable|string',
+        'typeAccount'           => 'nullable|string',
+        'ZipCode'               => 'required|string',
+        'Address'               => 'required',
+        'selectedCountry'       => 'required',
+        'selectedCity'          => 'required',
+        'selectedState'         => 'required',
     ];
 
     protected $messages = [
-        'SSN.unique' => 'El SSN ya esta en uso',
-        'RFC.unique' => 'El RFC ya esta en uso',
-        'CURP.unique' => 'El CURP ya esta en uso',
-        'DPI.unique' => 'El DPI ya esta en uso',
-        'IP.unique' => 'El ID Personal ya esta en uso',
-        'userName.unique' => 'El usuario ya esta en uso',
-        'Email.unique' => 'El Correo ya esta en uso',
+        'SSN.unique'        => 'El SSN ya esta en uso',
+        'RFC.unique'        => 'El RFC ya esta en uso',
+        'CURP.unique'       => 'El CURP ya esta en uso',
+        'DPI.unique'        => 'El DPI ya esta en uso',
+        'IP.unique'         => 'El ID Personal ya esta en uso',
+        'userName.unique'   => 'El usuario ya esta en uso',
+        'Email.unique'      => 'El Correo ya esta en uso',
 
-        'SSN.required_if' => 'El SSN es requerido',
-        'RFC.required_if' => 'El RFC es requerido',
-        'CURP.required_if' => 'El CURP es requerido',
-        'DPI.required_if' => 'El DPI es requerido',
-        'IP.required_if' => 'El ID Personal es requerido',
+        'SSN.required_if'   => 'El SSN es requerido',
+        'RFC.required_if'   => 'El RFC es requerido',
+        'CURP.required_if'  => 'El CURP es requerido',
+        'DPI.required_if'   => 'El DPI es requerido',
+        'IP.required_if'    => 'El ID Personal es requerido',
         'userName.required' => 'El usuario es requerido',
-        'Email.required' => 'El Correo es requerido',
+        'Email.required'    => 'El Correo es requerido',
     ];
 
     public function update(){
@@ -299,6 +319,9 @@ class AffiliateEdit extends Component
             'State'            =>  $this->selectedState,
             'City'             =>  $this->selectedCity, 
             'ZipCode'          =>  $this->ZipCode,
+            'BankAccount'      =>  $this->bankAccount,
+            'RoutingNumber'    =>  $this->routingNumber,
+            'TypeAccount'      =>  $this->typeAccount,
             'Latitude'         =>  $this->Latitude,
             'Longitude'        =>  $this->Longitude,
             'ModifiedAt'       =>  Carbon::now(),

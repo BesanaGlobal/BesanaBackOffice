@@ -40,6 +40,8 @@ class PagePay extends Component
 
   ];
 
+
+
   public function errorStripe($text){
     
     $this->dispatchBrowserEvent('noticiaError', ['msg' => $text]);
@@ -75,16 +77,32 @@ class PagePay extends Component
 
       $this->totalOnzas($totalonzas);
       $this->taxes();
-      $taxsub = number_format(floatval($this->subtotal * $this->taxes / 100), 2);
+      $taxsub = floatval($this->subtotal * $this->taxes / 100);
 
       foreach ($this->cantidadProductos as $key => $value) {
         if ($value->name == "MEMBERSHIP") {
-          $this->subtotalweb = $this->subtotal + $taxsub;
+          $this->subtotalweb = $this->subtotal + $taxsub ;
         } else {
-          $this->subtotalweb = $this->subtotal + $taxsub + $membresia;
+          $this->subtotalweb = $this->subtotal + $taxsub + $membresia ;
         }
       }
-      $this->totalImpuestoShipping = number_format(floatval($this->subtotalweb + $this->shipping), 2);
+      
+      switch ($this->cantidadProductos[1]->attributes->symbolCurrent) {
+        case '$':
+            $this->shipping = floatval($this->shipping * 1); 
+            break;
+        case 'GTQ':
+            $this->shipping =  floatval(7.8 * $this->shipping);
+            break;
+        case 'COP':
+            $this->shipping = floatval(4171.57 * $this->shipping);
+            break;
+        case 'MXN':
+            $this->shipping = floatval(17.28 * $this->shipping); 
+            break;
+    };
+
+    $this->totalImpuestoShipping = $this->subtotalweb + $this->shipping;
 
       return view('livewire.page-pay', compact('b', 'STRIPE_KEY',))->extends('layout.side-menu')->section('subcontent');
     } else {

@@ -7,14 +7,13 @@ use App\Models\User;
 use App\Models\WalletMonth;
 use App\Models\WalletWeek;
 use Illuminate\Http\Request;
+use DataTables;
 
 class WalletController extends Controller
 {
     
     public function index(){
         $data = Affiliate::select(['idAffiliated', 'Name'])->get();
-        
-        
         return view('afiliados.listar',compact('data'));
 
     }
@@ -89,7 +88,7 @@ class WalletController extends Controller
     }
 
     public function WeekList(){
-        $walletWeek=WalletWeek::all();
+        $walletWeek     = WalletWeek::all();
         return view('wallet.weeklist', compact('walletWeek'));
 
     }
@@ -110,5 +109,6 @@ class WalletController extends Controller
         // Regresar a la misma vista con el mensaje de éxito
         return back();
     }
+
 
 }

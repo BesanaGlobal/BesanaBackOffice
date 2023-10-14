@@ -23,6 +23,7 @@ use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
 use App\Http\Livewire\ShippingView;
 use App\Http\Livewire\AffiliateEdit;
+use App\Http\Livewire\WalletWeekUser;
 
 Route::get('/home',function(){ return view('inicio'); })->name('home');
 Route::get('lenguage/{locale}',function ($locale) {
@@ -49,6 +50,10 @@ Route::get('WeekMonth', [WalletController::class,'MonthList'])->middleware('auth
 Route::post('btnAprobarWeek', [WalletController::class,'btnAprobarWeek'])->name('btnAprobarWeek');
 Route::post('solicitaWeek', [PageController::class,'solicitaWeek'])->middleware('auth')->name('solicitaWeek');
 Route::post('solicitaMonth', [PageController::class,'solicitaMonth'])->middleware('auth')->name('solicitaMonth');
+Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth'])->name('walletRequest');
+
+Route::get('/walletWeek/{id}',WalletWeekUser::class)->middleware(['auth'])->name('walletWeekDataUser');
+
 
 //my shopping
 // Route::get('myShops', MyShops::class )->middleware(['auth','afiliado'])->name('myshops');
@@ -63,8 +68,7 @@ Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'
 Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth'])->name('addproduct.create');
 Route::get('/products',Products::class )->middleware(['auth','isafiliado'])->name('products');
 
-//Wallets
-Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth'])->name('walletRequest');
+
 
 //registers
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');

@@ -44,6 +44,11 @@ class Register extends Component
     public $selectedCountry;
     public $selectedState;
     public $selectedCity;
+    public $selectBankAccount;
+    public $bankAccount;
+    public $routingNumber;
+    public $typeAccount;
+    public $Authorization;
     public $ZipCode;
 
     public $nohijos = false;
@@ -235,6 +240,9 @@ class Register extends Component
         'selectedCity'          => 'required',
         'selectedState'         => 'required',
         'ZipCode'               => 'required|string',
+        'bankAccount'           => 'nullable|string',
+        'routingNumber'         => 'nullable|string',
+        'typeAccount'           => 'nullable|string',
         'Password'              => 'required',
         'password_confirmation' => 'required|same:Password',
     ];
@@ -283,8 +291,16 @@ class Register extends Component
         $ip     = $datos['IP']          ? $datos['IP']          : null;
         $WPhone = $datos['WorkPhone']   ? $datos['WorkPhone']   : 0;
 
+        if ($this->selectBankAccount) {
+            $bank           = $this->bankAccount;
+            $routingNumber  = $this->routingNumber; 
+            $typeAccount    = $this->typeAccount;
+        }else{
+            $bank           = null;
+            $routingNumber  = null; 
+            $typeAccount    = null;
+        }
 
-        
 
         try {
 
@@ -316,6 +332,9 @@ class Register extends Component
                 '{$datos['selectedCity']}',
                 {$datos['ZipCode']},
                 {$datos['AlternativePhone']},
+                '{$bank}',
+                '{$routingNumber}',
+                '{$typeAccount}',
                 '-12.34566',
                 '12.34566',
                 '{$datos['fechaingreso']}',
@@ -356,6 +375,9 @@ class Register extends Component
                 'selectedState',
                 'selectedCity',
                 'ZipCode',
+                'bankAccount', 
+                'routingNumber', 
+                'typeAccount',  
                 'Password',
                 'password_confirmation',
             );

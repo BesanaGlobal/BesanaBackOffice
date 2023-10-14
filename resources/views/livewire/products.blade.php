@@ -30,7 +30,15 @@
             <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0"></div>
         </div>
     </div>
-    <!-- BEGIN: Users Layout -->
+    <div>
+        <select id="current" name="current" wire:model="current" class="form-control">
+            <option value="eeuu">EE UU</option>
+            <option value="mexico">Mexico</option>
+            <option value="colombia">Colombia</option>
+            <option value="panama">Panamá</option>
+            <option value="guatemala">Guatemala</option>
+        </select>
+    </div>
     <div class="intro-y grid gap-2 grid-cols-1 sm:grid-cols-3 md:gap-4 mt-3">
         @forelse ($products as $key => $pro)
         <div class="col-span-1 box shadow rounded rounded-lg border-double border-4 border-gray-400
@@ -52,10 +60,37 @@
                 <div class="flex flex-col items-center  p-2 text-dark">
                     <h1 class="block font-medium text-base">{{$pro->name}}</h1>
                     @php
-                    $descuento = $pro->price*0.15;
-                    $price=number_format(floatval($pro->price - $descuento),2);
+                        $descuento      =   $pro->price * 0.15;
+                        $price          =   number_format(floatval($pro->price - $descuento),2);
+                        $symbolCurrent  =   "$"; 
+                        switch ($current) {
+                            case 'eeuu':
+                                $price = $price * 1;
+                                $symbolCurrent  =   "$"; 
+                                break;
+                            case 'guatemala':
+                                $price =  number_format(floatval(7.8 * $price),2);
+                                $symbolCurrent  =   "GTQ"; 
+                                break;
+                            case 'colombia':
+                                $price = number_format(floatval(4171.57 * $price),2);
+                                $symbolCurrent  =   "COP"; 
+                                break;
+                            case 'mexico':
+                                $price = number_format(floatval(17.28 * $price),2);
+                                $symbolCurrent  =   "MXN"; 
+                                break;
+                            case 'panama':
+                                $price = $price * 1;
+                                $symbolCurrent  =   "$"; 
+                                break;
+                            default:
+                                $price = $price * 1;
+                                $symbolCurrent  =   "$"; 
+                                break;
+                        }
                     @endphp
-                    {{__('Price')}}: ${{ $price }}
+                    {{__('Price')}}: {{ $symbolCurrent }} {{ $price }}
                     <span class="font-black">{{__('Points to Receive')}}:</span>
                     <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span>
                     <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">{{__('Add cart')}}</button>
@@ -64,9 +99,7 @@
         </div>
         @empty
         <div>
-            <span colspan="6">
-                NO DATA
-            </span>
+            <span colspan="6"> NO DATA </span>
         </div>
         @endforelse
     </div>
@@ -81,9 +114,11 @@
             document.querySelector('.modal').style.display = 'none'
         }
     }
+
     window.addEventListener('modal-open', event => {
         fireModal(1)
     })
+
     window.addEventListener('noty', event => {
         Swal.fire('', event.detail.msg)
         if (event.detail.action == 'close-modal') fireModal(0)
@@ -100,10 +135,24 @@
             confirmButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                /// Swal.fire('Deleted!', 'Your file has been deleted.', 'success')
-                //window.livewire.emit('Destroy', CustomerId) // 1,2 ,3
                 @this.ClearCart()
             }
         })
     }
+
+
+
+    
+    var banderas = document.getElementById("banderas");
+
+    banderas.addEventListener("change", function() {
+      var imagen = document.createElement("img");
+      imagen.src = banderas.value + ".png";
+
+      document.body.appendChild(imagen);
+    });
+
+
+
+
 </script>

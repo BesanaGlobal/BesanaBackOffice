@@ -42,6 +42,11 @@ class SocioActivo extends Component
     public $selectedCountry;
     public $selectedState;
     public $selectedCity;
+    public $selectBankAccount;
+    public $bankAccount;
+    public $routingNumber;
+    public $typeAccount;
+    public $Authorization;
     public $ZipCode;
     public $fhater;
     public $Latitude;
@@ -263,6 +268,9 @@ class SocioActivo extends Component
         'WorkPhone'             => 'nullable|string',
         'DateBirth'             => 'required|string',
         'ZipCode'               => 'required|string',
+        'bankAccount'           => 'nullable|string',
+        'routingNumber'         => 'nullable|string',
+        'typeAccount'           => 'nullable|string',
         'Password'              => 'required',
         'password_confirmation' => 'required|same:Password',
         'Address'               => 'required',
@@ -316,6 +324,16 @@ class SocioActivo extends Component
                 $fhater = intval($this->asignacionSocio);
             }
 
+            if ($this->selectBankAccount) {
+                $bank           = $this->bankAccount;
+                $routingNumber  = $this->routingNumber; 
+                $typeAccount    = $this->typeAccount;
+            }else{
+                $bank           = null;
+                $routingNumber  = null; 
+                $typeAccount    = null;
+            }
+
             $ssn    = $datos['SSN']       ? $datos['SSN']       : null;
             $rfc    = $datos['RFC']       ? $datos['RFC']       : null;
             $curp   = $datos['CURP']      ? $datos['CURP']      : null;
@@ -346,6 +364,9 @@ class SocioActivo extends Component
                 '{$datos['selectedCity']}',
                 {$datos['ZipCode']},
                 {$datos['AlternativePhone']},
+                '{$bank}',
+                '{$routingNumber}',
+                '{$typeAccount}',
                 '-12.34566',
                 '12.34566',
                 '{$datos['fechaingreso']}',
@@ -389,8 +410,15 @@ class SocioActivo extends Component
                 $this->selectedCity     = "";
                 $this->ZipCode          = "";
                 $this->fhater           = "";
+                $this->bankAccount      = "";
+                $this->routingNumber    = ""; 
+                $this->typeAccount      = "";
                 $this->Latitude         = "";
                 $this->Longitude        = "";
+
+                $this->asignarSocio     = false;
+                $this->selectBankAccount= false ;
+                $this->Authorization    = false;
 
                 return;
             } catch (\Throwable $th) {

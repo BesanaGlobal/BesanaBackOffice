@@ -66,6 +66,7 @@
                                                     <tr class="text-center">
                                                     <th class="px-5 py-2 bg-primary text-white">{{__('Payments')}}</th>
                                                     <th class="px-5 py-2 bg-primary text-white">{{__('Amount')}}</th>
+                                                    <th class="px-5 py-2 bg-primary text-white">Forma de Pago</th>
                                                     <th class="px-5 py-2 bg-primary text-white">{{__('Actions')}}</th>
                                                     </tr>
                                                 </thead>
@@ -75,31 +76,37 @@
                                                             <span class="bg-orange-600 text-white  px-3">{{__('Weekly')}}</span>
                                                         </td>
                                                         @if (count($walletWeek)>0)
+                                                        @php
+                                                            $sumTotal = 0;
+                                                            foreach($walletWeek as $value){
+                                                                $sumTotal += $value->total;
+                                                            }
+                                                        @endphp
                                                             <td class="text-center py-2">  
-                                                                <span class="font-bold text-orange-600  ">$ 
-                                                                    @if ($walletWeek[0]->estado=='aprobado')
-                                                                        0
-                                                                    @else
-                                                                        {{round($walletWeek[0]->total, 2)}}
-                                                                    @endif
-                                                                </span>
+                                                                <span class="font-bold text-orange-600">$ {{ $sumTotal }} </span>
                                                             </td>
-                                                            <td class="text-center p-2">    
-                                                                {{-- {{$walletMonth[0]->estado}}                                                 --}}
-                                                                @if ($walletWeek[0]->estado=='solicitado')
-                                                                    <span class="text-lg font-extrabold">{{__('Transaction in progress')}}</span>  
-                                                                @elseif ($walletWeek[0]->estado=='aprobado')
-                                                                    <span class="text-lg font-extrabold">{{__('Approved')}}</span>  
+                                                            <form action="{{route('solicitaWeek')}}" method="POST" >
+                                                                @csrf
+                                                                <td class="text-center py-2">  
+                                                                @if($afiliado->BankAccount == null && $afiliado->RoutingNumber == null && $afiliado->TypeAccount == null)
+                                                                    <select name="tPago" id="tPago">
+                                                                        <option value="Cheque">Cheque</option>
+                                                                    </select>
                                                                 @else
-                                                                    <form action="{{route('solicitaWeek')}}" method="POST" >
-                                                                        @csrf
-                                                                        <input type="hidden" name="id" value="{{$walletWeek[0]->id}}">
-                                                                        <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
-                                                                            {{__('Request')}}
-                                                                        </button>
-                                                                    </form>
+                                                                    <select name="tPago" id="tPago">
+                                                                        <option value="Cheque">Cheque</option>
+                                                                        <option value="Transferencia">Transferencia</option>
+                                                                    </select>
                                                                 @endif
-                                                            </td>
+                                                                
+                                                                </td>
+                                                                <td class="text-center p-2">  
+                                                                    <input type="hidden" name="id" value="{{$walletWeek[0]->id_user}}">
+                                                                    <button class="bg-orange-600 hover:bg-orange-400 text-white font-bold py-1 px-2 rounded">
+                                                                        {{__('Request')}}
+                                                                    </button>
+                                                                </td>
+                                                            </form>
                                                         @else
                                                             <td class="text-center">{{__('No Wallet')}}</td>
                                                         @endif
