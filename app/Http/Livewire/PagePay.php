@@ -30,6 +30,7 @@ class PagePay extends Component
   public $shipping = 0;
   public $totalcard = 0;
   public $cantidadinterna = 0;
+  public $current;
 
   protected $stripe;
   protected $listeners = [
@@ -39,8 +40,6 @@ class PagePay extends Component
     'stripeError' => 'errorStripe'
 
   ];
-
-
 
   public function errorStripe($text){
     
@@ -90,15 +89,19 @@ class PagePay extends Component
       switch ($this->cantidadProductos[1]->attributes->symbolCurrent) {
         case '$':
             $this->shipping = floatval($this->shipping * 1); 
+            $this->current = "usd";
             break;
         case 'GTQ':
             $this->shipping =  floatval(7.8 * $this->shipping);
+            $this->current = "gtq";
             break;
         case 'COP':
             $this->shipping = floatval(4171.57 * $this->shipping);
+            $this->current = "cop";
             break;
         case 'MXN':
             $this->shipping = floatval(17.28 * $this->shipping); 
+            $this->current = "mxn";
             break;
     };
 
@@ -194,7 +197,7 @@ class PagePay extends Component
   public function DetailSale($idSale, $token)
   {
     foreach ($this->cantidadProductos as $pro) {
-      $subtotal = number_format(floatval($pro['price'] + $pro['attributes']['tax']), 2);
+      $subtotal = floatval($pro['price'] + $pro['attributes']['tax']);
       $description = "Cantidad: " . $pro['quantity'] . " Producto: " . $pro['name'] . " Subtotal: " . $subtotal . "\n";
 
       $detailV = new DetailSale();
@@ -207,10 +210,12 @@ class PagePay extends Component
       $detailV->subtotal = $subtotal;
       $detailV->save();
     }
+    $amount = intval($this->totalImpuestoShipping * 100);
 
+    // dd( intval($this->totalImpuestoShipping * 100) );
     $this->stripe->charges->create([
-      'amount' => number_format(floatval($this->totalImpuestoShipping), 2) * 100,
-      'currency' => 'usd',
+      'amount' => $amount,
+      'currency' => $this->current,
       'description' => $description,
       'receipt_email' => $this->user->Email,
       'source' => $token,
