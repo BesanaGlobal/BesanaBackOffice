@@ -37,10 +37,6 @@
     </table>
 @endif()
 
-
-
-
-
     <form wire:submit.prevent="CreatePay">
 
     <span class="font-bold uppercase text-lg pb-5 mt-5">{{__('personal information')}}:</span>
@@ -73,7 +69,7 @@
                 <div class="col">
                     <label for="Fecha_inicio" class="block text-sm font-medium text-slate-700 py-3">Fecha de pago</label>
                     <input id="Fecha_inicio"  class="-intro-x login__input form-control" type="date" value="" wire:model="date" required />
-                    <label for="Monto" class="block text-sm font-medium text-slate-700 mt-3">Monto</label>
+                    <label for="Monto" class="block text-sm font-medium text-slate-700 mt-3" >Monto</label>
                     <input id="Monto" class="-intro-x login__input form-control py-3 px-4 block" type="number" step="any" value="" wire:model="mount" required/>
                     <a href="{{ route('weeklist') }}" class="btn btn-dark py-3 px-4 w-full lg:w-32  mt-5">Regresar</a>
                     <button class="btn btn-primary py-3 px-4 w-full lg:w-32 mt-5" type="submit">{{__('Save')}}</button>
@@ -105,7 +101,8 @@
                 window.location = '/WeekList'
             } 
         })
-    }   )
+    })
+
 
 </script>
 

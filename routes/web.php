@@ -24,6 +24,7 @@ use App\Http\Livewire\Register\Register;
 use App\Http\Livewire\ShippingView;
 use App\Http\Livewire\AffiliateEdit;
 use App\Http\Livewire\WalletWeekUser;
+use App\Http\Livewire\WalletMonthUser;
 
 Route::get('/home',function(){ return view('inicio'); })->name('home');
 Route::get('lenguage/{locale}',function ($locale) {
@@ -43,16 +44,16 @@ Route::get('login', LoginComponent::class)->name('login');
 
 //wallet
 Route::get('wallet/{id}',[WalletController::class,'edit'])->name('wallet.edit');
+Route::get('WeekList', [WalletController::class,'WeekList'])->middleware('auth')->name('weeklist');
+Route::get('MonthList', [WalletController::class,'MonthList'])->middleware('auth')->name('monthlist');
+Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth'])->name('walletRequest');
+Route::get('/walletWeek/{id}',WalletWeekUser::class)->middleware(['auth'])->name('walletWeekDataUser');
+Route::get('/walletMonth/{id}',WalletMonthUser::class)->middleware(['auth'])->name('walletMonthDataUser');
 Route::post('week',[WalletController::class,'Week'])->name('wallet.week');
 Route::post('month',[WalletController::class,'Month'])->name('wallet.month');
-Route::get('WeekList', [WalletController::class,'WeekList'])->middleware('auth')->name('weeklist');
-Route::get('WeekMonth', [WalletController::class,'MonthList'])->middleware('auth')->name('monthlist');
 Route::post('btnAprobarWeek', [WalletController::class,'btnAprobarWeek'])->name('btnAprobarWeek');
 Route::post('solicitaWeek', [PageController::class,'solicitaWeek'])->middleware('auth')->name('solicitaWeek');
 Route::post('solicitaMonth', [PageController::class,'solicitaMonth'])->middleware('auth')->name('solicitaMonth');
-Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth'])->name('walletRequest');
-
-Route::get('/walletWeek/{id}',WalletWeekUser::class)->middleware(['auth'])->name('walletWeekDataUser');
 
 
 //my shopping

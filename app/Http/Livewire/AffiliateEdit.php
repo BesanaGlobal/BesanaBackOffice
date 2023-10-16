@@ -34,16 +34,17 @@ class AffiliateEdit extends Component
     public $selectedState;
     public $selectedCity;
     public $ZipCode;
-    public $selectBankAccount;
     public $bankAccount;
     public $routingNumber;
     public $typeAccount;
-    public $Authorization;
     public $Latitude;
     public $Longitude;
     public $rank;
     public $idRank;
     public $nameRank;
+    public $selectBankAccount   = false;
+    public $Authorization       = false;
+
 
     public array $data;
     public $AreaCode  = ['+1','+52','+507','+502'];
@@ -218,16 +219,22 @@ class AffiliateEdit extends Component
         $this->idRank           = $affiliate[0]->idRank;
         $this->nameRank         = $affiliate[0]->rank->RankName;
 
-        $this->bankAccount      = $affiliate[0]->BankAccount;
-        $this->routingNumber    = $affiliate[0]->RoutingNumber;
-        $this->typeAccount      = $affiliate[0]->TypeAccount;
-
-        if($this->bankAccount = null && $this->routingNumber = null && $this->typeAccount = null){
-            $this->selectBankAccount = true;
-            $this->Authorization     = true;
-        }else{
-            $this->selectBankAccount = false;
-            $this->Authorization     = false;
+        if(
+            $affiliate[0]->BankAccount == NULL   && $affiliate[0]->RoutingNumber == NULL  && $affiliate[0]->TypeAccount == NULL ||
+            $affiliate[0]->BankAccount == ""     && $affiliate[0]->RoutingNumber == ""    && $affiliate[0]->TypeAccount == "" 
+        ){
+            $this->selectBankAccount    = false;
+            $this->bankAccount          = "";
+            $this->routingNumber        = "";
+            $this->typeAccount          = "";
+            $this->Authorization        = false;
+        }else {
+            
+            $this->selectBankAccount    = true;
+            $this->bankAccount          = $affiliate[0]->BankAccount;
+            $this->routingNumber        = $affiliate[0]->RoutingNumber;
+            $this->typeAccount          = $affiliate[0]->TypeAccount;
+            $this->Authorization        = true;
         }
 
         if( $this->SSN != ""){
@@ -301,6 +308,13 @@ class AffiliateEdit extends Component
 
     public function update(){
         $affiliate  = Affiliate::where('idAffiliated', $this->idAffiliated)->with('user','rank');
+
+        if($this->selectBankAccount == false){
+            $this->bankAccount          = null;
+            $this->routingNumber        = null;
+            $this->typeAccount          = null;            
+        }
+
         // $this->validate();
         $affiliate->update([
             'Name'             =>  $this->Name,

@@ -34,7 +34,11 @@ class PageController extends Controller
                                                 ->whereDate('fechaInicio', '<=', date('Y-m-t'))
                                                 ->where('estado','Pendiente')
                                                 ->get();
-        $walletMonth            =   WalletMonth::where('id_user', Auth()->user()->idUser)->get();   
+        $walletMonth            =   WalletMonth::where('id_user', Auth()->user()->idUser)
+                                                ->whereDate('fechaInicio', '>=', date('Y-m-01'))
+                                                ->whereDate('fechaInicio', '<=', date('Y-m-t'))
+                                                ->where('estado','Pendiente')
+                                                ->get();   
        
         $website                =   $afiliado->websiteLink($id->idAffiliated);
 
@@ -45,7 +49,6 @@ class PageController extends Controller
 
     public function solicitaWeek(Request $request){
 
-
        $wallet =  WalletWeek::where('id_user', $request->id)
                     ->whereDate('fechaInicio', '>=', date('Y-m-01'))
                     ->whereDate('fechaInicio', '<=', date('Y-m-t'))
@@ -53,7 +56,7 @@ class PageController extends Controller
                     ->get();
 
         foreach($wallet as $value){
-            $value->estado      = 'solicitado';
+            $value->estado      = 'Solicitado';
             $value->FechaFin    = date('Y-m-d');
             $value->tipopago    = $request['tPago'];
             $value->save();
@@ -61,15 +64,26 @@ class PageController extends Controller
         
         session()->flash('success', '¡La información se ha procesado correctamente!');
 
-        // Regresar a la misma vista con el mensaje de éxito
         return back();
     }
 
     public function solicitaMonth(Request $request){
-        $wallet=WalletMonth::findOrFail($request->id);
-        $wallet->estado='solicitado';
-        $wallet->save();
+
+        $wallet =   WalletMonth::where('id_user', $request->id)
+                    ->whereDate('fechaInicio', '>=', date('Y-m-01'))
+                    ->whereDate('fechaInicio', '<=', date('Y-m-t'))
+                    ->where('estado','Pendiente')
+                    ->get();
+
+        foreach($wallet as $value){
+            $value->estado      = 'Solicitado';
+            $value->FechaFin    = date('Y-m-d');
+            $value->tipopago    = $request['tPago'];
+            $value->save();
+        }
+
         session()->flash('success', '¡Se ha solicitado el pago Mensual!');
+        
         return back();
 
     }
