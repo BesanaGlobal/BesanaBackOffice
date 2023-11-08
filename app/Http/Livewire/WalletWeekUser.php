@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\Hash;
 use App\Models\Affiliate;
 use App\Models\WalletWeek;
 use Livewire\Component;
@@ -24,6 +25,7 @@ class WalletWeekUser extends Component
         ->get();
 
         $this->date = date('Y-m-d');
+
     }
 
     public function render()
@@ -47,7 +49,6 @@ class WalletWeekUser extends Component
         $this->dispatchBrowserEvent('noty', ['msg' => 'Asignación de pago!']);
 
     }
-
 
 
 }

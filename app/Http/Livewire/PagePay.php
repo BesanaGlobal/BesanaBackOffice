@@ -85,25 +85,32 @@ class PagePay extends Component
           $this->subtotalweb = $this->subtotal + $taxsub + $membresia ;
         }
       }
+
+      foreach($this->cantidadProductos as $value){
+
+      }
       
-      switch ($this->cantidadProductos[1]->attributes->symbolCurrent) {
-        case '$':
-            $this->shipping = floatval($this->shipping * 1); 
-            $this->current = "usd";
-            break;
-        case 'GTQ':
-            $this->shipping =  floatval(7.8 * $this->shipping);
-            $this->current = "gtq";
-            break;
-        case 'COP':
-            $this->shipping = floatval(4171.57 * $this->shipping);
-            $this->current = "cop";
-            break;
-        case 'MXN':
-            $this->shipping = floatval(17.28 * $this->shipping); 
-            $this->current = "mxn";
-            break;
-    };
+      if($value['attributes']->symbolCurrent){
+        switch ($value['attributes']->symbolCurrent) {
+          case '$':
+              $this->shipping = floatval($this->shipping * 1); 
+              $this->current = "usd";
+              break;
+          case 'GTQ':
+              $this->shipping =  floatval(7.8 * $this->shipping);
+              $this->current = "gtq";
+              break;
+          case 'COP':
+              $this->shipping = floatval(4171.57 * $this->shipping);
+              $this->current = "cop";
+              break;
+          case 'MXN':
+              $this->shipping = floatval(17.28 * $this->shipping); 
+              $this->current = "mxn";
+              break;
+        };
+
+      }
 
     $this->totalImpuestoShipping = $this->subtotalweb + $this->shipping;
 
