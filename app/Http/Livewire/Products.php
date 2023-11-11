@@ -91,10 +91,12 @@ class Products extends Component
   public function addCart($id, $cant = 1)
   {
     $this->obtenerOnzas($id);
-    $cantTem        = \Cart::session(Auth()->user()->idUser)->getContent()->count();
-    $descuento      = $this->products[$id]['price'] * 0.15;
-    $price          = number_format(floatval($this->products[$id]['price'] - $descuento), 2);
-    $symbolCurrent  =   "$"; 
+    $cantTem                = \Cart::session(Auth()->user()->idUser)->getContent()->count();
+    $descuento              = $this->products[$id]['price'] * 0.15;
+    $descuentoNavideño      = $this->products[$id]['price'] * 0.50;
+    $price                  = number_format(floatval($this->products[$id]['price'] - $descuento), 2);
+    $price                  = number_format(floatval($price - $descuentoNavideño), 2);
+    $symbolCurrent          =   "$"; 
     switch ($this->current) {
         case 'eeuu':
             $price = floatval($price * 1); 

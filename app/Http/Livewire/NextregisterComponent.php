@@ -65,7 +65,7 @@ class NextregisterComponent extends Component
         break;
     }
     $newprice = 0;
-
+    $symbolCurrent          =   "$"; 
     switch($id){
       case 1 :
         $priceTax = $price;
@@ -80,7 +80,8 @@ class NextregisterComponent extends Component
             'shipping' => 0,
             'membresia' => 24.95,
             'puntos' => 0,
-            'onzas' => 0
+            'onzas' => 0,
+            'symbolCurrent' => $symbolCurrent
           ),
           'quantity' => 1,
         ));
@@ -98,7 +99,8 @@ class NextregisterComponent extends Component
             'shipping' => $this->shipping,
             'membresia' => 24.95,
             'puntos' => $puntos,
-            'onzas' => 1.8
+            'onzas' => 1.8,
+            'symbolCurrent' => $symbolCurrent
           ),
           'quantity' => 1,
         )); 
@@ -116,7 +118,8 @@ class NextregisterComponent extends Component
             'shipping' => $this->shipping,
             'membresia' => 24.95,
             'puntos' => $puntos,
-            'onzas' => 3
+            'onzas' => 3,
+            'symbolCurrent' => $symbolCurrent
           ),
           'quantity' => 1,
         ));      
@@ -134,7 +137,8 @@ class NextregisterComponent extends Component
             'shipping' => $this->shipping,
             'membresia' => 24.95,
             'puntos' => $puntos,
-            'onzas' => 3
+            'onzas' => 3,
+            'symbolCurrent' => $symbolCurrent
           ),
           'quantity' => 1,
         ));
@@ -152,7 +156,8 @@ class NextregisterComponent extends Component
             'shipping' => $this->shipping,
             'membresia' => 24.95,
             'puntos' => $puntos,
-            'onzas' => 10
+            'onzas' => 10,
+            'symbolCurrent' => $symbolCurrent
           ),
           'quantity' => 1,
         ));  

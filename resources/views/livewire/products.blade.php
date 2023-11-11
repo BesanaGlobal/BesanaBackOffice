@@ -60,9 +60,12 @@
                 <div class="flex flex-col items-center  p-2 text-dark">
                     <h1 class="block font-medium text-base">{{$pro->name}}</h1>
                     @php
-                        $descuento      =   $pro->price * 0.15;
-                        $price          =   number_format(floatval($pro->price - $descuento),2);
-                        $symbolCurrent  =   "$"; 
+                        $descuento              =   $pro->price * 0.15;
+                        $descuentoNavideño      =   $pro->price * 0.50;
+                        $price                  =   number_format(floatval($pro->price - $descuento),2);
+                        $price                  =   number_format(floatval($price - $descuentoNavideño),2);
+                        $puntosNavideños        =   number_format($price);
+                        $symbolCurrent          =   "$"; 
                         switch ($current) {
                             case 'eeuu':
                                 $price = $price * 1;
@@ -92,7 +95,7 @@
                     @endphp
                     {{__('Price')}}: {{ $symbolCurrent }} {{ $price }}
                     <span class="font-black">{{__('Points to Receive')}}:</span>
-                    <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span>
+                    <span class="font-black ">{{$puntosNavideños}} {{__('Points')}}</span>
                     <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">{{__('Add cart')}}</button>
                 </div>
             </div>

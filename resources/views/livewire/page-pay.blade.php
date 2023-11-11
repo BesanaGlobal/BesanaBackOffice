@@ -87,7 +87,7 @@
                             <input type="hidden" id="package" name="package" value="{{$pro->name}}">
                         </td>
                         <td class=" text-right">{{$pro->attributes->symbolCurrent}} {{ number_format(floatval($pro->price),2) }}</td>
-                        <td class=" text-right ">$ {{$taxunique}}</td>
+                        <td class=" text-right ">{{$pro->attributes->symbolCurrent}} {{$taxunique}}</td>
                         <td class="text-right">{{$pro->attributes->symbolCurrent}} {{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
                     </tr>
                     @empty

@@ -23,7 +23,7 @@ class IsafiliadoMiddleware
                  return $next($request);
             }
 
-            return redirect()->route('addpackage');
+            return redirect()->route('login');
           
 
 

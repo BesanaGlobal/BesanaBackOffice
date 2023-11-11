@@ -43,30 +43,30 @@ Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class
 Route::get('login', LoginComponent::class)->name('login');
 
 //wallet
-Route::get('wallet/{id}',[WalletController::class,'edit'])->name('wallet.edit');
-Route::get('WeekList', [WalletController::class,'WeekList'])->middleware('auth')->name('weeklist');
-Route::get('MonthList', [WalletController::class,'MonthList'])->middleware('auth')->name('monthlist');
-Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth'])->name('walletRequest');
-Route::get('/walletWeek/{id}',WalletWeekUser::class)->middleware(['auth'])->name('walletWeekDataUser');
-Route::get('/walletMonth/{id}',WalletMonthUser::class)->middleware(['auth'])->name('walletMonthDataUser');
-Route::post('week',[WalletController::class,'Week'])->name('wallet.week');
-Route::post('month',[WalletController::class,'Month'])->name('wallet.month');
-Route::post('btnAprobarWeek', [WalletController::class,'btnAprobarWeek'])->name('btnAprobarWeek');
-Route::post('solicitaWeek', [PageController::class,'solicitaWeek'])->middleware('auth')->name('solicitaWeek');
-Route::post('solicitaMonth', [PageController::class,'solicitaMonth'])->middleware('auth')->name('solicitaMonth');
+Route::get('wallet/{id}',[WalletController::class,'edit'])->middleware(['auth','isafiliado'])->name('wallet.edit');
+Route::get('WeekList', [WalletController::class,'WeekList'])->middleware(['auth','isafiliado'])->name('weeklist');
+Route::get('MonthList', [WalletController::class,'MonthList'])->middleware(['auth','isafiliado'])->name('monthlist');
+Route::get('/walletRequest',[WalletController::class,'walletRequest'])->middleware(['auth','isafiliado'])->name('walletRequest');
+Route::get('/walletWeek/{id}',WalletWeekUser::class)->middleware(['auth','isafiliado'])->name('walletWeekDataUser');
+Route::get('/walletMonth/{id}',WalletMonthUser::class)->middleware(['auth','isafiliado'])->name('walletMonthDataUser');
+Route::post('week',[WalletController::class,'Week'])->middleware(['auth','isafiliado'])->name('wallet.week');
+Route::post('month',[WalletController::class,'Month'])->middleware(['auth','isafiliado'])->name('wallet.month');
+Route::post('btnAprobarWeek', [WalletController::class,'btnAprobarWeek'])->middleware(['auth','isafiliado'])->name('btnAprobarWeek');
+Route::post('solicitaWeek', [PageController::class,'solicitaWeek'])->middleware(['auth','isafiliado'])->name('solicitaWeek');
+Route::post('solicitaMonth', [PageController::class,'solicitaMonth'])->middleware(['auth','isafiliado'])->name('solicitaMonth');
 
 
 //my shopping
 // Route::get('myShops', MyShops::class )->middleware(['auth','afiliado'])->name('myshops');
-Route::get('myShops', MyShops::class )->middleware(['auth'])->name('myshops');
+Route::get('myShops', MyShops::class )->middleware(['auth','isafiliado'])->name('myshops');
 
 //affiliates
-Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth'])->name('ListUsers');
+Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','isafiliado'])->name('ListUsers');
 Route::get('/ListUsers/{id}', AffiliateEdit::class)->middleware(['auth','isafiliado'])->name('affiliateEdit');
 
 //products
-Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth'])->name('addproduct');
-Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth'])->name('addproduct.create');
+Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth','isafiliado'])->name('addproduct');
+Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth','isafiliado'])->name('addproduct.create');
 Route::get('/products',Products::class )->middleware(['auth','isafiliado'])->name('products');
 
 
@@ -89,7 +89,7 @@ Route::get('/socioactivo', SocioActivo::class)->middleware(['auth','isafiliado']
 
 //partners tree
 // Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','isafiliado'])->name('partnertree');
-Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth'])->name('partnertree');
+Route::get('/partner-tree',[PartnersController::class,'index'] )->middleware(['auth','isafiliado'])->name('partnertree');
 
 //packages
 Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth'])->name('addpackage');
@@ -97,16 +97,16 @@ Route::get('/addpackage',NextregisterComponent::class )->middleware(['auth'])->n
 
 //shopping
 Route::get('shop',[PageController::class,'productGrid'])->middleware(['auth','isafiliado'])->name('shop');
-Route::get('profile', [PageController::class,'updateProfile'])->middleware('auth')->name('profile');
-Route::get('modal', [PageController::class,'modal'])->name('modal');
+Route::get('profile', [PageController::class,'updateProfile'])->middleware(['auth','isafiliado'])->name('profile');
+Route::get('modal', [PageController::class,'modal'])->middleware(['auth','isafiliado'])->name('modal');
 
 //payment gateway
 Route::get('payment', PayComponent::class)->middleware('auth','isafiliado')->name('payment');
 Route::get('cart-pay', PagePay::class)->middleware('auth')->name('cart-pay');
 
 //change password
-Route::get('change-password',[PageController::class,'changePassword'])->name('change-password');
-Route::post('change-password',[PageController::class,'sendEmailPassword'])->name('sendEmailPassword');
+Route::get('change-password',[PageController::class,'changePassword'])->middleware(['auth','isafiliado'])->name('change-password');
+Route::post('change-password',[PageController::class,'sendEmailPassword'])->middleware(['auth','isafiliado'])->name('sendEmailPassword');
 
 
 Route::controller(AuthController::class)->middleware('loggedin')->group(function() {
@@ -114,7 +114,7 @@ Route::controller(AuthController::class)->middleware('loggedin')->group(function
     // Route::post('login', 'login')->name('login.check');
 });
 
-Route::middleware('auth')->group(function() {
+Route::middleware(['auth','isafiliado'])->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::controller(PageController::class)->group(function() {
 
