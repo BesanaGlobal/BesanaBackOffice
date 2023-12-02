@@ -65,11 +65,9 @@ Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth
 Route::get('/ListUsers/{id}', AffiliateEdit::class)->middleware(['auth','isafiliado'])->name('affiliateEdit');
 
 //products
-Route::get('/addproduct',[ProductController::class,'index'])->middleware(['auth','isafiliado'])->name('addproduct');
-Route::post('/addproduct',[ProductController::class,'store'])->middleware(['auth','isafiliado'])->name('addproduct.create');
+Route::get('/addproduct',[ProductController::class,'index'])->middleware('auth')->name('addproduct');
+Route::post('/addproduct',[ProductController::class,'store'])->middleware('auth')->name('addproduct.create');
 Route::get('/products',Products::class )->middleware(['auth','isafiliado'])->name('products');
-
-
 
 //registers
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');
@@ -101,12 +99,12 @@ Route::get('profile', [PageController::class,'updateProfile'])->middleware(['aut
 Route::get('modal', [PageController::class,'modal'])->middleware(['auth','isafiliado'])->name('modal');
 
 //payment gateway
-Route::get('payment', PayComponent::class)->middleware('auth','isafiliado')->name('payment');
+Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');
 Route::get('cart-pay', PagePay::class)->middleware('auth')->name('cart-pay');
 
 //change password
-Route::get('change-password',[PageController::class,'changePassword'])->middleware(['auth','isafiliado'])->name('change-password');
-Route::post('change-password',[PageController::class,'sendEmailPassword'])->middleware(['auth','isafiliado'])->name('sendEmailPassword');
+Route::get('change-password',[PageController::class,'changePassword'])->middleware('auth')->name('change-password');
+Route::post('change-password',[PageController::class,'sendEmailPassword'])->middleware('auth')->name('sendEmailPassword');
 
 
 Route::controller(AuthController::class)->middleware('loggedin')->group(function() {
