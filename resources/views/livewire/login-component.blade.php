@@ -36,7 +36,7 @@
 
                             <div class="input-group">
                                 <input id="contraseña" type="password" class="intro-x form-control"  wire:model="password">
-                                <button class="btn btn-outline-primary" type="button" id="viewpass" name="viewpass" onclick="viewPass()"><i id="icono" class="fa-solid fa-eye-slash"></i></button>
+                                <button class="btn btn-outline-primary" type="button" id="viewpass" name="viewpass" onclick="viewPass()"><i id="icono" class="fa-solid fa-eye"></i></button>
                             </div>
 
 
@@ -88,10 +88,11 @@
         
         if (typeInput.type == 'password') {
             typeInput.type = 'text';
-            i.className = ' fa-solid fa-eye';
+            i.className = 'fa-solid fa-eye-slash';
         }else{
             typeInput.type = 'password';
-            i.className = 'fa-solid fa-eye-slash';
+            i.className = ' fa-solid fa-eye';
+
         };
 
       }
