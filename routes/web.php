@@ -103,8 +103,8 @@ Route::get('payment', PayComponent::class)->middleware('auth')->name('payment');
 Route::get('cart-pay', PagePay::class)->middleware('auth')->name('cart-pay');
 
 //change password
-Route::get('change-password',[PageController::class,'changePassword'])->middleware('auth')->name('change-password');
-Route::post('change-password',[PageController::class,'sendEmailPassword'])->middleware('auth')->name('sendEmailPassword');
+Route::get('change-password',[PageController::class,'changePassword'])->name('change-password');
+Route::post('change-password',[PageController::class,'sendEmailPassword'])->name('sendEmailPassword');
 
 
 Route::controller(AuthController::class)->middleware('loggedin')->group(function() {

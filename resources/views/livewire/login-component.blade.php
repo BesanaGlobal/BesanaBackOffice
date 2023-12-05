@@ -29,7 +29,27 @@
                             <input id="userName" type="text" class="intro-x login__input form-control py-3 px-4 block" placeholder="Usuario" wire:model="username">
                             <div id="error-email" class="login__input-error text-danger mt-2"></div>
                             <label for="password" class="text-gray-500">{{__('Password')}}:</label>
-                            <input id="password" type="password" class="intro-x login__input form-control py-3 px-4 block mt-4"  wire:model="password">
+                            
+
+
+
+
+                            <div class="input-group">
+                                <input id="contraseña" type="password" class="intro-x form-control"  wire:model="password">
+                                <button class="btn btn-outline-primary" type="button" id="viewpass" name="viewpass" onclick="viewPass()"><i id="icono" class="fa-solid fa-eye-slash"></i></button>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
                             <div id="error-password" class="login__input-error text-danger mt-2"></div>    
                     </div>
                     <div class="intro-x flex flex-col  md:p-0 md:flex-row text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
@@ -60,8 +80,24 @@
    
 </div>
 
-<script >
+<script>
            
+    function viewPass(){
+        var typeInput =  document.getElementById("contraseña");
+        var i = document.getElementById("icono"); 
+        
+        if (typeInput.type == 'password') {
+            typeInput.type = 'text';
+            i.className = ' fa-solid fa-eye';
+        }else{
+            typeInput.type = 'password';
+            i.className = 'fa-solid fa-eye-slash';
+        };
+
+      }
+
+
+
     window.addEventListener('noty', event => {
         Swal.fire('', event.detail.msg)
         if (event.detail.action == 'close-modal') fireModal(0)

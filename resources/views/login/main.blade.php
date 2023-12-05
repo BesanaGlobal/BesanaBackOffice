@@ -28,9 +28,7 @@
                     <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">Sign In</h2>
                     <div class="intro-x mt-2 text-slate-400 xl:hidden text-center">A few more clicks to sign in to your account. Manage all your e-commerce accounts in one place</div>
                     <div class="intro-x mt-8">
-                        <form  method="POST" 
-                        action="{{route('login.check')}}"
-                        >
+                        <form  method="POST" action="{{route('login.check')}}">
                         @csrf
                             <input id="userName" type="text" class="intro-x login__input form-control py-3 px-4 block" placeholder="Username" name="userName">
                             <div id="error-email" class="login__input-error text-danger mt-2"></div>
@@ -66,7 +64,7 @@
 
 @section('script')
     <script >
-      
+
     // window.addEventListener('mail', event => {
     //         Swal.fire({
     //             position: 'top-end',
