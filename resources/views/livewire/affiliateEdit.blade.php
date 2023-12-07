@@ -228,7 +228,12 @@
         </div>
         </form>
     </div>
-</div>
+
+         <!-- <div>
+            <input type="text" id="dataVieja" name="dataVieja" wire:model="claveVieja" value="">
+            <input type="text" id="dataNueva" name="dataNueva" wire:model="claveNueva" value="">
+            <button  wire:click="like">Cambiar</button>
+        </div> -->
 </div>
 
 

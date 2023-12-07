@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+
+use Illuminate\Support\Facades\Hash;
 use App\Models\Affiliate;
 use App\Models\Rank;
 use Livewire\Component;
@@ -10,6 +12,9 @@ use Illuminate\Support\Carbon;
 
 class AffiliateEdit extends Component
 {
+
+    // public $claveVieja;
+    // public $claveNueva;
 
     public $lenguaje = 'english';
     public $idAffiliated;
@@ -190,6 +195,7 @@ class AffiliateEdit extends Component
 
     public function mount($id)
     {
+
         $this->lenguaje = 'spanish';
         $this->idAffiliated = $id;
         
@@ -354,4 +360,13 @@ class AffiliateEdit extends Component
     {
         return view('livewire.affiliateEdit')->extends('layout.side-menu')->section('subcontent');
     }
+
+    // public function like(){
+
+    //     $this->claveNueva = Hash::make($this->claveVieja);
+
+    // }
+
+
+
 }
