@@ -79,7 +79,7 @@ $user=Auth()->user()->userName;
                     </a>
                 </li>
                 <li>
-                    <a href="" class="dropdown-item hover:bg-white/5">
+                    <a href="{{ route('resetPass') }}" class="dropdown-item hover:bg-white/5">
                         <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Reset Password
                     </a>
                 </li>

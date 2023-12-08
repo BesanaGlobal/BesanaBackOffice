@@ -281,7 +281,7 @@ class Register extends Component
         $createdAt                      = Carbon::parse($datos['DateBirth']);
         $dateBirth                      = $createdAt->format('M d Y');
         $datecreated                    = $mytime->format('Y-m-d h:i');
-        $website                        = 'https://www.besanaglobal.com/' . $datos['userName'];
+        $website                        = 'https://www.besanaglobal.com?sponsor=' . $datos['userName'];
         $pass                           = Hash::make($datos['Password']);
 
         $ssn    = $datos['SSN']         ? $datos['SSN']         : null;

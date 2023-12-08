@@ -18,6 +18,7 @@ use App\Http\Livewire\SocioActivo;
 use App\Http\Livewire\Shipping;
 use App\Http\Livewire\LoginComponent;
 use App\Http\Livewire\NextregisterComponent;
+use App\Http\Livewire\ResetPassword;
 use App\Http\Livewire\PayComponent;
 use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
@@ -105,6 +106,9 @@ Route::get('cart-pay', PagePay::class)->middleware('auth')->name('cart-pay');
 //change password
 Route::get('change-password',[PageController::class,'changePassword'])->name('change-password');
 Route::post('change-password',[PageController::class,'sendEmailPassword'])->name('sendEmailPassword');
+
+Route::get('resetPass', ResetPassword::class)->name('resetPass');
+
 
 
 Route::controller(AuthController::class)->middleware('loggedin')->group(function() {

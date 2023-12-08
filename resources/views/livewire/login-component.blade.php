@@ -30,25 +30,10 @@
                             <div id="error-email" class="login__input-error text-danger mt-2"></div>
                             <label for="password" class="text-gray-500">{{__('Password')}}:</label>
                             
-
-
-
-
                             <div class="input-group">
                                 <input id="contraseña" type="password" class="intro-x form-control"  wire:model="password">
                                 <button class="btn btn-outline-primary" type="button" id="viewpass" name="viewpass" onclick="viewPass()"><i id="icono" class="fa-solid fa-eye"></i></button>
                             </div>
-
-
-
-
-
-
-
-
-
-
-
 
                             <div id="error-password" class="login__input-error text-danger mt-2"></div>    
                     </div>
