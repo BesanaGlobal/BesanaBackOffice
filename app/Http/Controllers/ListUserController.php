@@ -19,13 +19,14 @@ class ListUserController extends Controller
     public function index()
     {
 
-        $idLog=Auth()->user()->idUser;
-        $id=User::where('idUser',$idLog)->first();
-        $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
+    //     $idLog=Auth()->user()->idUser;
+    //     $id=User::where('idUser',$idLog)->first();
+    //     $afiliado=Affiliate::where('idAffiliated',Auth()->user()->idUser)->first();
 
-        $data = $afiliado->myAffiliates($id->idAffiliated);
+    //     $data = $afiliado->myAffiliates($id->idAffiliated);
         
-       return view('afiliados.listar',compact('data', 'id'));
+    //    return view('afiliados.listar',compact('data', 'id'));
+       return view('afiliados.listar');
         
     }
 
