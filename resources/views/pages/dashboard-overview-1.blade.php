@@ -1,9 +1,7 @@
 @extends('../layout/' . $layout)
-
 @section('subhead')
     <title>Dashboard - Besana</title>
 @endsection
-
 @section('subcontent')
     <div class="grid grid-cols-10 gap-6">
         <div class="col-span-12 2xl:col-span-10">
@@ -22,9 +20,12 @@
                                 {{ session('danger') }}
                             </div>
                         @endif
-                        @if ($afiliado->idAffiliated==1)
-                            <a href="{{route('walletRequest')}}" class="btn btn-sm btn-primary"> {{__('Request')}}</a>
+                        @if(isset($affiliado))
+                            @if ($afiliado->idAffiliated == 1)
+                                <a href="{{route('walletRequest')}}" class="btn btn-sm btn-primary"> {{__('Request')}}</a>
+                            @endif
                         @endif
+                        @if(isset($website))
                         <!-- BEGIN: Modal Toggle -->
                             <div class="text-right ml-4">
                                 <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="btn btn-sm btn-outline-primary btn-lg">{{__('My link')}}</a>
@@ -42,6 +43,7 @@
                                 </div>
                             </div>
                         <!-- END: Modal Content -->
+                        @endif
                     </div>
                 </div>
                 <!-- END: General Report -->

@@ -42,91 +42,114 @@
                 <input readonly type="text" id="city" class="form-control" value="{{$b->City}}" placeholder="{{$b->City}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
         </div>
-        <div class="w-full md:w-1/3 px-4">
-            <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Purchase Detail')}}</h1>
+        <div class="w-2/3 md:w-3/5  px-4">
+            <div>
+                <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Purchase Detail')}}</h1>
+            </div>
             <h2>Onzas Total: {{$onzasblade}}</h2>
             <h2>tax estado: {{$taxes}}</h2>
-            <table class="table-responsive text-center w-full">
-                <thead>
-                    <tr>
-                        <th class="p-2 bg-primary text-white">{{__('Amount')}}</th>
-                        <th class="p-2 bg-primary text-white">{{__('Product')}}</th>
-                        <th class="p-2 bg-primary text-white">{{{__('Price')}}}</th>
-                        <th class="p-2 bg-primary text-white">{{__('Tax')}}</th>
-                        <th class="p-2 bg-primary text-white">Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                    @forelse($cantidadProductos as $pro)
-                        @php
-                            $taxunique=number_format(floatval(($pro->price*$this->taxes)/100),2);
-                            $taxblade=$taxunique*$pro->quantity;
-                            $taxtotal+=$taxblade;
-                        @endphp
-                    @if ($pro->attributes->membresia > 0)
-                    <tr class="border-4  border-b-gray-500">
-                        <td class="text-center">
-                            <span class="badge badge-info">{{1}}</span>
-                            <input type="hidden" id="member" name="member" value="1">
-                        </td>
-                        <td class=" pr-5"> <span class="">Membresia </span></td>
-                        <td class=" text-right">$ 24.95</td>
-                        <td class=" text-right ">$ 0</td>
-                        <td class="text-right">{{number_format(floatval(24.95),2)}}</td>
-                    </tr>
-                    @endif
-                    <tr class="border-4  border-b-gray-500">
-                        <td class="text-center">
-                            <button class="btn btn-primary" wire:click="incrementQuantity({{$pro->id}})">+</button>
-                            <span class="badge badge-info ml-4 mr-4">{{$pro->quantity}}</span>
-                            <button class="btn btn-primary" wire:click="decrementQuantity({{$pro->id}})">-</button>
-                        </td>
-                        <td class=" pr-5"> 
-                            <span class=""> {{$pro->name}}</span>
-                            <input type="hidden" id="package" name="package" value="{{$pro->name}}">
-                        </td>
-                        <td class=" text-right">{{$pro->attributes->symbolCurrent}} {{ number_format(floatval($pro->price),2) }}</td>
-                        <td class=" text-right ">{{$pro->attributes->symbolCurrent}} {{$taxunique}}</td>
-                        <td class="text-right">{{$pro->attributes->symbolCurrent}} {{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
-                    </tr>
-                    @empty
-                    <tr class="border-4 border-indigo-200 border-b-indigo-500">
-                        <td colspan="6">NO DATA</td>
-                    </tr>
-                    @endforelse
-                    <tr>
-                        <td></td>
-                        <td class="text-center ">Subtotal:</td>
-                        <td></td>
-                        <td>
-                            <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($subtotalweb),2)}}</h1>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td class="text-center ">
-                            {{__('Shipping')}}:
-                        </td>
-                        <td></td>
-                        <td>
-                            <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($shipping),2)}}</h1>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td class="text-center ">
-                            TOTAL: {{$pro->attributes->symbolCurrent}}.
-                        </td>
-                        <td></td>
-                        <td>
-                            <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold "> {{number_format(floatval($totalImpuestoShipping),2)}}</h1>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table sm:table-auto text-center">
+                    <thead>
+                        <tr>
+                            <th class="p-2 bg-primary text-white">{{__('Amount')}}</th>
+                            <th class="p-2 bg-primary text-white">{{__('Product')}}</th>
+                            <th class="p-2 bg-primary text-white">{{{__('Price')}}}</th>
+                            <th class="p-2 bg-primary text-white">{{__('Tax')}}</th>
+                            <th class="p-2 bg-primary text-white">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($cantidadProductos as $pro)
+                            @php
+                                $taxunique  =   number_format(floatval(($pro->price *   $this->taxes)/100),2);
+                                $taxblade   =   $taxunique  *   $pro->quantity;
+                                $taxtotal   +=  $taxblade;
+                            @endphp
+                        @if ($pro->attributes->membresia > 0)
+                            @php
+                                $symbolCurrent    =   $pro->attributes->symbolCurrent; 
+                                switch ($symbolCurrent) {
+                                    case '$':
+                                        $costMembership     = 24.95 * 1;
+                                        break;
+                                    case 'GTQ':
+                                        $costMembership     = number_format(floatval(7.8 * 24.95),2); 
+                                        break;
+                                    case 'COP':
+                                        $costMembership     = number_format(floatval(4171.57 * 24.95),2);
+                                        break;
+                                    case 'MXN':
+                                        $costMembership     = number_format(floatval(17.28 * 24.95),2);
+                                        break;
+                                    default:
+                                        $costMembership     = 24.95 * 1;
+                                        break;
+                                } 
+                            @endphp
+                            <tr class="border-4  border-b-gray-500">
+                                <td class="text-center">
+                                    <span class="badge badge-info">{{1}}</span>
+                                    <input type="hidden" id="member" name="member" value="1">
+                                </td>
+                                <td class=" pr-5"> <span class="">Membresía</span></td>
+                                <td class=" text-right">{{$costMembership}}</td>
+                                <td class=" text-right ">0.00</td>
+                                <td class="text-right">{{$costMembership}}</td>
+                            </tr>
+                        @endif
+                        <tr class="border-4  border-b-gray-500">
+                            <td class="text-center">
+                                <button class="btn btn-primary" wire:click="incrementQuantity({{$pro->id}})">+</button>
+                                <span class="badge badge-info ml-4 mr-4">{{$pro->quantity}}</span>
+                                <button class="btn btn-primary" wire:click="decrementQuantity({{$pro->id}})">-</button>
+                            </td>
+                            <td class=" pr-5"> 
+                                <span class=""> {{$pro->name}}</span>
+                                <input type="hidden" id="package" name="package" value="{{$pro->name}}">
+                            </td>
+                            <td class=" text-right">{{ number_format(floatval($pro->price),2) }}</td>
+                            <td class=" text-right ">{{$taxunique}}</td>
+                            <td class="text-right">{{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
+                        </tr>
+                        @empty
+                        <tr class="border-4 border-indigo-200 border-b-indigo-500">
+                            <td colspan="6">NO DATA</td>
+                        </tr>
+                        @endforelse
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="text-center ">Subtotal:</td>
+                            <td></td>
+                            <td>
+                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center"> {{number_format(floatval($subtotalweb),2)}}</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="text-center ">{{__('Shipping')}}:</td>
+                            <td></td>
+                            <td>
+                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center"> {{number_format(floatval($shipping),2)}}</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="text-center ">TOTAL: {{$pro->attributes->symbolCurrent}}. </td>
+                            <td></td>
+                            <td>
+                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center"> {{number_format(floatval($totalImpuestoShipping),2)}}</h1>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
         </div>
-        <div class="w-full md:w-1/3 px-4">
+        <div class="w-1/3 md:w-1/3  px-4">
             <div class="">
                 <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Payment method')}}</h1>
             </div>

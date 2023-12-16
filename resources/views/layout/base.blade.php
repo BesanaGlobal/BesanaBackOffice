@@ -20,10 +20,14 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://kit.fontawesome.com/8e58440145.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     @livewireStyles
+    @livewireScripts
 
     @yield('head')
 
@@ -32,7 +36,6 @@
 
     @yield('body') 
     @stack('javas')
-    @livewireScripts
 
 </body>
 </html>

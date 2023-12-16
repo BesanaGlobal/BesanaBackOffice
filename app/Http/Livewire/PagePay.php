@@ -13,31 +13,31 @@ use Stripe;
 class PagePay extends Component
 {
 
-  public $onzasblade = 0;
+  public $onzasblade            = 0;
   public $total;
   public $totalImpuestoShipping = 0;
-  public $points = 0;
-  public $taxtotal = 0;
-  public $items = [];
+  public $points                = 0;
+  public $taxtotal              = 0;
+  public $items                 = [];
   public $nameCard;
   public $user;
   public $cantidadProductos;
   public $subtotal;
-  public $subtotalweb = 0;
+  public $subtotalweb           = 0;
   public $activo;
-  public $taxes   = 0;
-  public $taxTotal = 0;
-  public $shipping = 0;
-  public $totalcard = 0;
-  public $cantidadinterna = 0;
+  public $taxes                 = 0;
+  public $taxTotal              = 0;
+  public $shipping              = 0;
+  public $totalcard             = 0;
+  public $cantidadinterna       = 0;
   public $current;
 
   protected $stripe;
   protected $listeners = [
-    'pay' => 'pay',
-    'crearcliente' => 'crearcliente',
-    'success' => 'success',
-    'stripeError' => 'errorStripe'
+    'pay'           => 'pay',
+    'crearcliente'  => 'crearcliente',
+    'success'       => 'success',
+    'stripeError'   => 'errorStripe'
 
   ];
 
@@ -54,23 +54,39 @@ class PagePay extends Component
   public function render()
   {
 
-    $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->getContent();
-    $this->subtotal = \Cart::session(Auth()->user()->idUser)->getSubTotal();
-    $this->user = Affiliate::where('idAffiliated', Auth()->user()->idAffiliated)->first();
-    $b = $this->user;
-    $STRIPE_KEY = config('services.stripe.STRIPE_KEY');
-    $variable = config('services.stripe.STRIPE_SECRET');
-    $this->total = \Cart::session(Auth()->user()->idUser)->getTotal();
-    $totalonzas = 0;
-    $membresia = 0;
+    $this->cantidadProductos  = \Cart::session(Auth()->user()->idUser)->getContent();
+    $this->subtotal           = \Cart::session(Auth()->user()->idUser)->getSubTotal();
+    $this->user               = Affiliate::where('idAffiliated', Auth()->user()->idAffiliated)->first();
+    $b                        = $this->user;
+    $STRIPE_KEY               = config('services.stripe.STRIPE_KEY');
+    $variable                 = config('services.stripe.STRIPE_SECRET');
+    $this->total              = \Cart::session(Auth()->user()->idUser)->getTotal();
+    $totalonzas               = 0;
+    $membresia                = 0;
 
     if (count($this->cantidadProductos) > 0) {
       foreach ($this->cantidadProductos as $key => $value) {
         if ($value->attributes->membresia) {
-          $membresia = 24.95;
+          switch ($value->attributes->symbolCurrent) {
+            case '$':
+                $membresia     = 24.95 * 1;
+                break;
+            case 'GTQ':
+                $membresia     = number_format(floatval(7.8 * 24.95),2); 
+                break;
+            case 'COP':
+                $membresia     = number_format(floatval(4171.57 * 24.95),2);
+                break;
+            case 'MXN':
+                $membresia     = number_format(floatval(17.28 * 24.95),2);
+                break;
+            default:
+                $membresia     = 24.95 * 1;
+                break;
+          } 
         }
        
-        $totalonzas += $value->attributes->onzas * $value->quantity;
+        $totalonzas     += $value->attributes->onzas * $value->quantity;
         $this->taxtotal += $value->attributes->tax;
       }
 
@@ -94,19 +110,19 @@ class PagePay extends Component
         switch ($value['attributes']->symbolCurrent) {
           case '$':
               $this->shipping = floatval($this->shipping * 1); 
-              $this->current = "USD";
+              $this->current  = "USD";
               break;
           case 'GTQ':
               $this->shipping =  floatval(7.8 * $this->shipping);
-              $this->current = "GTQ";
+              $this->current  = "GTQ";
               break;
           case 'COP':
               $this->shipping = floatval(4171.57 * $this->shipping);
-              $this->current = "COP";
+              $this->current  = "COP";
               break;
           case 'MXN':
               $this->shipping = floatval(17.28 * $this->shipping); 
-              $this->current = "MXN";
+              $this->current  = "MXN";
               break;
         };
 
@@ -122,10 +138,10 @@ class PagePay extends Component
 
   public function pay($token, $name, $total, $member, $package)
   {
-    $tok = $token;
-    $variable = config('services.stripe.STRIPE_SECRET');
+    $tok          = $token;
+    $variable     = config('services.stripe.STRIPE_SECRET');
     $this->stripe = new \Stripe\StripeClient($variable);
-    $idAfiliado = Auth()->user()->idAffiliated;
+    $idAfiliado   = Auth()->user()->idAffiliated;
 
     if($member == 1){
 
@@ -144,7 +160,7 @@ class PagePay extends Component
       $this->updateAffiliated($idAfiliado);
       $this->ClearCart();
 
-      $mensaje = '';
+      $mensaje  = '';
       $language = session()->get('locale');
 
       if ($language == 'en') {
@@ -169,8 +185,8 @@ class PagePay extends Component
 
   public function finishpay($idAfiliado, $token)
   {
-    $fechaHoraActual = Carbon::now();
-    $fechaHoraMySQL = $fechaHoraActual->format('Y-m-d H:i:s');
+    $fechaHoraActual  = Carbon::now();
+    $fechaHoraMySQL   = $fechaHoraActual->format('Y-m-d H:i:s');
     
     $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
              array(
@@ -204,28 +220,29 @@ class PagePay extends Component
   public function DetailSale($idSale, $token)
   {
     foreach ($this->cantidadProductos as $pro) {
-      $subtotal = floatval($pro['price'] + $pro['attributes']['tax']);
-      $description = "Cantidad: " . $pro['quantity'] . " Producto: " . $pro['name'] . " Subtotal: " . $subtotal . "\n";
+      $subtotal     = floatval($pro['price'] + $pro['attributes']['tax']);
+      $description  = "Cantidad: " . $pro['quantity'] . " Producto: " . $pro['name'] . " Subtotal: " . $subtotal . "\n";
 
-      $detailV = new DetailSale();
-      $detailV->id_sale = $idSale;
-      $detailV->id_product = $pro['id'];
+      $detailV              = new DetailSale();
+      $detailV->id_sale     = $idSale;
+      $detailV->id_product  = $pro['id'];
       $detailV->NameProduct = $pro['name'];
       $detailV->precioVenta = $pro['price'];
-      $detailV->Tax = $pro['attributes']['tax'];
-      $detailV->cantidad = $pro['quantity'];
-      $detailV->subtotal = $subtotal;
+      $detailV->Tax         = $pro['attributes']['tax'];
+      $detailV->cantidad    = $pro['quantity'];
+      $detailV->subtotal    = $subtotal;
       $detailV->save();
     }
-    $amount = intval($this->totalImpuestoShipping * 100);
+
+    $amount   = intval($this->totalImpuestoShipping * 100);
 
     // dd( intval($this->totalImpuestoShipping * 100) );
     $this->stripe->charges->create([
-      'amount' => $amount,
-      'currency' => $this->current,
-      'description' => $description,
+      'amount'        => $amount,
+      'currency'      => $this->current,
+      'description'   => $description,
       'receipt_email' => $this->user->Email,
-      'source' => $token,
+      'source'        => $token,
 
     ]);
   }
@@ -244,8 +261,8 @@ class PagePay extends Component
     if ($totalonzas < 32) {
       return $this->shipping = 7;
     } else {
-      $shippinadd = intval($totalonzas - 31);
-      return $this->shipping = intval($shippinadd + 7);
+      $shippinadd             = intval($totalonzas - 31);
+      return $this->shipping  = intval($shippinadd + 7);
     }
   }
 
@@ -257,7 +274,6 @@ class PagePay extends Component
       case 'Nevada':
         return $this->taxes = 8.375;
         break;
-
       default:
         return  $this->taxes = 0;
         break;

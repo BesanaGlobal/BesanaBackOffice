@@ -19,24 +19,29 @@ class NextregisterComponent extends Component
   public $state;
   public $cantidadProductos = 0;
 
-  protected $listeners = ['addCart' => 'addCart'];
+  public $current;
+
+  protected $listeners = [
+    'addCart' => 'addCart',
+    'changeCurrent' => 'changeCurrent',
+  ];
+
+  public function changeCurrent($value)
+{
+    $this->current = $value;
+}
+
 
   public function render()
   {
+    $af                       = User::where('idUser', Auth()->user()->idUser)->first();
+    $Affiliated               = Affiliate::where('idAffiliated', $af->idAffiliated)->first();
+    $this->state              = strtoupper($Affiliated->State);
+    $this->cantidadProductos  = \Cart::session(Auth()->user()->idUser)->getContent()->count();
+    $this->items              = \Cart::session(Auth()->user()->idUser)->getContent();
+    $this->total              = \Cart::session(Auth()->user()->idUser)->getTotal();
 
-    //  dd(Auth()->user()->idUser);
-    $af = User::where('idUser', Auth()->user()->idUser)->first();
-    $Affiliated = Affiliate::where('idAffiliated', $af->idAffiliated)->first();
-    //dd($Affiliated->Email);
-
-    $this->state = strtoupper($Affiliated->State);
-    $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->getContent()->count();
-
-    $this->items = \Cart::session(Auth()->user()->idUser)->getContent();
-    $this->total = \Cart::session(Auth()->user()->idUser)->getTotal();
-    return view('livewire.nextregister-component2')
-      ->extends('layout.base')
-      ->section('body');
+    return view('livewire.nextregister-component2')->extends('layout.base')->section('body');
   }
   public function onzasPrice($val)
   {
@@ -52,10 +57,11 @@ class NextregisterComponent extends Component
     }
   }
 
-  public function addCart($id, $paquete, $price, $onzas, $cantidad, $puntos)
+  public function addCart($id,$package,$symbolCurrent,$price,$onzas,$quantity,$points)
   {
     $this->onzasPrice($onzas);
     $taxState = 0;
+    
     switch ($this->state) {
       case 'Nevada':
         $taxState = 8.375;
@@ -64,15 +70,16 @@ class NextregisterComponent extends Component
         $taxState = 0;
         break;
     }
+
     $newprice = 0;
-    $symbolCurrent          =   "$"; 
+    
     switch($id){
       case 1 :
         $priceTax = $price;
         $newprice = $price;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
-          'name' => $paquete,
+          'name' => $package,
           'price' => $newprice,
           'attributes' => array(
             'producto' => $newprice,
@@ -88,17 +95,22 @@ class NextregisterComponent extends Component
         break;
 
       case 2 :
+        $price = floatval(str_replace(',', '', $price)); // eliminamos la coma y luego convertimos a float
+
         $newprice = $price - 24.95;
+
+        // dd(number_format($newprice,2));
+
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
-          'name' => $paquete,
+          'name' => $package,
           'price' => $newprice,
           'attributes' => array(
             'producto' => $newprice,
             'tax' => $this->taxes,
             'shipping' => $this->shipping,
             'membresia' => 24.95,
-            'puntos' => $puntos,
+            'puntos' => $points,
             'onzas' => 1.8,
             'symbolCurrent' => $symbolCurrent
           ),
@@ -110,14 +122,14 @@ class NextregisterComponent extends Component
         $newprice = $price - 24.95;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
-          'name' => $paquete,
+          'name' => $package,
           'price' => $newprice,
           'attributes' => array(
             'producto' => $newprice,
             'tax' => $this->taxes,
             'shipping' => $this->shipping,
             'membresia' => 24.95,
-            'puntos' => $puntos,
+            'puntos' => $points,
             'onzas' => 3,
             'symbolCurrent' => $symbolCurrent
           ),
@@ -129,14 +141,14 @@ class NextregisterComponent extends Component
         $newprice = $price - 24.95;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
-          'name' => $paquete,
+          'name' => $package,
           'price' => $newprice,
           'attributes' => array(
             'producto' => $newprice,
             'tax' => $this->taxes,
             'shipping' => $this->shipping,
             'membresia' => 24.95,
-            'puntos' => $puntos,
+            'puntos' => $points,
             'onzas' => 3,
             'symbolCurrent' => $symbolCurrent
           ),
@@ -148,14 +160,14 @@ class NextregisterComponent extends Component
         $newprice = $price - 24.95;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
-          'name' => $paquete,
+          'name' => $package,
           'price' => $newprice,
           'attributes' => array(
             'producto' => $newprice,
             'tax' => $this->taxes,
             'shipping' => $this->shipping,
             'membresia' => 24.95,
-            'puntos' => $puntos,
+            'puntos' => $points,
             'onzas' => 10,
             'symbolCurrent' => $symbolCurrent
           ),
