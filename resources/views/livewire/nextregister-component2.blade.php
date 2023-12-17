@@ -10,61 +10,51 @@
       </div>
     </div>
     @php
+      $membership       = 24.95;
       $pricePack1       = 24.95;
-      $pricePack2       = 214.90;
-      $pricePack3       = 124.90;
-      $pricePack4       = 94.90;
-      $pricePack5       = 355.90;
+      $pricePack2       = 189.95;
+      $pricePack3       = 99.95;
+      $pricePack4       = 69.95;
+      $pricePack5       = 330.95;
       $symbolCurrent    =   "$"; 
+
       switch ($current) {
-        case 'eeuu':
-            $pricePack1     = 24.95 * 1;
-            $pricePack2     = 214.90 * 1;
-            $pricePack3     = 124.90 * 1;
-            $pricePack4     = 94.90 * 1;
-            $pricePack5     = 355.90 * 1;
-            $symbolCurrent  =   "$"; 
-            break;
         case 'guatemala':
-            $pricePack1     = number_format(floatval(7.8 * 24.95),2);
-            $pricePack2     = number_format(floatval(7.8 * 214.90),2);
-            $pricePack3     = number_format(floatval(7.8 * 124.90),2);
-            $pricePack4     = number_format(floatval(7.8 * 94.90),2);
-            $pricePack5     = number_format(floatval(7.8 * 355.90),2);
-            $symbolCurrent  =   "GTQ"; 
-            break;
+          $membership     = number_format(floatval(7.8 * $membership),  2);
+          $pricePack1     = number_format(floatval(7.8 * $pricePack1),  2);
+          $pricePack2     = number_format(floatval(7.8 * $pricePack2 + $membership),  2);
+          $pricePack3     = number_format(floatval(7.8 * $pricePack3 + $membership),  2);
+          $pricePack4     = number_format(floatval(7.8 * $pricePack4 + $membership),  2);
+          $pricePack5     = number_format(floatval(7.8 * $pricePack5 + $membership),  2);
+          $symbolCurrent  =   "GTQ"; 
+          break;
         case 'colombia':
-            $pricePack1     = number_format(floatval(4171.57 * 24.95),2);
-            $pricePack2     = number_format(floatval(4171.57 * 214.90),2);
-            $pricePack3     = number_format(floatval(4171.57 * 124.90),2);
-            $pricePack4     = number_format(floatval(4171.57 * 94.90),2);
-            $pricePack5     = number_format(floatval(4171.57 * 355.90),2);
-            $symbolCurrent  =   "COP"; 
-            break;
+          $membership     = number_format(floatval(4171.57 * $membership),  2);
+          $pricePack1     = number_format(floatval(4171.57 * $pricePack1), 2);
+          $pricePack2     = number_format(floatval(4171.57 * $pricePack2 + $membership), 2);
+          $pricePack3     = number_format(floatval(4171.57 * $pricePack3 + $membership), 2);
+          $pricePack4     = number_format(floatval(4171.57 * $pricePack4 + $membership), 2);
+          $pricePack5     = number_format(floatval(4171.57 * $pricePack5 + $membership), 2);
+          $symbolCurrent  =   "COP"; 
+          break;
         case 'mexico':
-            $pricePack1     = number_format(floatval(17.28 * 24.95),2);
-            $pricePack2     = number_format(floatval(17.28 * 214.90),2);
-            $pricePack3     = number_format(floatval(17.28 * 124.90),2);
-            $pricePack4     = number_format(floatval(17.28 * 94.90),2);
-            $pricePack5     = number_format(floatval(17.28 * 355.90),2);
-            $symbolCurrent  =   "MXN"; 
-            break;
-        case 'panama':
-            $pricePack1     = 24.95 * 1;
-            $pricePack2     = 214.90 * 1;
-            $pricePack3     = 124.90 * 1;
-            $pricePack4     = 94.90 * 1;
-            $pricePack5     = 355.90 * 1;
-            $symbolCurrent  =   "$"; 
-            break;
-        default:
-            $pricePack1     = 24.95 * 1;
-            $pricePack2     = 214.90 * 1;
-            $pricePack3     = 124.90 * 1;
-            $pricePack4     = 94.90 * 1;
-            $pricePack5     = 355.90 * 1;
-            $symbolCurrent  =   "$"; 
-            break;
+          $membership     = number_format(floatval(17.28 * $membership),  2);
+          $pricePack1     = number_format(floatval(17.28 * $pricePack1),  2);
+          $pricePack2     = number_format(floatval(17.28 * $pricePack2 + $membership),  2);
+          $pricePack3     = number_format(floatval(17.28 * $pricePack3 + $membership),  2);
+          $pricePack4     = number_format(floatval(17.28 * $pricePack4 + $membership),  2);
+          $pricePack5     = number_format(floatval(17.28 * $pricePack5 + $membership),  2);
+          $symbolCurrent  =   "MXN"; 
+          break;
+        default:            
+          $membership     = 24.95;
+          $pricePack1     = 24.95;
+          $pricePack2     = number_format(floatval(189.95  + $membership),2);
+          $pricePack3     = number_format(floatval(99.95   + $membership),2);
+          $pricePack4     = number_format(floatval(69.95   + $membership),2);
+          $pricePack5     = number_format(floatval(330.95  + $membership),2);
+          $symbolCurrent  =   "$"; 
+          break;
       } 
     @endphp
 

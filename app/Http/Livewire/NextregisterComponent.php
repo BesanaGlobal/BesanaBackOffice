@@ -27,9 +27,9 @@ class NextregisterComponent extends Component
   ];
 
   public function changeCurrent($value)
-{
+  {
     $this->current = $value;
-}
+  }
 
 
   public function render()
@@ -59,24 +59,41 @@ class NextregisterComponent extends Component
 
   public function addCart($id,$package,$symbolCurrent,$price,$onzas,$quantity,$points)
   {
+
     $this->onzasPrice($onzas);
-    $taxState = 0;
-    
-    switch ($this->state) {
-      case 'Nevada':
-        $taxState = 8.375;
+    $taxState   = 0;
+    $newprice   = 0;
+    $membership = 0;
+
+    switch ($symbolCurrent) {
+      case 'GTQ':
+        $membership     = number_format(floatval(7.8 * 24.95),2);
+        break;
+      case 'COP':
+        $membership     = number_format(floatval(4171.57 * 24.95),2);
+        break;
+      case 'MXN':
+        $membership     = number_format(floatval(17.28 * 24.95),2);
         break;
       default:
-        $taxState = 0;
+        $membership     = 24.95 * 1;
+        break;
+    } 
+
+    switch ($this->state){
+      case 'Nevada':
+        $taxState     = 8.375;
+        break;
+      default:
+        $taxState     = 0;
         break;
     }
-
-    $newprice = 0;
     
     switch($id){
       case 1 :
+        $price    = floatval(str_replace(',', '', $price));
         $priceTax = $price;
-        $newprice = $price;
+        $newprice = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -85,7 +102,7 @@ class NextregisterComponent extends Component
             'producto' => $newprice,
             'tax' => 0,
             'shipping' => 0,
-            'membresia' => 24.95,
+            'membresia' => $membership,
             'puntos' => 0,
             'onzas' => 0,
             'symbolCurrent' => $symbolCurrent
@@ -93,14 +110,9 @@ class NextregisterComponent extends Component
           'quantity' => 1,
         ));
         break;
-
       case 2 :
-        $price = floatval(str_replace(',', '', $price)); // eliminamos la coma y luego convertimos a float
-
-        $newprice = $price - 24.95;
-
-        // dd(number_format($newprice,2));
-
+        $price    = floatval(str_replace(',', '', $price));
+        $newprice = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -109,7 +121,7 @@ class NextregisterComponent extends Component
             'producto' => $newprice,
             'tax' => $this->taxes,
             'shipping' => $this->shipping,
-            'membresia' => 24.95,
+            'membresia' => $membership,
             'puntos' => $points,
             'onzas' => 1.8,
             'symbolCurrent' => $symbolCurrent
@@ -117,9 +129,9 @@ class NextregisterComponent extends Component
           'quantity' => 1,
         )); 
         break;
-
       case 3 :
-        $newprice = $price - 24.95;
+        $price    = floatval(str_replace(',', '', $price));
+        $newprice = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -128,7 +140,7 @@ class NextregisterComponent extends Component
             'producto' => $newprice,
             'tax' => $this->taxes,
             'shipping' => $this->shipping,
-            'membresia' => 24.95,
+            'membresia' => $membership,
             'puntos' => $points,
             'onzas' => 3,
             'symbolCurrent' => $symbolCurrent
@@ -136,9 +148,9 @@ class NextregisterComponent extends Component
           'quantity' => 1,
         ));      
         break;
-
       case 4 :
-        $newprice = $price - 24.95;
+        $price    = floatval(str_replace(',', '', $price));
+        $newprice = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -147,7 +159,7 @@ class NextregisterComponent extends Component
             'producto' => $newprice,
             'tax' => $this->taxes,
             'shipping' => $this->shipping,
-            'membresia' => 24.95,
+            'membresia' => $membership,
             'puntos' => $points,
             'onzas' => 3,
             'symbolCurrent' => $symbolCurrent
@@ -155,9 +167,9 @@ class NextregisterComponent extends Component
           'quantity' => 1,
         ));
         break;
-
       case 5 :
-        $newprice = $price - 24.95;
+        $price    = floatval(str_replace(',', '', $price));
+        $newprice = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -166,7 +178,7 @@ class NextregisterComponent extends Component
             'producto' => $newprice,
             'tax' => $this->taxes,
             'shipping' => $this->shipping,
-            'membresia' => 24.95,
+            'membresia' => $membership,
             'puntos' => $points,
             'onzas' => 10,
             'symbolCurrent' => $symbolCurrent
@@ -175,13 +187,11 @@ class NextregisterComponent extends Component
         ));  
         break;
     }
-
     return redirect()->route('cart-pay');
   }
 
   public function Cart($id, $price, $onzas)
   {
-
     $this->onzasPrice($onzas);
     $taxState = 0;
     switch ($this->state) {
@@ -206,6 +216,7 @@ class NextregisterComponent extends Component
       if ($existMem > 0) {
         return;
       }
+
       $priceTax = $price;
       \Cart::session(Auth()->user()->idUser)->add(array(
         'id' => 0, // inique row ID
@@ -214,11 +225,11 @@ class NextregisterComponent extends Component
         'quantity' => 1,
       ));
       $this->membresia = true;
+      
       return;
     }
     $this->taxes = round($price * $taxState / 100, 2);
     $priceTax    = round($this->taxes + $price, 2);
-
 
     if ($this->membresia == false) {
       \Cart::session(Auth()->user()->idUser)->add(array(
@@ -237,10 +248,7 @@ class NextregisterComponent extends Component
       'name' => 'Package #' . $id . 'Tax: ' . $this->taxes,
       'price' => $priceTax,
       'quantity' => 1,
-
-
     ));
-
 
     $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->getContent($id)->count();
 

@@ -1,5 +1,4 @@
 <div class="container mx-auto">
-
     <div class="flex flex-wrap -mx-4">
         <div class="w-full md:w-1/3 px-4">
             <div class="">
@@ -70,9 +69,6 @@
                             @php
                                 $symbolCurrent    =   $pro->attributes->symbolCurrent; 
                                 switch ($symbolCurrent) {
-                                    case '$':
-                                        $costMembership     = 24.95 * 1;
-                                        break;
                                     case 'GTQ':
                                         $costMembership     = number_format(floatval(7.8 * 24.95),2); 
                                         break;
