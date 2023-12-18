@@ -30,13 +30,13 @@
             <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0"></div>
         </div>
     </div>
-    <div>
-        <select id="current" name="current" wire:model="current" class="form-control">
-            <option value="eeuu">EE UU</option>
-            <option value="mexico">Mexico</option>
-            <option value="colombia">Colombia</option>
-            <option value="panama">Panamá</option>
-            <option value="guatemala">Guatemala</option>
+    <div id="currentDiv" class="col" wire:ignore>
+        <select name="current" id="current" wire:model="current">
+            <option value="eeuu" selected data-imagesrc="{{asset('/img/estados-unidos.png')}}" data-description="Estados Unidos">Estados Unidos</option>
+            <option value="mexico" data-imagesrc="{{asset('/img/mexico.png')}}" data-description="Mexico">Mexico</option>
+            <!-- <option value="colombia" data-imagesrc="{{asset('/img/colombia.png')}}" data-description="Colombia">Colombia</option> -->
+            <option value="panama" data-imagesrc="{{asset('/img/panama.png')}}" data-description="Panamá">Panamá</option>
+            <option value="guatemala" data-imagesrc="{{asset('/img/guatemala.png')}}" data-description="Guatemala">Guatemala</option>
         </select>
     </div>
     <div class="intro-y grid gap-2 grid-cols-1 sm:grid-cols-3 md:gap-4 mt-3">
@@ -67,10 +67,6 @@
                         $puntosNavideños        =   number_format($price);
                         $symbolCurrent          =   "$"; 
                         switch ($current) {
-                            case 'eeuu':
-                                $price = $price * 1;
-                                $symbolCurrent  =   "$"; 
-                                break;
                             case 'guatemala':
                                 $price =  number_format(floatval(7.8 * $price),2);
                                 $symbolCurrent  =   "GTQ"; 
@@ -83,12 +79,8 @@
                                 $price = number_format(floatval(17.28 * $price),2);
                                 $symbolCurrent  =   "MXN"; 
                                 break;
-                            case 'panama':
-                                $price = $price * 1;
-                                $symbolCurrent  =   "$"; 
-                                break;
                             default:
-                                $price = $price * 1;
+                                $price = number_format(floatval($price * 1),2);
                                 $symbolCurrent  =   "$"; 
                                 break;
                         }
@@ -143,16 +135,11 @@
         })
     }
 
-    var banderas = document.getElementById("banderas");
-
-    banderas.addEventListener("change", function() {
-      var imagen = document.createElement("img");
-      imagen.src = banderas.value + ".png";
-
-      document.body.appendChild(imagen);
+    $('#current').ddslick({
+    onSelected: function(selectedData){
+        var data = selectedData.selectedData.value;
+        window.livewire.emit('changeCurrent', data)
+      }   
     });
-
-
-
 
 </script>

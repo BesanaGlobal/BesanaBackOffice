@@ -23,9 +23,17 @@ class Products extends Component
   public $state;
   public $current;
 
+  protected $listeners = [
+    'changeCurrent' => 'changeCurrent',
+  ];
+
+  public function changeCurrent($value)
+  {
+    $this->current = $value;
+  }
+
   public function render()
   {
-
     $afiliado     = Affiliate::where('idAffiliated', Auth()->user()->idAffiliated)->first();
     $this->state  = $afiliado->State;
     $this->total  = \Cart::session(Auth()->user()->idUser)->getContent()->count();
@@ -37,6 +45,7 @@ class Products extends Component
         $this->onzasfront     = $value->attributes->onzas;
       }
     }
+
     $lines          = Line::all();
     $excludedIds    = [5];
     $this->products = Product::whereNotIn('idLine', $excludedIds)->get();
@@ -94,14 +103,11 @@ class Products extends Component
     $cantTem                = \Cart::session(Auth()->user()->idUser)->getContent()->count();
     $descuento              = $this->products[$id]['price'] * 0.15;
     $descuentoNavideño      = $this->products[$id]['price'] * 0.50;
-    $price                  = number_format(floatval($this->products[$id]['price'] - $descuento), 2);
-    $price                  = number_format(floatval($price - $descuentoNavideño), 2);
+    $price                  = number_format(floatval($this->products[$id]['price'] - $descuento),2);
+    $price                  = number_format(floatval($price - $descuentoNavideño),2);
     $symbolCurrent          =   "$"; 
     switch ($this->current) {
-        case 'eeuu':
-            $price = floatval($price * 1); 
-            $symbolCurrent  =   "$"; 
-            break;
+        
         case 'guatemala':
             $price =  floatval(7.8 * $price);
             $symbolCurrent  =   "GTQ"; 
@@ -114,19 +120,15 @@ class Products extends Component
             $price = floatval(17.28 * $price); 
             $symbolCurrent  =   "MXN";
             break;
-        case 'panama':
-            $price = floatval($price * 1); 
-            $symbolCurrent  =   "$";
-            break;
         default:
-            $price = floatval($price * 1); 
+            $price =  floatval($price * 1); 
             $symbolCurrent  =   "$";
             break;
     };
 
     switch ($this->state) {
       case 'Nevada':
-        $this->taxes = number_format(floatval((8.375 * $price) / 100),2);
+        $this->taxes =number_format(floatval( (8.375 * $price) / 100 ), 2);
         break;
       default:
         $this->taxes = 0;
@@ -139,10 +141,10 @@ class Products extends Component
       'price'         => $price,
       'quantity'      => $cant,
       'attributes'    => array(
-        'img'     => $this->products[$id]['img'],
-        'puntos'  => $this->products[$id]['puntos'],
-        'onzas'   => number_format(floatval($this->onzas), 2),
-        'tax'     => $this->taxes,
+        'img'           => $this->products[$id]['img'],
+        'puntos'        => $this->products[$id]['puntos'],
+        'onzas'         => number_format(floatval($this->onzas), 2),
+        'tax'           => $this->taxes,
         'symbolCurrent' => $symbolCurrent
       ),
     ));

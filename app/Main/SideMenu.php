@@ -15,261 +15,258 @@ class SideMenu
      */
     public static function menu()
     {
-        
-        // dd($afiliado[0]->rank->RankName);
-
-            if (!Auth()->user()) {
-                return [];
-            }else{
-                $user = Auth()->user();
-                $afiliado = Affiliate::where('idAffiliated', $user->idAffiliated)->with('rank')->get();
-                if (Auth()->user()->active) {   
-                    if(Auth()->user()->idUser == 1){
-                        return[
-                            'dashboard' => [
-                                'icon' => 'home',
-                                'title' => 'Home',
-                                'route_name' => 'dash',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
+        if (!Auth()->user()) {
+            return [];
+        }else{
+            $user = Auth()->user();
+            $afiliado = Affiliate::where('idAffiliated', $user->idAffiliated)->with('rank')->get();
+            if (Auth()->user()->active) {   
+                if(Auth()->user()->idUser == 1){
+                    return[
+                        'dashboard' => [
+                            'icon' => 'home',
+                            'title' => 'Home',
+                            'route_name' => 'dash',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'devider',
-                            'Shipping' => [
-                                'icon' => 'box',
-                                'route_name' => 'shipping',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Shipping'
+                        ],
+                        'devider',
+                        'Shipping' => [
+                            'icon' => 'box',
+                            'route_name' => 'shipping',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'devider',
-                            'Shop' => [
-                                'icon' => 'shopping-cart',
-                                'route_name' => 'products',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Shop'
+                            'title' => 'Shipping'
+                        ],
+                        'devider',
+                        'Shop' => [
+                            'icon' => 'shopping-cart',
+                            'route_name' => 'products',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'Compras' => [
-                                'icon' => 'shopping-cart',
-                                'route_name' => 'myshops',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'My shopping'
+                            'title' => 'Shop'
+                        ],
+                        'Compras' => [
+                            'icon' => 'shopping-cart',
+                            'route_name' => 'myshops',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'devider',
-                            'Agregar-afiliado' => [
-                                'icon' => 'plus-circle',
-                                'route_name' => 'socioactivo',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Add affiliate'
+                            'title' => 'My shopping'
+                        ],
+                        'devider',
+                        'Agregar-afiliado' => [
+                            'icon' => 'plus-circle',
+                            'route_name' => 'socioactivo',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'Socios-Activos' => [
-                                'icon' => 'users',
-                                'route_name' => 'active-partners',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Active Member'
+                            'title' => 'Add affiliate'
+                        ],
+                        'Socios-Activos' => [
+                            'icon' => 'users',
+                            'route_name' => 'active-partners',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'Socios-Promotores' => [
-                                'icon' => 'user-check',
-                                'route_name' => 'sociospromotores',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Promoter Partner'
+                            'title' => 'Active Member'
+                        ],
+                        'Socios-Promotores' => [
+                            'icon' => 'user-check',
+                            'route_name' => 'sociospromotores',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                          
-                            'Clientes' => [
-                                'icon' => 'user-plus',
-                                'route_name' => 'users-layout-2',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Customers'
+                            'title' => 'Promoter Partner'
+                        ],
+                        
+                        'Clientes' => [
+                            'icon' => 'user-plus',
+                            'route_name' => 'users-layout-2',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            // 'Prospectos' => [
-                            //     'icon' => 'user-plus',
-                            //     'route_name' => 'users-layout-3',
-                            //     'params' => [
-                            //         'layout' => 'side-menu'
-                            //     ],
-                            //     'title' => 'Prospects'
-                            // ],
-                            'devider',
-                            'Wallet' => [
-                                'icon' => 'dollar-sign',
-                                'route_name' => 'dash',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Wallet'
+                            'title' => 'Customers'
+                        ],
+                        // 'Prospectos' => [
+                        //     'icon' => 'user-plus',
+                        //     'route_name' => 'users-layout-3',
+                        //     'params' => [
+                        //         'layout' => 'side-menu'
+                        //     ],
+                        //     'title' => 'Prospects'
+                        // ],
+                        'devider',
+                        'Wallet' => [
+                            'icon' => 'dollar-sign',
+                            'route_name' => 'wallet',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'devider',
-                            'Centroderecursos' => [
-                                'icon' => 'database',
-                                'route_name' => 'file-manager',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Resource Center'
+                            'title' => 'Wallet'
+                        ],
+                        'devider',
+                        'Centroderecursos' => [
+                            'icon' => 'database',
+                            'route_name' => 'file-manager',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'Listar-afiliados' => [
-                                'icon' => 'list',
-                                'route_name' => 'ListUsers',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Affiliate List'
+                            'title' => 'Resource Center'
+                        ],
+                        'Listar-afiliados' => [
+                            'icon' => 'list',
+                            'route_name' => 'ListUsers',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'Tree' => [
-                                'icon' => 'user',
-                                'route_name' => 'partnertree',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Genealogy'
+                            'title' => 'Affiliate List'
+                        ],
+                        'Tree' => [
+                            'icon' => 'user',
+                            'route_name' => 'partnertree',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'devider',
-                        ];
-                    };
-                    //SI NO ES MASTER
-                    if ($afiliado[0]->rank->RankName == "SOCIO PROMOTOR") {
-                        return [
-                            'dashboard' => [
-                                'icon' => 'home',
-                                'title' => 'Home',
-                                'route_name' => 'dash',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                            ],
-                            'devider',
-                            'Clientes' => [
-                                'icon' => 'user-plus',
-                                'route_name' => 'users-layout-2',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Customers'
-                            ],
-                            'devider',
-                            'Wallet' => [
-                                'icon' => 'dollar-sign',
-                                'route_name' => 'dash',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Wallet'
-                            ],
-                        ];
-                    }
+                            'title' => 'Genealogy'
+                        ],
+                        'devider',
+                    ];
+                };
+                //SI NO ES MASTER
+                if ($afiliado[0]->rank->RankName == "SOCIO PROMOTOR") {
                     return [
                         'dashboard' => [
-                                'icon' => 'home',
-                                'title' => 'Home',
-                                'route_name' => 'dash',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
+                            'icon' => 'home',
+                            'title' => 'Home',
+                            'route_name' => 'dash',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'devider',
-                            'Shop' => [
-                                'icon' => 'shopping-cart',
-                                'route_name' => 'products',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Shop'
+                        ],
+                        'devider',
+                        'Clientes' => [
+                            'icon' => 'user-plus',
+                            'route_name' => 'users-layout-2',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'Compras' => [
-                                'icon' => 'shopping-cart',
-                                'route_name' => 'myshops',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'My shopping'
+                            'title' => 'Customers'
+                        ],
+                        'devider',
+                        'Wallet' => [
+                            'icon' => 'dollar-sign',
+                            'route_name' => 'wallet',
+                            'params' => [
+                                'layout' => 'side-menu'
                             ],
-                            'devider',
-                            'Agregar-afiliado' => [
-                                'icon' => 'plus-circle',
-                                'route_name' => 'socioactivo',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Add affiliate'
-                            ],
-                            'Socios-Activos' => [
-                                'icon' => 'users',
-                                'route_name' => 'active-partners',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Active Member'
-                            ],
-                            'Socios-Promotores' => [
-                                'icon' => 'user-check',
-                                'route_name' => 'sociospromotores',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Promoter Partner'
-                            ],
-                          
-                            'Clientes' => [
-                                'icon' => 'user-plus',
-                                'route_name' => 'users-layout-2',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Customers'
-                            ],
-                            'devider',
-                            'Wallet' => [
-                                'icon' => 'dollar-sign',
-                                'route_name' => 'dash',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Wallet'
-                            ],
-                            'devider',
-                            'Centroderecursos' => [
-                                'icon' => 'database',
-                                'route_name' => 'file-manager',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Resource Center'
-                            ],
-                            'Listar-afiliados' => [
-                                'icon' => 'list',
-                                'route_name' => 'ListUsers',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Affiliate List'
-                            ],
-                            'Tree' => [
-                                'icon' => 'user',
-                                'route_name' => 'partnertree',
-                                'params' => [
-                                    'layout' => 'side-menu'
-                                ],
-                                'title' => 'Genealogy'
-                            ],
-                            'devider',
+                            'title' => 'Wallet'
+                        ],
                     ];
-                }else{
-                    return [];
                 }
-                
+                return [
+                    'dashboard' => [
+                        'icon' => 'home',
+                        'title' => 'Home',
+                        'route_name' => 'dash',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                    ],
+                    'devider',
+                    'Shop' => [
+                        'icon' => 'shopping-cart',
+                        'route_name' => 'products',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Shop'
+                    ],
+                    'Compras' => [
+                        'icon' => 'shopping-cart',
+                        'route_name' => 'myshops',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'My shopping'
+                    ],
+                    'devider',
+                    'Agregar-afiliado' => [
+                        'icon' => 'plus-circle',
+                        'route_name' => 'socioactivo',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Add affiliate'
+                    ],
+                    'Socios-Activos' => [
+                        'icon' => 'users',
+                        'route_name' => 'active-partners',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Active Member'
+                    ],
+                    'Socios-Promotores' => [
+                        'icon' => 'user-check',
+                        'route_name' => 'sociospromotores',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Promoter Partner'
+                    ],
+                    
+                    'Clientes' => [
+                        'icon' => 'user-plus',
+                        'route_name' => 'users-layout-2',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Customers'
+                    ],
+                    'devider',
+                    'Wallet' => [
+                        'icon' => 'dollar-sign',
+                        'route_name' => 'wallet',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Wallet'
+                    ],
+                    'devider',
+                    'Centroderecursos' => [
+                        'icon' => 'database',
+                        'route_name' => 'file-manager',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Resource Center'
+                    ],
+                    'Listar-afiliados' => [
+                        'icon' => 'list',
+                        'route_name' => 'ListUsers',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Affiliate List'
+                    ],
+                    'Tree' => [
+                        'icon' => 'user',
+                        'route_name' => 'partnertree',
+                        'params' => [
+                            'layout' => 'side-menu'
+                        ],
+                        'title' => 'Genealogy'
+                    ],
+                    'devider',
+                ];
+            }else{
+                return [];
             }
+            
+        }
     }
 }

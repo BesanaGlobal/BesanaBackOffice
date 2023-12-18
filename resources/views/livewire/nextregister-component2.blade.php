@@ -3,10 +3,12 @@
     <div class="row">
       <div id="currentDiv" class="col" wire:ignore>
         <select name="current" id="current" wire:model="current">
-            <option value="eeuu" selected data-imagesrc="{{asset('/img/estados-unidos.png')}}" data-description="Estados Unidos">Estados Unidos</option>
-            <option value="mexico" data-imagesrc="{{asset('/img/mexico.png')}}" data-description="Mexico">Mexico</option>
+          <option value="eeuu" selected data-imagesrc="{{asset('/img/estados-unidos.png')}}" data-description="Estados Unidos">Estados Unidos</option>
+          <option value="mexico" data-imagesrc="{{asset('/img/mexico.png')}}" data-description="Mexico">Mexico</option>
+          <!-- <option value="colombia" data-imagesrc="{{asset('/img/colombia.png')}}" data-description="Colombia">Colombia</option> -->
+          <option value="panama" data-imagesrc="{{asset('/img/panama.png')}}" data-description="Panamá">Panamá</option>
+          <option value="guatemala" data-imagesrc="{{asset('/img/guatemala.png')}}" data-description="Guatemala">Guatemala</option>
         </select>
-        
       </div>
     </div>
     @php
@@ -17,10 +19,10 @@
       $pricePack4       = 69.95;
       $pricePack5       = 330.95;
       $symbolCurrent    =   "$"; 
-
+//REVISARR PRECIOS EN COLOMBIA
       switch ($current) {
         case 'guatemala':
-          $membership     = number_format(floatval(7.8 * $membership),  2);
+          $membership     = 7.8 * $membership;
           $pricePack1     = number_format(floatval(7.8 * $pricePack1),  2);
           $pricePack2     = number_format(floatval(7.8 * $pricePack2 + $membership),  2);
           $pricePack3     = number_format(floatval(7.8 * $pricePack3 + $membership),  2);
@@ -29,16 +31,16 @@
           $symbolCurrent  =   "GTQ"; 
           break;
         case 'colombia':
-          $membership     = number_format(floatval(4171.57 * $membership),  2);
-          $pricePack1     = number_format(floatval(4171.57 * $pricePack1), 2);
-          $pricePack2     = number_format(floatval(4171.57 * $pricePack2 + $membership), 2);
-          $pricePack3     = number_format(floatval(4171.57 * $pricePack3 + $membership), 2);
-          $pricePack4     = number_format(floatval(4171.57 * $pricePack4 + $membership), 2);
-          $pricePack5     = number_format(floatval(4171.57 * $pricePack5 + $membership), 2);
+          $membership       = 4171.57 * $membership;
+          $pricePack1       = number_format(floatval(4171.57 * $pricePack1) , 2);
+          $pricePack2       = number_format(floatval(4171.57 * $pricePack2 + $membership) , 2);
+          $pricePack3       = number_format(floatval(4171.57 * $pricePack3 + $membership) , 2);
+          $pricePack4       = number_format(floatval(4171.57 * $pricePack4 + $membership) , 2);
+          $pricePack5       = number_format(floatval(4171.57 * $pricePack5 + $membership) , 2);
           $symbolCurrent  =   "COP"; 
           break;
         case 'mexico':
-          $membership     = number_format(floatval(17.28 * $membership),  2);
+          $membership     = 17.28 * $membership;
           $pricePack1     = number_format(floatval(17.28 * $pricePack1),  2);
           $pricePack2     = number_format(floatval(17.28 * $pricePack2 + $membership),  2);
           $pricePack3     = number_format(floatval(17.28 * $pricePack3 + $membership),  2);
@@ -247,16 +249,10 @@
     $('#current').ddslick({
     onSelected: function(selectedData){
         //callback function: do something with selectedData;
-        // selectedData.selectedData.value
-
         var data = selectedData.selectedData.value;
-        // sendData(data);
         window.livewire.emit('changeCurrent', data)
-
       }   
     });
-
-
     
   </script>
 </div>

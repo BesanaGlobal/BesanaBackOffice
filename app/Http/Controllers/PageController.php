@@ -47,6 +47,23 @@ class PageController extends Controller
         return view('pages/dashboard-overview-1',compact('afiliado','walletWeek','walletMonth',  'website'));
     }
 
+    public function walletView()
+    {
+        $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
+        $walletWeek             =   WalletWeek::where('id_user', Auth()->user()->idUser)
+                                                ->whereDate('fechaInicio', '>=', date('Y-m-01'))
+                                                ->whereDate('fechaInicio', '<=', date('Y-m-t'))
+                                                ->where('estado','Pendiente')
+                                                ->get();
+        $walletMonth            =   WalletMonth::where('id_user', Auth()->user()->idUser)
+                                                ->whereDate('fechaInicio', '>=', date('Y-m-01'))
+                                                ->whereDate('fechaInicio', '<=', date('Y-m-t'))
+                                                ->where('estado','Pendiente')
+                                                ->get();   
+          
+        return view('pages/walletView',compact('afiliado','walletWeek','walletMonth'));
+    }
+
     public function solicitaWeek(Request $request){
 
        $wallet =  WalletWeek::where('id_user', $request->id)

@@ -61,7 +61,7 @@
                     <tbody>
                         @forelse($cantidadProductos as $pro)
                             @php
-                                $taxunique  =   number_format(floatval(($pro->price *   $this->taxes)/100),2);
+                                $taxunique  =   ($pro->price *   $this->taxes)/100;
                                 $taxblade   =   $taxunique  *   $pro->quantity;
                                 $taxtotal   +=  $taxblade;
                             @endphp
@@ -105,8 +105,8 @@
                                 <input type="hidden" id="package" name="package" value="{{$pro->name}}">
                             </td>
                             <td class=" text-right">{{ number_format(floatval($pro->price),2) }}</td>
-                            <td class=" text-right ">{{$taxunique}}</td>
-                            <td class="text-right">{{number_format(floatval(($pro->price+$taxunique)*$pro->quantity),2)}}</td>
+                            <td class=" text-right ">{{number_format(floatval($taxunique),2)}}</td>
+                            <td class="text-right">{{number_format(floatval(($pro->price + $taxunique) * $pro->quantity),2)}}</td>
                         </tr>
                         @empty
                         <tr class="border-4 border-indigo-200 border-b-indigo-500">
@@ -176,19 +176,8 @@
     </div>
 </div>
 
-
-
-
 @push('javascript')
-
-
-
-
 <script>
-
-
-
-
     window.addEventListener('package', event => {
         Swal.fire('', event.detail.msg).then(result => {
                         if (result.isConfirmed) {
@@ -252,22 +241,16 @@
         }
     });
 
-    
-
     var form = document.getElementById('payment-form');
     const cardButton = document.getElementById('card-button');
-    // var stt=  stripe.updatePaymentIntent(paymentIntentId,{
-    //         'amount_details':amount_details
-    //     });
-
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        let nameCard = document.getElementById('nameCard').value
-        const name = document.getElementById('name').value;
-        let package = document.getElementById('package').value;
-        const email = document.getElementById('email').value;
-        const address = document.getElementById('address').value;
-        const totalfull = document.getElementById('totalfull').value;
+        let nameCard        = document.getElementById('nameCard').value
+        const name          = document.getElementById('name').value;
+        let package         = document.getElementById('package').value;
+        const email         = document.getElementById('email').value;
+        const address       = document.getElementById('address').value;
+        const totalfull     = document.getElementById('totalfull').value;
         cardButton.disabled = true;
 
         stripe.createToken(cardElement, {
@@ -275,9 +258,7 @@
         }).then(function(result) {
             if (result.error) {
                 Livewire.emit('stripeError', result.error.message)
-                // console.log(result.error.message)
             } else {
-                // Enviar el token a tu servidor
                 var input = document.createElement('input');
                 if (document.getElementById('member') !== null) {
                     let member = document.getElementById('member').value;
@@ -286,8 +267,6 @@
                     Livewire.emit('pay', result.token.id, name, totalfull, 0, package)
 
                 }
-                //  form.submit();
-                // console.log(result.token.id)
             }
             cardButton.disabled = false;
         });

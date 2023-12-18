@@ -9,13 +9,13 @@ use Livewire\Component;
 
 class NextregisterComponent extends Component
 {
-  public $items = [];
+  public $items             = [];
   public $totalOnzas;
-  public $total = 0;
-  public array $datas = [];
-  public $membresia = false;
-  public $taxes = 0;
-  public $shipping = 0;
+  public $total             = 0;
+  public array $datas       = [];
+  public $membresia         = false;
+  public $taxes             = 0;
+  public $shipping          = 0;
   public $state;
   public $cantidadProductos = 0;
 
@@ -30,7 +30,6 @@ class NextregisterComponent extends Component
   {
     $this->current = $value;
   }
-
 
   public function render()
   {
@@ -91,9 +90,10 @@ class NextregisterComponent extends Component
     
     switch($id){
       case 1 :
-        $price    = floatval(str_replace(',', '', $price));
-        $priceTax = $price;
-        $newprice = $price - $membership;
+        $price          = floatval(str_replace(',', '', $price));
+        $membership     = floatval(str_replace(',', '', $membership));
+        $priceTax       = $price;
+        $newprice       = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -111,8 +111,9 @@ class NextregisterComponent extends Component
         ));
         break;
       case 2 :
-        $price    = floatval(str_replace(',', '', $price));
-        $newprice = $price - $membership;
+        $price          = floatval(str_replace(',', '', $price));
+        $membership     = floatval(str_replace(',', '', $membership));
+        $newprice       = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -130,8 +131,9 @@ class NextregisterComponent extends Component
         )); 
         break;
       case 3 :
-        $price    = floatval(str_replace(',', '', $price));
-        $newprice = $price - $membership;
+        $price          = floatval(str_replace(',', '', $price));
+        $membership     = floatval(str_replace(',', '', $membership));
+        $newprice       = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -149,8 +151,9 @@ class NextregisterComponent extends Component
         ));      
         break;
       case 4 :
-        $price    = floatval(str_replace(',', '', $price));
-        $newprice = $price - $membership;
+        $price          = floatval(str_replace(',', '', $price));
+        $membership     = floatval(str_replace(',', '', $membership));
+        $newprice       = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,
@@ -168,8 +171,9 @@ class NextregisterComponent extends Component
         ));
         break;
       case 5 :
-        $price    = floatval(str_replace(',', '', $price));
-        $newprice = $price - $membership;
+        $price          = floatval(str_replace(',', '', $price));
+        $membership     = floatval(str_replace(',', '', $membership));
+        $newprice       = $price - $membership;
         \Cart::session(Auth()->user()->idUser)->add(array(
           'id' => $id, // inique row ID
           'name' => $package,

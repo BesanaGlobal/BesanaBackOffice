@@ -44,6 +44,7 @@ Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class
 Route::get('login', LoginComponent::class)->name('login');
 
 //wallet
+Route::get('/walletView',[PageController::class,'walletView'] )->middleware(['auth','isafiliado'])->name('wallet');
 Route::get('wallet/{id}',[WalletController::class,'edit'])->middleware(['auth','isafiliado'])->name('wallet.edit');
 Route::get('WeekList', [WalletController::class,'WeekList'])->middleware(['auth','isafiliado'])->name('weeklist');
 Route::get('MonthList', [WalletController::class,'MonthList'])->middleware(['auth','isafiliado'])->name('monthlist');

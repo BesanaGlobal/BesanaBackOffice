@@ -53,13 +53,12 @@ class PagePay extends Component
 
   public function render()
   {
-
-    $this->cantidadProductos  = \Cart::session(Auth()->user()->idUser)->getContent();
-    $this->subtotal           = \Cart::session(Auth()->user()->idUser)->getSubTotal();
-    $this->user               = Affiliate::where('idAffiliated', Auth()->user()->idAffiliated)->first();
-    $b                        = $this->user;
     $STRIPE_KEY               = config('services.stripe.STRIPE_KEY');
     $variable                 = config('services.stripe.STRIPE_SECRET');
+    $this->user               = Affiliate::where('idAffiliated', Auth()->user()->idAffiliated)->first();
+    $b                        = $this->user;
+    $this->cantidadProductos  = \Cart::session(Auth()->user()->idUser)->getContent();
+    $this->subtotal           = \Cart::session(Auth()->user()->idUser)->getSubTotal();
     $this->total              = \Cart::session(Auth()->user()->idUser)->getTotal();
     $totalonzas               = 0;
     $membresia                = 0;
@@ -67,27 +66,10 @@ class PagePay extends Component
     if (count($this->cantidadProductos) > 0) {
       foreach ($this->cantidadProductos as $key => $value) {
         if ($value->attributes->membresia) {
-          switch ($value->attributes->symbolCurrent) {
-            case '$':
-                $membresia     = 24.95 * 1;
-                break;
-            case 'GTQ':
-                $membresia     = number_format(floatval(7.8 * 24.95),2); 
-                break;
-            case 'COP':
-                $membresia     = number_format(floatval(4171.57 * 24.95),2);
-                break;
-            case 'MXN':
-                $membresia     = number_format(floatval(17.28 * 24.95),2);
-                break;
-            default:
-                $membresia     = 24.95 * 1;
-                break;
-          } 
+          $membresia = $value->attributes->membresia;
         }
-       
         $totalonzas     += $value->attributes->onzas * $value->quantity;
-        $this->taxtotal += $value->attributes->tax;
+        $this->taxtotal += floatval(str_replace(',', '', $value->attributes->tax));
       }
 
       $this->totalOnzas($totalonzas);
