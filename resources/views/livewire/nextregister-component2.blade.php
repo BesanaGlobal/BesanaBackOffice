@@ -2,6 +2,7 @@
   <div class="flex flex-col z-10 max-sm:px-4 ">
     <div class="row">
       <div id="currentDiv" class="col" wire:ignore>
+        <label for="current" class="form-label"> Seleccione moneda de pago:</label>
         <select name="current" id="current" wire:model="current">
           <option value="eeuu" selected data-imagesrc="{{asset('/img/estados-unidos.png')}}" data-description="Estados Unidos">Estados Unidos</option>
           <option value="mexico" data-imagesrc="{{asset('/img/mexico.png')}}" data-description="Mexico">Mexico</option>

@@ -1,5 +1,11 @@
 <div class="container mx-auto">
-    <div class="flex flex-wrap -mx-4">
+    <div class="flex flex-wrap -mx-4 mt-5">
+        @if($viewStatus !== 1)
+            <div class="w-full pb-4 flex justify-end">
+                <button class="btn btn-outline-primary btn-lg mr-4" id="comeBack" name="comeBack" onclick="comeBack()">Seguir Comprando</button>
+                <button class="btn btn-outline-danger btn-lg mr-3" id="cleanCart" name="cleanCart" onclick="cleaning()">Limpiar Carrito</button>
+            </div>
+        @endif
         <div class="w-full md:w-1/3 px-4">
             <div class="">
                 <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Information')}}</h1>
@@ -169,7 +175,7 @@
                 <!-- Used to display form errors. -->
                 <div id="card-errors" role="alert"></div>
                 <div class="card-footer">
-                    <button id="card-button" type="submit" class="btn btn-primary mt-3"> {{__('Pay')}} </button>
+                    <button id="card-button" type="submit" class="btn btn-primary btn-lg mt-3"> {{__('Pay')}} </button>
                 </div>
             </form>
         </div>
@@ -271,5 +277,27 @@
             cardButton.disabled = false;
         });
     });
+
+    function cleaning() {
+        Swal.fire({
+            title: 'Info',
+            text: "¿CONFIRM CLEAR?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.Cleaning()
+            }
+        })
+    }
+
+    function comeBack(){
+        window.location = '/products';
+    }
+
+
 </script>
 @endpush

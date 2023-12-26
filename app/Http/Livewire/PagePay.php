@@ -31,6 +31,7 @@ class PagePay extends Component
   public $totalcard             = 0;
   public $cantidadinterna       = 0;
   public $current;
+  public $viewStatus;
 
   protected $stripe;
   protected $listeners = [
@@ -67,6 +68,7 @@ class PagePay extends Component
       foreach ($this->cantidadProductos as $key => $value) {
         if ($value->attributes->membresia) {
           $membresia = $value->attributes->membresia;
+          $this->viewStatus   = 1;
         }
         $totalonzas     += $value->attributes->onzas * $value->quantity;
         $this->taxtotal += floatval(str_replace(',', '', $value->attributes->tax));
@@ -78,15 +80,13 @@ class PagePay extends Component
 
       foreach ($this->cantidadProductos as $key => $value) {
         if ($value->name == "MEMBERSHIP") {
-          $this->subtotalweb = $this->subtotal + $taxsub ;
+          $this->subtotalweb  = $this->subtotal + $taxsub;
         } else {
-          $this->subtotalweb = $this->subtotal + $taxsub + $membresia ;
+          $this->subtotalweb  = $this->subtotal + $taxsub + $membresia;
         }
       }
-
-      foreach($this->cantidadProductos as $value){
-
-      }
+      
+      foreach($this->cantidadProductos as $value){}
       
       if($value['attributes']->symbolCurrent){
         switch ($value['attributes']->symbolCurrent) {
@@ -293,5 +293,12 @@ class PagePay extends Component
   public function success()
   {
     $this->ClearCart();
+  }
+
+  public function Cleaning()
+  {
+    \Cart::session(Auth()->user()->idUser)->clear();
+    $this->cantidadProductos  = \Cart::session(Auth()->user()->idUser)->getContent()->count();
+    return redirect('/products');
   }
 }

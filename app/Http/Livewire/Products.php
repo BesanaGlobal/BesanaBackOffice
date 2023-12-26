@@ -97,6 +97,27 @@ class Products extends Component
     }
   }
 
+
+  public function evaluateCart($symbolCurrent){
+    $language      = session()->get('locale');
+    $productInCart = \Cart::session(Auth()->user()->idUser)->getContent();
+    if ( count($productInCart) > 0 ) {
+      foreach ($productInCart as $key => $value) {}
+        if( $value->attributes->symbolCurrent === $symbolCurrent ) {
+          return true;
+        }else{
+          if ($language == 'en') {
+            $this->dispatchBrowserEvent('error', ['msg' => 'You already have an added product with  '.$value->attributes->symbolCurrent.', you cannot add with a product with different currency in the same purchase, finish the purchase active or clean the cart.']);
+            return false;
+          } else {
+            $this->dispatchBrowserEvent('error', ['msg' => 'Ya tiene un producto agregado con '.$value->attributes->symbolCurrent.' como moneda, no puede agregar un product con una moneda diferente en la misma compra, finalize la compra activa o limpie el carrito.']);
+            return false;
+          }
+        }
+    }
+    return true;
+  }
+
   public function addCart($id, $cant = 1)
   {
     $this->obtenerOnzas($id);
@@ -107,7 +128,6 @@ class Products extends Component
     $price                  = number_format(floatval($price - $descuentoNavideño),2);
     $symbolCurrent          =   "$"; 
     switch ($this->current) {
-        
         case 'guatemala':
             $price =  floatval(7.8 * $price);
             $symbolCurrent  =   "GTQ"; 
@@ -135,37 +155,42 @@ class Products extends Component
         break;
     };
 
-    \Cart::session(Auth()->user()->idUser)->add(array(
-      'id'            => $this->products[$id]['idProd'], // inique row ID
-      'name'          => $this->products[$id]['name'],
-      'price'         => $price,
-      'quantity'      => $cant,
-      'attributes'    => array(
-        'img'           => $this->products[$id]['img'],
-        'puntos'        => $this->products[$id]['puntos'],
-        'onzas'         => number_format(floatval($this->onzas), 2),
-        'tax'           => $this->taxes,
-        'symbolCurrent' => $symbolCurrent
-      ),
-    ));
+    if($this->evaluateCart($symbolCurrent)){
+  
+      \Cart::session(Auth()->user()->idUser)->add(array(
+        'id'            => $this->products[$id]['idProd'], // inique row ID
+        'name'          => $this->products[$id]['name'],
+        'price'         => $price,
+        'quantity'      => $cant,
+        'attributes'    => array(
+          'img'           => $this->products[$id]['img'],
+          'puntos'        => $this->products[$id]['puntos'],
+          'onzas'         => number_format(floatval($this->onzas), 2),
+          'tax'           => $this->taxes,
+          'symbolCurrent' => $symbolCurrent
+        ),
+      ));
 
-    $this->puntosTemporal     = $this->products[$id]['puntos'];
-    $this->cantidadProductos  = \Cart::session(Auth()->user()->idUser)->getContent($id)->count();
-    $language                 = session()->get('locale');
-    if ($this->cantidadProductos == $cantTem) {
-      if ($language == 'en') {
-        $this->dispatchBrowserEvent('noty', ['msg' => 'Product Updated']);
+      $this->puntosTemporal     = $this->products[$id]['puntos'];
+      $this->cantidadProductos  = \Cart::session(Auth()->user()->idUser)->getContent($id)->count();
+      $language                 = session()->get('locale');
+      if ($this->cantidadProductos == $cantTem) {
+        if ($language == 'en') {
+          $this->dispatchBrowserEvent('noty', ['msg' => 'Product Updated']);
+        } else {
+          $this->dispatchBrowserEvent('noty', ['msg' => 'Producto Actualizado la cantidad']);
+        }
+        $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->getContent($id)->count();
       } else {
-        $this->dispatchBrowserEvent('noty', ['msg' => 'Producto Actualizado la cantidad']);
+        if ($language == 'en') {
+          $this->dispatchBrowserEvent('noty', ['msg' => 'Add new Product!']);
+        } else {
+          $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
+        }
       }
-      $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->getContent($id)->count();
-    } else {
-      if ($language == 'en') {
-        $this->dispatchBrowserEvent('noty', ['msg' => 'Add new Product!']);
-      } else {
-        $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
-      }
+
     }
+
   }
 
   public function ClearCart()
