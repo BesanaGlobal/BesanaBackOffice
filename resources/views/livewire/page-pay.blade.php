@@ -57,19 +57,24 @@
                 <table class="table sm:table-auto text-center">
                     <thead>
                         <tr>
-                            <th class="p-2 bg-primary text-white">{{__('Amount')}}</th>
-                            <th class="p-2 bg-primary text-white">{{__('Product')}}</th>
-                            <th class="p-2 bg-primary text-white">{{{__('Price')}}}</th>
-                            <th class="p-2 bg-primary text-white">{{__('Tax')}}</th>
-                            <th class="p-2 bg-primary text-white">Subtotal</th>
+                            <th class="p-2 bg-primary text-white text-center">{{__('Amount')}}</th>
+                            <th class="p-2 bg-primary text-white text-center">{{__('Product')}}</th>
+                            <th class="p-2 bg-primary text-white text-center">{{{__('Price')}}}</th>
+                            <th class="p-2 bg-primary text-white text-center">{{__('Tax')}}</th>
+                            <th class="p-2 bg-primary text-white text-center">Subtotal</th>
+                            <th class="p-2 bg-primary text-white text-center">Puntos</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $pointsTotal = 0;
+                        @endphp
                         @forelse($cantidadProductos as $pro)
                             @php
-                                $taxunique  =   ($pro->price *   $this->taxes)/100;
-                                $taxblade   =   $taxunique  *   $pro->quantity;
-                                $taxtotal   +=  $taxblade;
+                                $taxunique      =   ($pro->price *   $this->taxes)/100;
+                                $taxblade       =   $taxunique  *   $pro->quantity;
+                                $taxtotal       +=  $taxblade;
+                                $pointsTotal    += $pro->attributes->puntos * $pro->quantity;
                             @endphp
                         @if ($pro->attributes->membresia > 0)
                             @php
@@ -95,9 +100,9 @@
                                     <input type="hidden" id="member" name="member" value="1">
                                 </td>
                                 <td class=" pr-5"> <span class="">Membresía</span></td>
-                                <td class=" text-right">{{$costMembership}}</td>
-                                <td class=" text-right ">0.00</td>
-                                <td class="text-right">{{$costMembership}}</td>
+                                <td class=" text-right">{{$pro->attributes->symbolCurrent}} {{$costMembership}}</td>
+                                <td class=" text-right ">{{$pro->attributes->symbolCurrent}} 0.00</td>
+                                <td class="text-right">{{$pro->attributes->symbolCurrent}} {{$costMembership}}</td>
                             </tr>
                         @endif
                         <tr class="border-4  border-b-gray-500">
@@ -110,40 +115,55 @@
                                 <span class=""> {{$pro->name}}</span>
                                 <input type="hidden" id="package" name="package" value="{{$pro->name}}">
                             </td>
-                            <td class=" text-right">{{ number_format(floatval($pro->price),2) }}</td>
-                            <td class=" text-right ">{{number_format(floatval($taxunique),2)}}</td>
-                            <td class="text-right">{{number_format(floatval(($pro->price + $taxunique) * $pro->quantity),2)}}</td>
+                            <td class=" text-right">{{$pro->attributes->symbolCurrent}} {{ number_format(floatval($pro->price),2) }}</td>
+                            <td class=" text-right">{{$pro->attributes->symbolCurrent}} {{number_format(floatval($taxunique),2)}}</td>
+                            <td class="text-right">{{$pro->attributes->symbolCurrent}} {{number_format(floatval(($pro->price + $taxunique) * $pro->quantity),2)}}</td>
+                            <td class="text-right">Pts. {{number_format($pro->attributes->puntos * $pro->quantity)}}</td>
                         </tr>
                         @empty
                         <tr class="border-4 border-indigo-200 border-b-indigo-500">
                             <td colspan="6">NO DATA</td>
                         </tr>
                         @endforelse
+
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td class="text-center ">Subtotal:</td>
                             <td></td>
                             <td>
-                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center"> {{number_format(floatval($subtotalweb),2)}}</h1>
+                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center">{{$pro->attributes->symbolCurrent}} {{number_format(floatval($subtotalweb),2)}}</h1>
                             </td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td class="text-center ">{{__('Shipping')}}:</td>
                             <td></td>
                             <td>
-                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center"> {{number_format(floatval($shipping),2)}}</h1>
+                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center">{{$pro->attributes->symbolCurrent}} {{number_format(floatval($shipping),2)}}</h1>
                             </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
-                            <td class="text-center ">TOTAL: {{$pro->attributes->symbolCurrent}}. </td>
+                            <td></td>
+                            <td class="text-center ">Total:</td>
                             <td></td>
                             <td>
-                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center"> {{number_format(floatval($totalImpuestoShipping),2)}}</h1>
+                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center">{{$pro->attributes->symbolCurrent}}  {{number_format(floatval($totalImpuestoShipping),2)}}</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-center ">Puntos a obtener:</td>
+                            <td></td>
+                            <td>
+                                <h1 class="mt-5 bg-primary rounded rounded-lg p-2 text-white font-bold text-center">Pts. {{number_format($pointsTotal)}}</h1>
                             </td>
                         </tr>
                     </tbody>

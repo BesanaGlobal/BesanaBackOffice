@@ -24,6 +24,7 @@ use App\Http\Livewire\Products;
 use App\Http\Livewire\Register\Register;
 use App\Http\Livewire\ShippingView;
 use App\Http\Livewire\AffiliateEdit;
+use App\Http\Livewire\AffiliateUserEdit;
 use App\Http\Livewire\WalletWeekUser;
 use App\Http\Livewire\WalletMonthUser;
 
@@ -65,6 +66,7 @@ Route::get('myShops', MyShops::class )->middleware(['auth','isafiliado'])->name(
 //affiliates
 Route::get('ListUsers', [ListUserController::class, 'index'])->middleware(['auth','isafiliado'])->name('ListUsers');
 Route::get('/ListUsers/{id}', AffiliateEdit::class)->middleware(['auth','isafiliado'])->name('affiliateEdit');
+Route::get('/User/{id}', AffiliateUserEdit::class)->middleware(['auth','isafiliado'])->name('affiliateUserEdit');
 
 //products
 Route::get('/addproduct',[ProductController::class,'index'])->middleware('auth')->name('addproduct');

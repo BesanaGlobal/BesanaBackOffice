@@ -12,15 +12,24 @@
                 @endif
                 <span class="font-bold uppercase text-lg">{{__('personal information')}}:</span>
                 <div class="w-full">
-                    <div class="text-xl gap-2 items-center w-full ">
+                    <!-- <div class="text-xl gap-2 items-center w-full ">
+                    <label class="text-gray-600 font-bold" for="Name">{{__('Name')}}:</label>
                         <input id="Name" placeholder="{{__('Enter your name')}}" class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" :value="old('Name')" required autofocus />
                         <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block mt-3" type="text" wire:model="LastName" :value="old('LastName')" required placeholder="{{__('Enter your lastname')}}" />
+                    </div> -->
+                    <div class="py-2">
+                        <label class="text-gray-600 font-bold" for="Name">{{__('Name')}}:</label>
+                        <input id="Name" placeholder="{{__('Enter your name')}}" class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" value="" required autofocus />
+                    </div>
+                    <div class="">
+                        <label class="text-gray-600 font-bold" for="LastName">{{__('LastName')}}:</label>
+                        <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block" type="text" wire:model="LastName" value="" required placeholder="{{__('Enter your lastname')}}" />
                     </div>
                 </div>
                 <div class="w-full">
                     <div class="pt-2">
                         <label class="text-gray-600 font-bold" for="DateBirth">{{__('Birthday')}}:</label>
-                        <input id="DateBirth" class="-intro-x login__input form-control py-3 w-full" type="date" wire:model="DateBirth" :value="old('DateBirth')" required />
+                        <input id="DateBirth" class="-intro-x login__input form-control py-3 w-full" type="date" wire:model="DateBirth" value="" required />
                     </div>
                 </div>
                 <div class="-intro-x grid grid-cols-1 lg:grid-cols-2 lg:gap-4 pb-4">
@@ -94,13 +103,13 @@
                 <div class=" w-full">
                     <div class="py-2">
                         <label class="text-gray-600 font-bold" for="fechaingreso">{{__('date of admission')}}:</label>
-                        <input id="fechaingreso" class="-intro-x login__input form-control py-3 px-4 block" type="date" wire:model="fechaingreso" :value="old('$fechaingreso')" required />
+                        <input id="fechaingreso" class="-intro-x login__input form-control py-3 px-4 block" type="date" wire:model="fechaingreso" value="" required />
                     </div>
                 </div>
                 <div class="-intro-x grid grid-cols-1 lg:grid-cols-2 lg:gap-4">
                     <div class="w-full">
                         <label class="text-gray-600 font-bold" for="Invitedby"> {{__('Invited by')}}:</label>
-                        <input id="Invitedby" class="-intro-x login__input form-control py-3" type="text" wire:model="invitedby" wire:change="datahijos" :value="old('invitedby')" required />
+                        <input id="Invitedby" class="-intro-x login__input form-control py-3" type="text" wire:model="invitedby" wire:change="datahijos" value="" required />
                         @if ($nohijos)
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">Socio No Existe</span>
@@ -112,7 +121,7 @@
                             <label class="text-gray-600 font-bold" for="Invitedby">{{__('Username')}}:</label>
                         </div>
                         <div class="col-2">
-                            <input id="userName" class="-intro-x form-control py-3 " type="text" wire:model="userName" :value="old('userName')" required placeholder="{{__('Username')}}" />
+                            <input id="userName" class="-intro-x form-control py-3 " type="text" wire:model="userName" value="" required placeholder="{{__('Username')}}" />
                             @error('userName')
                             <div class="intro-x bg-red-600 p-2 rounded-lg ">
                                 <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -179,14 +188,50 @@
         {{-- fin columna uno --}}
         <div class="col-2  bg-gray-300 md:border-l-4 md:border-primary p-2">
             <span class="-intro-x  font-bold uppercase text-lg ">{{__('CONTACT INFORMATION')}}:</span>
-            <div class=" grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+            <!-- <div class=" grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                 <input id="AlternativePhone" class="-intro-x login__input form-control py-3 block" type="number" wire:model="AlternativePhone" :value="old('AlternativePhone')" required autofocus placeholder="{{__('Cell phone')}}" />
                 <input id="WorkPhone" class="-intro-x login__input form-control py-3 block" type="number" wire:model="WorkPhone" :value="old('WorkPhone')" autofocus placeholder="{{__('Phone')}}" />
+            </div> -->
+            <div class=" grid grid-cols-1 lg:grid-cols-2 w-full pt-3">
+                <label class="-intro-x text-gray-600 font-bold" for="areaCodeWorkPhone"> {{__('WorkPhone')}}:</label> 
+                <label class="-intro-x text-gray-600 font-bold pl-2" for="areaCodeAlternativePhone"> {{__('AlternativePhone')}}:</label>
+                <div class="input-group">
+                    <select name="areaCodeWorkPhone" id="areaCodeWorkPhone" wire:model="AreaCodeWorkPhone" class="form-control" style="width:100px">
+                        <option value="+">+</option>
+                        <option disabled></option>
+                        @foreach($AreaCode as $value)
+                            <option value="{{$value}}">{{$value}}</option>
+                        @endforeach
+                    </select>
+                    <input id="WorkPhone" class="-intro-x  form-control " type="text" wire:model="WorkPhone" value="" autofocus placeholder="{{__('Phone')}}" />
+                </div>            
+                <div class="input-group pl-2">
+                    <select name="areaCodeAlternativePhone" id="areaCodeAlternativePhone" wire:model="AreaCodeAlternativePhone" class="form-control" style="width:100px">
+                        <option value="+" selected>+</option>
+                        <option disabled></option>
+                        @foreach($AreaCode as $value)
+                            <option value="{{$value}}">{{$value}}</option>
+                        @endforeach
+                    </select>
+                    <input id="AlternativePhone" class="-intro-x  form-control" type="text" wire:model="AlternativePhone" value="" required autofocus placeholder="{{__('Cell phone')}}" />
+                </div>
+                @error('AreaCodeAlternativePhone')
+                    <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                        <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
+                    </div>
+                @enderror
+                @error('AlternativePhone')
+                    <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                        <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
+                    </div>
+                @enderror
+    
             </div>
+
             {{-- Email  --}}
             <div class="w-full mt-2">
                 <label class="-intro-x text-gray-600 font-bold" for="Email"> {{__('Email')}}:</label>
-                <input id="Email" class="-intro-x login__input form-control py-3 block" type="Email" wire:model="Email" :value="old('Email')" required autofocus placeholder="{{__('Email')}}" />
+                <input id="Email" class="-intro-x login__input form-control py-3 block" type="Email" wire:model="Email" value="" required autofocus placeholder="{{__('Email')}}" />
                 @error('Email')
                 <div class="intro-x bg-red-600 p-2 rounded-lg ">
                     <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -196,7 +241,7 @@
             {{-- confirm email --}}
             <div class="w-full mt-2 mb-3 pb-4">
                 <label class="-intro-x text-gray-600 font-bold" for="confirmEmail"> {{__('Confirm Email')}}:</label>
-                <input id="confirmEmail" class="-intro-x login__input form-control py-3 block" type="email" wire:model="confirmEmail" :value="old('confirmEmail')" required autofocus placeholder="{{__('Confirm Email')}}" />
+                <input id="confirmEmail" class="-intro-x login__input form-control py-3 block" type="email" wire:model="confirmEmail" value="" required autofocus placeholder="{{__('Confirm Email')}}" />
                 @error('confirmEmail')
                 <div class="intro-x bg-red-600 p-2 rounded-lg ">
                     <span class="-intro-x bg-red-500 p-2 rounded-lg text-white">{{ $message }}</span>
@@ -207,7 +252,7 @@
             <span class="-intro-x  font-bold uppercase text-lg">{{__('LOCATION DATA')}}:</span>
             <div class="w-full grid grid-cols-1">
                 <label class="-intro-x text-gray-600 font-bold" for="Address"> {{__('Address')}}: </label>
-                <input placeholder="{{__('Address')}}" id="Address" class="-intro-x login__input form-control py-3 block" type="text" wire:model="Address" :value="old('Address')" required autofocus />
+                <input placeholder="{{__('Address')}}" id="Address" class="-intro-x login__input form-control py-3 block" type="text" wire:model="Address" value="" required autofocus />
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 pt-3">
                 <div class="grid grid-cols-1">
@@ -240,11 +285,11 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 mt-3">
                 <div class="grid grid-cols-1">
                     <label class="-intro-x text-gray-600 font-bold" for="City"> {{__('City')}}:</label>
-                    <input type="text" class="form-control" wire:model="selectedCity" :value="old('selectCity')" required>
+                    <input type="text" class="form-control" wire:model="selectedCity" value="" required>
                 </div>
                 <div class="grid grid-cols-1 ml-0 lg:ml-2">
                     <label class="-intro-x text-gray-600 font-bold" for="ZipCode"> {{__('ZipCode')}}:</label>
-                    <input id="ZipCode" class="-intro-x login__input form-control py-3 block" type="text" wire:model="ZipCode" :value="old('ZipCode')" required autofocus />
+                    <input id="ZipCode" class="-intro-x login__input form-control py-3 block" type="text" wire:model="ZipCode" value="" required autofocus />
                 </div>
             </div>
             <div class="flex flex-col lg:flex-row lg:justify-evenly p-4">
@@ -266,31 +311,24 @@
         </form>
     </div>
 </div>
+
 </div>
 
 
-
 <script>
-    $('#select2-dropdown').select2();
-    $('#select2-dropdown').on('change', function(e) {
-        var data = $('#select2-dropdown').select2("val");
-        @this.set('ottPlatform', data);
-    });
-</script>
-<script>
-    function fireModal(action = 1) {
-        if (action == 1) {
-            document.querySelector('.modal').classList.add('show')
-            document.querySelector('.modal').style.display = 'block'
-        } else {
-            document.querySelector('.modal').classList.add('hide')
-            document.querySelector('.modal').style.display = 'none'
-        }
-    }
+    // function fireModal(action = 1) {
+    //     if (action == 1) {
+    //         document.querySelector('.modal').classList.add('show')
+    //         document.querySelector('.modal').style.display = 'block'
+    //     } else {
+    //         document.querySelector('.modal').classList.add('hide')
+    //         document.querySelector('.modal').style.display = 'none'
+    //     }
+    // }
 
-    window.addEventListener('modal-open', event => {
-        fireModal(1)
-    })
+    // window.addEventListener('modal-open', event => {
+    //     fireModal(1)
+    // })
 
     window.addEventListener('noty', event => {
         Swal.fire(
@@ -372,6 +410,7 @@
                     Una vez que haya revisado las Políticas, y si acepta cumplirlas, haga clic en el cuadro "Acepto" que se encuentra a continuación y continúe con su solicitud para convertirse en distribuidor independiente. TENGA EN CUENTA QUE AL HACER CLIC EN "ACEPTO" INDICA QUE HA LEÍDO Y COMPRENDIDOTambién puede ponerse en contacto con nosotros a través de NUESTRO CHAT disponible en nuestro Sitio.
                     Fecha de vigencia: 1 de junio de 2023
                     ©2021 - 2023 Besana Global`;
+        event.preventDefault();
         Swal.fire({
             title: 'Terminos y Condiciones',
             text: texto,
@@ -385,6 +424,7 @@
                         cualquier autorización anterior y permanecerá vigente hasta que la 
                         compañía mencionada anteriormente haya recibido una notificación 
                         por escrito de mi parte sobre su terminación en un tiempo suficiente para actuar.`;
+        event.preventDefault();
         Swal.fire({
             title: 'Authorization',
             text: texto,

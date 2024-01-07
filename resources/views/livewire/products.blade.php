@@ -33,7 +33,7 @@
     <div id="currentDiv" class="col" wire:ignore>
         <label for="current" class="form-label"> Seleccione moneda de pago:</label>
         <select name="current" id="current" wire:model="current">
-            <option value="eeuu" selected data-imagesrc="{{asset('/img/estados-unidos.png')}}" data-description="Estados Unidos">Estados Unidos</option>
+            <option value="eeuu" data-imagesrc="{{asset('/img/estados-unidos.png')}}" data-description="Estados Unidos">Estados Unidos</option>
             <option value="mexico" data-imagesrc="{{asset('/img/mexico.png')}}" data-description="Mexico">Mexico</option>
             <!-- <option value="colombia" data-imagesrc="{{asset('/img/colombia.png')}}" data-description="Colombia">Colombia</option> -->
             <option value="panama" data-imagesrc="{{asset('/img/panama.png')}}" data-description="Panamá">Panamá</option>
@@ -62,10 +62,7 @@
                     <h1 class="block font-medium text-base">{{$pro->name}}</h1>
                     @php
                         $descuento              =   $pro->price * 0.15;
-                        $descuentoNavideño      =   $pro->price * 0.50;
                         $price                  =   number_format(floatval($pro->price - $descuento),2);
-                        $price                  =   number_format(floatval($price - $descuentoNavideño),2);
-                        $puntosNavideños        =   number_format($price);
                         $symbolCurrent          =   "$"; 
                         switch ($current) {
                             case 'guatemala':
@@ -88,7 +85,7 @@
                     @endphp
                     {{__('Price')}}: {{ $symbolCurrent }} {{ $price }}
                     <span class="font-black">{{__('Points to Receive')}}:</span>
-                    <span class="font-black ">{{$puntosNavideños}} {{__('Points')}}</span>
+                    <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span>
                     <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">{{__('Add cart')}}</button>
                 </div>
             </div>
@@ -100,6 +97,7 @@
         @endforelse
     </div>
 </div>
+
 <script>
     function fireModal(action = 1) {
         if (action == 1) {
@@ -140,16 +138,19 @@
             confirmButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                @this.ClearCart()
+                @this.ClearCart();
             }
         })
     }
+    
 
     $('#current').ddslick({
-    onSelected: function(selectedData){
-        var data = selectedData.selectedData.value;
-        window.livewire.emit('changeCurrent', data)
-      }   
+        onSelected: function(selectedData){
+            let data = selectedData.selectedData.value;
+            window.livewire.emit('changeCurrent', data);
+        }   
     });
+
+
 
 </script>

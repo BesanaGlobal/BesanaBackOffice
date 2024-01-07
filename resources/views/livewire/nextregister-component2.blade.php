@@ -38,7 +38,7 @@
           $pricePack3       = number_format(floatval(4171.57 * $pricePack3 + $membership) , 2);
           $pricePack4       = number_format(floatval(4171.57 * $pricePack4 + $membership) , 2);
           $pricePack5       = number_format(floatval(4171.57 * $pricePack5 + $membership) , 2);
-          $symbolCurrent  =   "COP"; 
+          $symbolCurrent    =   "COP"; 
           break;
         case 'mexico':
           $membership     = 17.28 * $membership;

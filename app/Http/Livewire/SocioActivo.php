@@ -34,7 +34,9 @@ class SocioActivo extends Component
     public $SonAfiliate;
     public $asignarSocio;
     public $asignacionSocio;
+    public $AreaCodeWorkPhone;
     public $WorkPhone;
+    public $AreaCodeAlternativePhone;
     public $AlternativePhone;
     public $Email;
     public $confirmEmail;
@@ -59,6 +61,7 @@ class SocioActivo extends Component
 
     public $message;   
     public array $data;
+    public $AreaCode  = ['+1','+52','+507','+502'];
     
     public $Countries  = [
         'EE UU' => [
@@ -251,32 +254,34 @@ class SocioActivo extends Component
     }
 
     protected $rules = [
-        'selectCity'            => 'required',
-        'SSN'                   => 'required_if:selectCity,1|nullable|unique:affiliates,SSN',
-        'RFC'                   => 'required_if:selectCity,2|nullable|unique:affiliates,RFC',
-        'CURP'                  => 'required_if:selectCity,2|nullable|unique:affiliates,CURP',
-        'DPI'                   => 'required_if:selectCity,3|nullable|unique:affiliates,DPI',
-        'IP'                    => 'required_if:selectCity,4|nullable|unique:affiliates,IP',
-        'fechaingreso'          => 'required',
-        'invitedby'             => 'required',
-        'Email'                 => 'required|unique:affiliates',
-        'confirmEmail'          => 'required|same:Email',
-        'userName'              => 'required|unique:users',
-        'Name'                  => 'required|string',
-        'LastName'              => 'required|string',
-        'AlternativePhone'      => 'required|string',
-        'WorkPhone'             => 'nullable|string',
-        'DateBirth'             => 'required|string',
-        'ZipCode'               => 'required|string',
-        'bankAccount'           => 'nullable|string',
-        'routingNumber'         => 'nullable|string',
-        'typeAccount'           => 'nullable|string',
-        'Password'              => 'required',
-        'password_confirmation' => 'required|same:Password',
-        'Address'               => 'required',
-        'selectedCountry'       => 'required',
-        'selectedCity'          => 'required',
-        'selectedState'         => 'required',
+        'selectCity'                => 'required',
+        'SSN'                       => 'required_if:selectCity,1|nullable|unique:affiliates,SSN',
+        'RFC'                       => 'required_if:selectCity,2|nullable|unique:affiliates,RFC',
+        'CURP'                      => 'required_if:selectCity,2|nullable|unique:affiliates,CURP',
+        'DPI'                       => 'required_if:selectCity,3|nullable|unique:affiliates,DPI',
+        'IP'                        => 'required_if:selectCity,4|nullable|unique:affiliates,IP',
+        'fechaingreso'              => 'required',
+        'invitedby'                 => 'required',
+        'Email'                     => 'required|unique:affiliates',
+        'confirmEmail'              => 'required|same:Email',
+        'userName'                  => 'required|unique:users',
+        'Name'                      => 'required|string',
+        'LastName'                  => 'required|string',
+        'AreaCodeAlternativePhone'  => 'required|string',
+        'AlternativePhone'          => 'required|string',
+        'AreaCodeWorkPhone'         => 'nullable|string',
+        'WorkPhone'                 => 'nullable|string',
+        'DateBirth'                 => 'required|string',
+        'ZipCode'                   => 'required|string',
+        'bankAccount'               => 'nullable|string',
+        'routingNumber'             => 'nullable|string',
+        'typeAccount'               => 'nullable|string',
+        'Password'                  => 'required',
+        'password_confirmation'     => 'required|same:Password',
+        'Address'                   => 'required',
+        'selectedCountry'           => 'required',
+        'selectedCity'              => 'required',
+        'selectedState'             => 'required',
     ];
 
     protected $messages = [
@@ -300,6 +305,8 @@ class SocioActivo extends Component
         'Password.required'                 => 'la contraseña es requerida',
         'Email.required'                    => 'El Correo es requerido',
         'confirmEmail.required'             => 'EL correo es requerido',
+        'AreaCodeAlternativePhone.required'     => 'El código es requerido',
+        'AlternativePhone.required'         => 'El número es requerido',
     ];
 
     public function create()
@@ -334,12 +341,13 @@ class SocioActivo extends Component
                 $typeAccount    = null;
             }
 
-            $ssn    = $datos['SSN']       ? $datos['SSN']       : null;
-            $rfc    = $datos['RFC']       ? $datos['RFC']       : null;
-            $curp   = $datos['CURP']      ? $datos['CURP']      : null;
-            $dpi    = $datos['DPI']       ? $datos['DPI']       : null; 
-            $ip     = $datos['IP']        ? $datos['IP']        : null;
-            $WPhone = $datos['WorkPhone'] ? $datos['WorkPhone'] : 0;
+            $ssn        = $datos['SSN']                 ? $datos['SSN']                 : null;
+            $rfc        = $datos['RFC']                 ? $datos['RFC']                 : null;
+            $curp       = $datos['CURP']                ? $datos['CURP']                : null;
+            $dpi        = $datos['DPI']                 ? $datos['DPI']                 : null; 
+            $ip         = $datos['IP']                  ? $datos['IP']                  : null;
+            $CodeWPhone = $datos['AreaCodeWorkPhone']   ? $datos['AreaCodeWorkPhone']   : null;
+            $WPhone     = $datos['WorkPhone']           ? $datos['WorkPhone']           : 0;
            
             try {
 
@@ -353,7 +361,9 @@ class SocioActivo extends Component
                 '{$ip}',
                 '{$datos['Name']}',
                 '{$datos['LastName']}',
+                '{$datos['AreaCodeAlternativePhone']}',
                 {$datos['AlternativePhone']},
+                '{$CodeWPhone}',
                 {$WPhone},
                 '{$datos['DateBirth']}',
                 '{$datos['Email']}',
@@ -363,6 +373,7 @@ class SocioActivo extends Component
                 '{$datos['selectedState']}',
                 '{$datos['selectedCity']}',
                 {$datos['ZipCode']},
+                '{$datos['AreaCodeAlternativePhone']}',
                 {$datos['AlternativePhone']},
                 '{$bank}',
                 '{$routingNumber}',
@@ -371,7 +382,7 @@ class SocioActivo extends Component
                 '12.34566',
                 '{$datos['fechaingreso']}',
                 null,
-                '2023-01-23 03:40:31',
+                null,
                 1,
                 '{$datos['userName']}',
                 '{$pass}',
@@ -390,35 +401,37 @@ class SocioActivo extends Component
             
                 session()->flash('mensaje', '¡Registro Exitoso!');
                 
-                $this->Name             = "";
-                $this->LastName         = "";
-                $this->DateBirth        = "";
-                $this->selectCity       = "";
-                $this->SSN              = "";
-                $this->RFC              = "";
-                $this->CURP             = "";
-                $this->DPI              = "";
-                $this->IP               = "";
-                $this->userName         = "";
-                $this->WorkPhone        = "";
-                $this->AlternativePhone = "";
-                $this->Email            = "";
-                $this->confirmEmail     = "";
-                $this->Address          = "";
-                $this->selectedCountry  = "";
-                $this->selectedState    = "";
-                $this->selectedCity     = "";
-                $this->ZipCode          = "";
-                $this->fhater           = "";
-                $this->bankAccount      = "";
-                $this->routingNumber    = ""; 
-                $this->typeAccount      = "";
-                $this->Latitude         = "";
-                $this->Longitude        = "";
+                $this->Name                     = "";
+                $this->LastName                 = "";
+                $this->DateBirth                = "";
+                $this->selectCity               = "";
+                $this->SSN                      = "";
+                $this->RFC                      = "";
+                $this->CURP                     = "";
+                $this->DPI                      = "";
+                $this->IP                       = "";
+                $this->userName                 = "";
+                $this->AreaCodeWorkPhone        = "";
+                $this->WorkPhone                = "";
+                $this->AlternativePhone         = "";
+                $this->AreaCodeAlternativePhone = "";
+                $this->Email                    = "";
+                $this->confirmEmail             = "";
+                $this->Address                  = "";
+                $this->selectedCountry          = "";
+                $this->selectedState            = "";
+                $this->selectedCity             = "";
+                $this->ZipCode                  = "";
+                $this->fhater                   = "";
+                $this->bankAccount              = "";
+                $this->routingNumber            = ""; 
+                $this->typeAccount              = "";
+                $this->Latitude                 = "";
+                $this->Longitude                = "";
 
-                $this->asignarSocio     = false;
-                $this->selectBankAccount= false ;
-                $this->Authorization    = false;
+                $this->asignarSocio             = false;
+                $this->selectBankAccount        = false ;
+                $this->Authorization            = false;
 
                 return;
             } catch (\Throwable $th) {

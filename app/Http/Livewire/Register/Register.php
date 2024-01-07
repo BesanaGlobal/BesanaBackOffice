@@ -35,7 +35,9 @@ class Register extends Component
     public $SonAfiliate = [];
     public $asignarSocio = false;
     public $asignacionSocio;
+    public $AreaCodeWorkPhone;
     public $Workphone;
+    public $AreaCodeAlternativePhone;
     public $WorkPhone;
     public $AlternativePhone;
     public $Email;
@@ -63,6 +65,7 @@ class Register extends Component
     public $confirmation_code;
     public $password_confirmation;
 
+    public $AreaCode  = ['+1','+52','+507','+502'];
     
     public $Countries  = [
         'EE UU' => [
@@ -220,31 +223,33 @@ class Register extends Component
 
 
     protected $rules = [
-        'SSN'                   => 'required_if:selectCity,1|nullable|unique:affiliates',
-        'RFC'                   => 'required_if:selectCity,2|nullable|unique:affiliates',
-        'CURP'                  => 'required_if:selectCity,2|nullable|unique:affiliates',
-        'DPI'                   => 'required_if:selectCity,3|nullable|unique:affiliates',
-        'IP'                    => 'required_if:selectCity,4|nullable|unique:affiliates',
-        'fechaingreso'          => 'required',
-        'invitedby'             => 'required',
-        'Email'                 => 'required|unique:affiliates',
-        'confirmEmail'          => 'required|same:Email',
-        'userName'              => 'required|unique:users',
-        'Name'                  => 'required|string',
-        'LastName'              => 'required|string',
-        'AlternativePhone'      => 'required',
-        'WorkPhone'             => 'nullable|string',
-        'DateBirth'             => 'required|string',
-        'Address'               => 'required',
-        'selectedCountry'       => 'required',
-        'selectedCity'          => 'required',
-        'selectedState'         => 'required',
-        'ZipCode'               => 'required|string',
-        'bankAccount'           => 'nullable|string',
-        'routingNumber'         => 'nullable|string',
-        'typeAccount'           => 'nullable|string',
-        'Password'              => 'required',
-        'password_confirmation' => 'required|same:Password',
+        'SSN'                       => 'required_if:selectCity,1|nullable|unique:affiliates',
+        'RFC'                       => 'required_if:selectCity,2|nullable|unique:affiliates',
+        'CURP'                      => 'required_if:selectCity,2|nullable|unique:affiliates',
+        'DPI'                       => 'required_if:selectCity,3|nullable|unique:affiliates',
+        'IP'                        => 'required_if:selectCity,4|nullable|unique:affiliates',
+        'fechaingreso'              => 'required',
+        'invitedby'                 => 'required',
+        'Email'                     => 'required|unique:affiliates',
+        'confirmEmail'              => 'required|same:Email',
+        'userName'                  => 'required|unique:users',
+        'Name'                      => 'required|string',
+        'LastName'                  => 'required|string',
+        'AreaCodeAlternativePhone'  => 'required|string',
+        'AlternativePhone'          => 'required',
+        'AreaCodeWorkPhone'         => 'nullable|string',
+        'WorkPhone'                 => 'nullable|string',
+        'DateBirth'                 => 'required|string',
+        'Address'                   => 'required',
+        'selectedCountry'           => 'required',
+        'selectedCity'              => 'required',
+        'selectedState'             => 'required',
+        'ZipCode'                   => 'required|string',
+        'bankAccount'               => 'nullable|string',
+        'routingNumber'             => 'nullable|string',
+        'typeAccount'               => 'nullable|string',
+        'Password'                  => 'required',
+        'password_confirmation'     => 'required|same:Password',
     ];
 
     protected $messages = [
@@ -268,6 +273,8 @@ class Register extends Component
         'Password.required'                 => 'la contraseña es requerida',
         'Email.required'                    => 'El Correo es requerido',
         'confirmEmail.required'             => 'EL correo es requerido',
+        'AreaCodeAlternativePhone.required'     => 'El código es requerido',
+        'AlternativePhone.required'         => 'El número es requerido',
     ];
 
     public function create()
@@ -284,12 +291,13 @@ class Register extends Component
         $website                        = 'https://www.besanaglobal.com?sponsor=' . $datos['userName'];
         $pass                           = Hash::make($datos['Password']);
 
-        $ssn    = $datos['SSN']         ? $datos['SSN']         : null;
-        $rfc    = $datos['RFC']         ? $datos['RFC']         : null;
-        $curp   = $datos['CURP']        ? $datos['CURP']        : null;
-        $dpi    = $datos['DPI']         ? $datos['DPI']         : null;
-        $ip     = $datos['IP']          ? $datos['IP']          : null;
-        $WPhone = $datos['WorkPhone']   ? $datos['WorkPhone']   : 0;
+        $ssn        = $datos['SSN']                 ? $datos['SSN']                 : null;
+        $rfc        = $datos['RFC']                 ? $datos['RFC']                 : null;
+        $curp       = $datos['CURP']                ? $datos['CURP']                : null;
+        $dpi        = $datos['DPI']                 ? $datos['DPI']                 : null;
+        $ip         = $datos['IP']                  ? $datos['IP']                  : null;
+        $CodeWPhone = $datos['AreaCodeWorkPhone']   ? $datos['AreaCodeWorkPhone']   : null;
+        $WPhone     = $datos['WorkPhone']           ? $datos['WorkPhone']           : 0;
 
         if ($this->selectBankAccount) {
             $bank           = $this->bankAccount;
@@ -321,7 +329,9 @@ class Register extends Component
                 '{$ip}',
                 '{$datos['Name']}',
                 '{$datos['LastName']}',
+                '{$datos['AreaCodeAlternativePhone']}',
                 '{$datos['AlternativePhone']}',
+                '{$CodeWPhone}',
                 '{$WPhone}',
                 '{$datos['DateBirth']}',
                 '{$datos['Email']}',
@@ -331,6 +341,7 @@ class Register extends Component
                 '{$datos['selectedState']}',
                 '{$datos['selectedCity']}',
                 {$datos['ZipCode']},
+                '{$datos['AreaCodeAlternativePhone']}',
                 {$datos['AlternativePhone']},
                 '{$bank}',
                 '{$routingNumber}',
@@ -339,7 +350,7 @@ class Register extends Component
                 '12.34566',
                 '{$datos['fechaingreso']}',
                 null,
-                '2023-01-23 03:40:31',
+                null,
                 1,
                 '{$datos['userName']}',
                 '{$pass}',
@@ -367,7 +378,9 @@ class Register extends Component
                 'userName',
                 'Name',
                 'LastName',
+                'AreaCodeAlternativePhone',
                 'AlternativePhone',
+                'AreaCodeWorkPhone',
                 'WorkPhone',
                 'DateBirth',
                 'Address',

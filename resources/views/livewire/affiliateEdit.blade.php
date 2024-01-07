@@ -220,7 +220,11 @@
             </div>
 
             <div class="flex justify-center lg:justify-end pt-5">
+             @if(auth()->user()->idAffiliated == 1) 
                 <a href="{{ route('ListUsers') }}" class="btn btn-dark py-3 px-4 w-full lg:w-32 mr-5">Regresar</a>
+            @else 
+                <a href="{{ route('dash') }}" class="btn btn-dark py-3 px-4 w-full lg:w-32 mr-5">Regresar</a>
+            @endif
                 <button class="btn btn-primary py-3 px-4 w-full lg:w-32" type="submit">
                     {{__('Save')}}
                 </button>

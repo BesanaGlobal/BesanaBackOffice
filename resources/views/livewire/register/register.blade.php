@@ -21,9 +21,17 @@
 
                 <span class="-intro-x  text-white  font-bold uppercase text-lg ">{{__('personal information')}}</span>
                 <div class="w-full">
-                    <div class="text-xl gap-2 items-center w-full ">
+                    <!-- <div class="text-xl gap-2 items-center w-full ">
                         <input id="Name" placeholder="{{__('Enter your name')}}" class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" :value="old('Name')" autofocus required />
                         <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block mt-3" type="text" wire:model="LastName" :value="old('LastName')" placeholder="{{__('Enter your lastname')}}" required/>
+                    </div> -->
+                    <div class="py-2">
+                        <label class="-intro-x  text-white" for="Name">{{__('Name')}}:</label>
+                        <input id="Name" placeholder="{{__('Enter your name')}}" class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" value="" required autofocus />
+                    </div>
+                    <div class="">
+                        <label class="-intro-x  text-white" for="LastName">{{__('LastName')}}:</label>
+                        <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block" type="text" wire:model="LastName" value="" required placeholder="{{__('Enter your lastname')}}" />
                     </div>
                 </div>
                 <div class=" -intro-x w-full">
@@ -158,7 +166,7 @@
         </div>
         <div class="bg-slate-800 bg-opacity-70 p-4">
             <span class="-intro-x  text-white font-bold uppercase text-lg">{{__('CONTACT INFORMATION')}}:</span>
-            <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
+            <!-- <div class="-intro-x grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div class="-intro-x flex flex-col">
                     <label class="-intro-x text-white" for="AlternativePhone"> {{__('Cell phone')}}:</label>
                     <input id="AlternativePhone" class="-intro-x  form-control py-3 " type="number" wire:model="AlternativePhone" :value="old('AlternativePhone')" autofocus required/>
@@ -167,8 +175,46 @@
                     <label class="-intro-x text-white" for="Phone"> {{__('Phone')}}:</label>
                     <input id="WorkPhone" class="-intro-x  form-control py-3" type="number" wire:model="WorkPhone" :value="old('WorkPhone')"/>
                 </div>
+            </div> -->
+            <div class=" grid grid-cols-1 lg:grid-cols-2 w-full pt-3">
+                <label class="-intro-x text-white" for="areaCodeWorkPhone"> {{__('WorkPhone')}}:</label> 
+                <label class="-intro-x text-white pl-2" for="areaCodeAlternativePhone"> {{__('AlternativePhone')}}:</label>
+                <div class="input-group">
+                    <select name="areaCodeWorkPhone" id="areaCodeWorkPhone" wire:model="AreaCodeWorkPhone" class="form-control" style="width:100px">
+                        <option value="+">+</option>
+                        <option disabled></option>
+                        @foreach($AreaCode as $value)
+                            <option value="{{$value}}">{{$value}}</option>
+                        @endforeach
+                    </select>
+                    <input id="WorkPhone" class="-intro-x  form-control " type="text" wire:model="WorkPhone" value="" autofocus placeholder="{{__('Phone')}}" />
+                </div>            
+                <div class="input-group pl-2">
+                    <select name="areaCodeAlternativePhone" id="areaCodeAlternativePhone" wire:model="AreaCodeAlternativePhone" class="form-control" style="width:100px">
+                        <option value="+" selected>+</option>
+                        <option disabled></option>
+                        @foreach($AreaCode as $value)
+                            <option value="{{$value}}">{{$value}}</option>
+                        @endforeach
+                    </select>
+                    <input id="AlternativePhone" class="-intro-x  form-control" type="text" wire:model="AlternativePhone" value="" required autofocus placeholder="{{__('Cell phone')}}" />
+                </div>
+                @error('CodeAlternativePhone')
+                    <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                        <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
+                    </div>
+                @enderror
+                @error('AlternativePhone')
+                    <div class="intro-x bg-red-600 p-2 rounded-lg ">
+                        <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
+                    </div>
+                @enderror
+    
             </div>
+
+
             <div class="flex flex-col mt-3">
+                <label class="-intro-x text-white" for="Email"> {{__('Email')}}:</label>
                 <input id="Email" class="-intro-x  form-control py-3" type="Email" wire:model="Email" :value="old('Email')" autofocus placeholder="{{__('Email') }}" required/>
                 @error('Email')
                 <div class="intro-x bg-red-600 p-2 rounded-lg ">
@@ -177,6 +223,7 @@
                 @enderror
             </div>
             <div class="flex flex-col mt-3 pb-4">
+                <label class="-intro-x text-white" for="confirmEmail"> {{__('Confirm Email')}}:</label>
                 <input id="confirmEmail" class="-intro-x  form-control py-3" type="email" wire:model="confirmEmail" :value="old('confirmEmail')" autofocus placeholder="{{__('Confirm Email')}}" required/>
                 @error('confirmEmail')
                 <div class="intro-x bg-red-600 p-2 rounded-lg ">
@@ -340,6 +387,7 @@
                                 Una vez que haya revisado las Políticas, y si acepta cumplirlas, haga clic en el cuadro "Acepto" que se encuentra a continuación y continúe con su solicitud para convertirse en distribuidor independiente. TENGA EN CUENTA QUE AL HACER CLIC EN "ACEPTO" INDICA QUE HA LEÍDO Y COMPRENDIDOTambién puede ponerse en contacto con nosotros a través de NUESTRO CHAT disponible en nuestro Sitio.
                                 Fecha de vigencia: 1 de junio de 2023
                                 ©2021 - 2023 Besana Global`;
+                event.preventDefault();
                 Swal.fire({
                     title: 'Terminos y Condiciones',
                     text: texto,
@@ -352,6 +400,7 @@
                                 cualquier autorización anterior y permanecerá vigente hasta que la 
                                 compañía mencionada anteriormente haya recibido una notificación 
                                 por escrito de mi parte sobre su terminación en un tiempo suficiente para actuar.`;
+                event.preventDefault();
                 Swal.fire({
                     title: 'Authorization',
                     text: texto,

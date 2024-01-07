@@ -19,6 +19,8 @@ class Products extends Component
   public $registrado      = 0;
   public $puntosTemporal  = 0;
   public $subTotal;
+  public $totalOnzas;
+  public $cantidadProductos;
   public $total;
   public $state;
   public $current;
@@ -31,7 +33,7 @@ class Products extends Component
   {
     $this->current = $value;
   }
-
+  
   public function render()
   {
     $afiliado     = Affiliate::where('idAffiliated', Auth()->user()->idAffiliated)->first();
@@ -123,9 +125,7 @@ class Products extends Component
     $this->obtenerOnzas($id);
     $cantTem                = \Cart::session(Auth()->user()->idUser)->getContent()->count();
     $descuento              = $this->products[$id]['price'] * 0.15;
-    $descuentoNavideño      = $this->products[$id]['price'] * 0.50;
     $price                  = number_format(floatval($this->products[$id]['price'] - $descuento),2);
-    $price                  = number_format(floatval($price - $descuentoNavideño),2);
     $symbolCurrent          =   "$"; 
     switch ($this->current) {
         case 'guatemala':
@@ -188,9 +188,7 @@ class Products extends Component
           $this->dispatchBrowserEvent('noty', ['msg' => 'Producto nuevo agregado!']);
         }
       }
-
     }
-
   }
 
   public function ClearCart()

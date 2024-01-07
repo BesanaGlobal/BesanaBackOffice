@@ -31,7 +31,10 @@ class PagePay extends Component
   public $totalcard             = 0;
   public $cantidadinterna       = 0;
   public $current;
+  public $symbolCurrent;
   public $viewStatus;
+  public $totalPay;
+  public $activatedBuy;
 
   protected $stripe;
   protected $listeners = [
@@ -67,11 +70,11 @@ class PagePay extends Component
     if (count($this->cantidadProductos) > 0) {
       foreach ($this->cantidadProductos as $key => $value) {
         if ($value->attributes->membresia) {
-          $membresia = $value->attributes->membresia;
+          $membresia          = $value->attributes->membresia;
           $this->viewStatus   = 1;
         }
-        $totalonzas     += $value->attributes->onzas * $value->quantity;
-        $this->taxtotal += floatval(str_replace(',', '', $value->attributes->tax));
+        $totalonzas         += $value->attributes->onzas * $value->quantity;
+        $this->taxtotal     += floatval(str_replace(',', '', $value->attributes->tax));
       }
 
       $this->totalOnzas($totalonzas);
@@ -85,7 +88,7 @@ class PagePay extends Component
           $this->subtotalweb  = $this->subtotal + $taxsub + $membresia;
         }
       }
-      
+
       foreach($this->cantidadProductos as $value){}
       
       if($value['attributes']->symbolCurrent){
@@ -110,7 +113,8 @@ class PagePay extends Component
 
       }
 
-    $this->totalImpuestoShipping = $this->subtotalweb + $this->shipping;
+    $this->symbolCurrent          = $value['attributes']->symbolCurrent;
+    $this->totalImpuestoShipping  = $this->subtotalweb + $this->shipping;
 
       return view('livewire.page-pay', compact('b', 'STRIPE_KEY',))->extends('layout.side-menu')->section('subcontent');
     } else {
@@ -120,24 +124,26 @@ class PagePay extends Component
 
   public function pay($token, $name, $total, $member, $package)
   {
-    $tok          = $token;
-    $variable     = config('services.stripe.STRIPE_SECRET');
-    $this->stripe = new \Stripe\StripeClient($variable);
-    $idAfiliado   = Auth()->user()->idAffiliated;
+    $tok            = $token;
+    $variable       = config('services.stripe.STRIPE_SECRET');
+    $this->stripe   = new \Stripe\StripeClient($variable);
+    $idAfiliado     = Auth()->user()->idAffiliated;
+    $this->totalPay = floatval(str_replace(',', '', $total));
+
 
     if($member == 1){
 
       if($package !== "MEMBERSHIP"){
         $this->updateRank($idAfiliado);
       } 
-
+      $this->activatedBuy = 1;
       $this->finishpay($idAfiliado, $tok);
       $this->updateAffiliated($idAfiliado);
-
       $this->dispatchBrowserEvent('package', ['msg' => 'Compra exitosa, ya puede ingresar a su oficina!']);
        
     }else{
 
+      $this->activatedBuy = 0;
       $this->finishpay($idAfiliado, $tok);
       $this->updateAffiliated($idAfiliado);
       $this->ClearCart();
@@ -174,11 +180,11 @@ class PagePay extends Component
              array(
                  'Sale',
                  $idAfiliado,
-                 17,
                  Null,
-                 $this->total,
+                 $this->symbolCurrent,
+                 $this->totalPay,
                  'CREDIT CARD',
-                 0,
+                 $this->activatedBuy,
                  $fechaHoraMySQL,
                  'office',
                  $this->user->Name,
