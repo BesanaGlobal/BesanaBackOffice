@@ -5,34 +5,26 @@
 @endsection
 
 @section('subcontent')
-<h2 class="intro-y text-lg font-medium mt-10">Mis Socios Activos</h2>
+    <h2 class="intro-y text-lg font-medium mt-10">{{__('MY ACTIVE PARTNERS')}}</h2>
 
-
-
-<div class="grid grid-cols-12 gap-1 mt-5">
-    <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-        <div class="report-box zoom-in">
-            <div class="box p-5">
-                <div class="flex">
-                    <img src="{{asset('svg/socioactivo.svg')}}" alt="cliente" class="object-fit w-14 h-14">
-                    <div class="ml-auto">
-                        <div class="report-box__indicator bg-success tooltip cursor-pointer" title="33% Higher than last month">
-                            33% <i data-lucide="chevron-up" class="object-contain w-4 h-4 ml-0.5"></i>
+    <div class="grid grid-cols-12 gap-1 mt-5">
+        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+            <div class="report-box zoom-in">
+                <div class="box p-5">
+                    <div class="flex">
+                        <img src="{{asset('svg/socioactivo.svg')}}" alt="cliente" class="object-fit w-14 h-14">
+                        <div class="ml-auto">
+                            <div class="report-box__indicator bg-success tooltip cursor-pointer" title="33% Higher than last month">
+                                33% <i data-lucide="chevron-up" class="object-contain w-4 h-4 ml-0.5"></i>
+                            </div>
                         </div>
                     </div>
+                    <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsActive}}  Pts.</div>
+                    <div class="text-base text-slate-500 mt-1">{{__('Active partners volume')}}</div>
                 </div>
-                <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsActive}}  Pts.</div>
-                <div class="text-base text-slate-500 mt-1">Volumen de Socios Activos</div>
             </div>
         </div>
     </div>
-</div>
-
-
-
-
-
-
 
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
@@ -47,17 +39,17 @@
                     <ul class="dropdown-content">
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print
+                                <i data-lucide="printer" class="w-4 h-4 mr-2"></i>{{__('Print')}}
                             </a>
                         </li>
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to Excel
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>{{__('Export to Excel')}}
                             </a>
                         </li>
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to PDF
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>{{__('Export to PDF')}}
                             </a>
                         </li>
                     </ul>
@@ -66,7 +58,7 @@
             <div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
             <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                 <div class="w-56 relative text-slate-500">
-                    <input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
+                    <input type="text" class="form-control w-56 box pr-10" placeholder="{{__('Search')}}...">
                     <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i>
                 </div>
             </div>
@@ -77,12 +69,12 @@
                 <thead>
                     <tr>
                         <th class="whitespace-nowrap">ID</th>
-                        <th class="text-center whitespace-nowrap">USUARIOS</th>
-                        <th class="text-center whitespace-nowrap">CORREO ELECTRONICO</th>
-                        <th class="text-center whitespace-nowrap">TELEFONO</th>
-                        <th class="text-center whitespace-nowrap">VOLUMEN DE CLIENTE WEB</th>
-                        <th class="text-center whitespace-nowrap">VOLUMEN DE CLIENTE OFFICE</th>
-                        <th class="text-center whitespace-nowrap">ESTADO</th>
+                        <th class="text-center whitespace-nowrap">{{__('Users')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('Email')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('Phone')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('Web client volume')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('Office client volume')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('State')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,7 +94,7 @@
                                 <td class="w-40">{{ $loop->iteration }}</td>
                                 <td class="text-center">{{ $value['name'] }}</td>
                                 <td class="text-center">{{ $value['email'] }}</td>
-                                <td class="text-center">{{ $value['phone'] }}</td>
+                                <td class="text-center">{{  $value['codePhone'] }} {{ $value['phone'] }}</td>
                                 <td class="text-center">{{ $value['pointsWeb'] }} Pts. Web</td>
                                 <td class="text-center">{{ $value['pointsOffice'] }} Pts. Office</td>
                                 <td class="w-40">

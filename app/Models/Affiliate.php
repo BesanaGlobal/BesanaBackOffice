@@ -277,6 +277,7 @@ class Affiliate extends Model
 			array_push($data,[
 					'name' 			=> $promoter->Name,
 					'email' 		=> $promoter->Email,
+					'codePhone' 	=> $promoter->CodePhone,
 					'phone' 		=> $promoter->Phone,
 					'webshop' 		=> $promoter->webShop,
 					'pointsOffice' 	=> $promoter->cantidad * $promoter->puntos,
@@ -290,6 +291,7 @@ class Affiliate extends Model
 			array_push($data,[
 					'name' 			=> $promoter->Name,
 					'email' 		=> $promoter->Email,
+					'codePhone' 	=> $promoter->CodePhone,
 					'phone' 		=> $promoter->Phone,
 					'webshop' 		=> $promoter->webShop,
 					'pointsOffice' 	=> 0,
@@ -306,6 +308,7 @@ class Affiliate extends Model
 					'name' 			=> $item['name'],
 					'email'	 		=> $item['email'],
 					'phone'	 		=> $item['phone'],
+					'codePhone'	 	=> $item['codePhone'],
 					'pointsWeb' 	=> 0,
 					'pointsOffice' 	=> 0,
 					'active'	 	=> $item['active'],

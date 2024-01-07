@@ -70,28 +70,28 @@ $user=Auth()->user()->userName;
                 <li><hr class="dropdown-divider border-white/[0.08]"></li>
                 <li>
                     <a href="{{ route('affiliateUserEdit', base64_encode(auth()->user()->idAffiliated)) }}" class="dropdown-item hover:bg-white/5">
-                        <i data-lucide="user" class="w-4 h-4 mr-2"></i> Profile
+                        <i data-lucide="user" class="w-4 h-4 mr-2"></i> {{__('Edit profile')}}
                     </a>
                 </li>
                 <li>
                     <a href="" class="dropdown-item hover:bg-white/5">
-                        <i data-lucide="edit" class="w-4 h-4 mr-2"></i> Add Account
+                        <i data-lucide="edit" class="w-4 h-4 mr-2"></i> {{__('Add account')}}
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('resetPass') }}" class="dropdown-item hover:bg-white/5">
-                        <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Reset Password
+                        <i data-lucide="lock" class="w-4 h-4 mr-2"></i> {{__('Change password')}}
                     </a>
                 </li>
                 <li>
                     <a href="" class="dropdown-item hover:bg-white/5">
-                        <i data-lucide="help-circle" class="w-4 h-4 mr-2"></i> Help
+                        <i data-lucide="help-circle" class="w-4 h-4 mr-2"></i> {{__('Help')}}
                     </a>
                 </li>
                 <li><hr class="dropdown-divider border-white/[0.08]"></li>
                 <li>
                     <a href="{{ route('logout') }}" class="dropdown-item hover:bg-white/5">
-                        <i data-lucide="toggle-right" class="w-4 h-4 mr-2"></i> Logout
+                        <i data-lucide="toggle-right" class="w-4 h-4 mr-2"></i> {{__('Logout')}}
                     </a>
                 </li>
             </ul>

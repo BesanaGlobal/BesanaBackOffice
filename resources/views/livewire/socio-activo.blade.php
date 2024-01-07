@@ -18,7 +18,7 @@
                         <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block mt-3" type="text" wire:model="LastName" :value="old('LastName')" required placeholder="{{__('Enter your lastname')}}" />
                     </div> -->
                     <div class="py-2">
-                        <label class="text-gray-600 font-bold" for="Name">{{__('Name')}}:</label>
+                        <label class="text-gray-600 font-bold" for="Name">{{__('Names')}}:</label>
                         <input id="Name" placeholder="{{__('Enter your name')}}" class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" value="" required autofocus />
                     </div>
                     <div class="">
@@ -155,7 +155,7 @@
                 <div class="-intro-x grid grid-cols-2 gap-2 mt-3">
                     <div class="w-full p-3">
                         <input type="checkbox" class="-intro-x bg-primary " style="background-color:green;" wire:model="asignarSocio">
-                        <span>{{__('Do you want to make a placement')}}?</span>
+                        <span>{{__('¿Do you want to make a placement?')}}</span>
                         @if ($asignarSocio)
                         <div wire:ignore class="pt-3">
                             <select class="form-control pt-3" id="select2-dropdown" wire:model='asignacionSocio'>

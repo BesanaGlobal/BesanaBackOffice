@@ -26,7 +26,7 @@
                         <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block mt-3" type="text" wire:model="LastName" :value="old('LastName')" placeholder="{{__('Enter your lastname')}}" required/>
                     </div> -->
                     <div class="py-2">
-                        <label class="-intro-x  text-white" for="Name">{{__('Name')}}:</label>
+                        <label class="-intro-x  text-white" for="Name">{{__('Names')}}:</label>
                         <input id="Name" placeholder="{{__('Enter your name')}}" class="-intro-x login__input form-control py-3 " type="text" wire:model="Name" value="" required autofocus />
                     </div>
                     <div class="">
@@ -148,7 +148,7 @@
                     </div>
                     <div class="w-full p-3">
                         <input type="checkbox" class="-intro-x bg-primary " style="background-color:green;" wire:model="selectBankAccount">
-                        <span class="text-white">Quiere recibir los pagos mediante transferencia bancaria?</span>
+                        <span class="text-white">{{__('Do you want to receive payments by bank transfer?')}}</span>
                         @if ($selectBankAccount)
                         <div wire:ignore class="pt-3">
                             <input type="text" class="-intro-x  form-control mt-3" id="bankAccount" name="bankAccount" wire:model='bankAccount' value="" placeholder="Ingrese Número de cuenta bancaria">
