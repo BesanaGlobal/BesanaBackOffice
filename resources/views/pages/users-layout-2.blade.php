@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>Mis clientes | BesanaGlobal</title>
+    <title>{{__('My Clients')}} | BesanaGlobal</title>
 @endsection
 
 @section('subcontent')
@@ -20,17 +20,17 @@
                         </div>
                     </div>
                     <div class="text-3xl font-medium leading-8 mt-2">{{$totalPoints}} Pts.</div>
-                    <div class="text-base text-slate-500 mt-1">Volumen de Clientes</div>
+                    <div class="text-base text-slate-500 mt-1">{{__('CUSTOMER VOLUME')}}</div>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <h2 class="intro-y text-lg font-medium mt-10">Mis compras</h2>
+    <h2 class="intro-y text-lg font-medium mt-10">{{__('My Shops')}}</h2>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-            <button class="btn btn-primary shadow-md mr-2">Buy now</button>
+            <button class="btn btn-primary shadow-md mr-2">{{__('Buy Now')}}</button>
             <div class="dropdown">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                     <span class="w-5 h-5 flex items-center justify-center">
@@ -41,12 +41,12 @@
                     <ul class="dropdown-content">
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="users" class="w-4 h-4 mr-2"></i> Add Group
+                                <i data-lucide="users" class="w-4 h-4 mr-2"></i> {{__('Add Group')}}
                             </a>
                         </li>
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="message-circle" class="w-4 h-4 mr-2"></i> Send Message
+                                <i data-lucide="message-circle" class="w-4 h-4 mr-2"></i>{{__('Send Message')}}
                             </a>
                         </li>
                     </ul>
@@ -58,7 +58,7 @@
                 <div class="box">
                     <div class="flex-col lg:flex-row items-center p-5 d-flex justify-content-center">
                         <div class="lg:ml-2 lg:mr-auto text-center lg:text-center mt-3 lg:mt-0">
-                            <p class="text-center">Sin compras en la oficina en estos momentos</p>        
+                            <p class="text-center">{{__('No purchases in the office at this time')}}</p>        
                         </div>
                     </div>
                 </div>
@@ -74,8 +74,8 @@
                             </svg>    
                         </div>
                         <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
-                            <div class="text-slate-500 text-xs mt-0.5">Puntos adquiridos mediante la oficina: <strong>{{ $value['totalPoints'] }} Pts.</strong></div>
-                            <div class="text-slate-500 text-xs mt-0.5">Momento de la compra: <strong>{{ $value['date'] }}</strong></div>
+                            <div class="text-slate-500 text-xs mt-0.5">{{__('Points acquired through the office')}}: <strong>{{ $value['totalPoints'] }} Pts.</strong></div>
+                            <div class="text-slate-500 text-xs mt-0.5">{{__('Time of purchase')}}: <strong>{{ $value['date'] }}</strong></div>
                         </div>
                     </div>
                 </div>
@@ -83,10 +83,10 @@
             @endforeach
         @endif  
     </div>
-    <h2 class="intro-y text-lg font-medium mt-10">Mis clientes</h2>
+    <h2 class="intro-y text-lg font-medium mt-10">{{__('My Clients')}}</h2>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-            <button class="btn btn-primary shadow-md mr-2">Add New Client</button>
+            <button class="btn btn-primary shadow-md mr-2">{{__('Add New Client')}}</button>
             <div class="dropdown">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                     <span class="w-5 h-5 flex items-center justify-center">
@@ -97,12 +97,12 @@
                     <ul class="dropdown-content">
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="users" class="w-4 h-4 mr-2"></i> Add Group
+                                <i data-lucide="users" class="w-4 h-4 mr-2"></i>{{__('Add Group')}}
                             </a>
                         </li>
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="message-circle" class="w-4 h-4 mr-2"></i> Send Message
+                                <i data-lucide="message-circle" class="w-4 h-4 mr-2"></i>{{__('Send message')}}
                             </a>
                         </li>
                     </ul>
@@ -114,7 +114,7 @@
                 <div class="box">
                     <div class="flex-col lg:flex-row items-center p-5 d-flex justify-content-center">
                         <div class="lg:ml-2 lg:mr-auto text-center lg:text-center mt-3 lg:mt-0">
-                           <p class="text-center">Sin clientes en estos momentos</p>        
+                           <p class="text-center">{{__('No clients at this time')}}</p>        
                         </div>
                     </div>
                 </div>
@@ -136,8 +136,8 @@
                                 <div class="text-slate-500 text-xs mt-0.5">Momento de la compra: {{ $client['date'] }}</div>
                             </div>
                             <div class="flex mt-4 lg:mt-0">
-                                <button class="btn btn-primary py-1 px-2 mr-2">Message</button>
-                                <button class="btn btn-outline-secondary py-1 px-2">Profile</button>
+                                <button class="btn btn-primary py-1 px-2 mr-2">{{__('Message')}}</button>
+                                <button class="btn btn-outline-secondary py-1 px-2">{{__('Profile')}}</button>
                             </div>
                         </div>
                     </div>

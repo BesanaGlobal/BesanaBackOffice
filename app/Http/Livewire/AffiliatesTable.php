@@ -29,25 +29,25 @@ class AffiliatesTable extends DataTableComponent
                 Column::make("Id", "idAffiliated")
                     ->sortable()
                     ->searchable(),
-                Column::make("Name", "Name")
+                Column::make(__('Names'), "Name")
                     ->sortable()
                     ->searchable(),
-                Column::make("LastName", "LastName")
+                Column::make(__('LastName'), "LastName")
                     ->sortable()
                     ->searchable(),
-                Column::make("Email", "Email")
+                Column::make(__('Email'), "Email")
                     ->sortable()
                     ->searchable(),
-                Column::make("Phone", "AlternativePhone")
+                Column::make(__('Phone'), "AlternativePhone")
                     ->sortable()
                     ->searchable(),
-                Column::make("Created", "CreatedAt")
+                Column::make(__('Created'), "CreatedAt")
                     ->sortable()
                     ->searchable(),
-                Column::make("Rank", "rank.RankName")
+                Column::make(__('Rank'), "rank.RankName")
                     ->sortable()
                     ->searchable(),
-                BooleanColumn::make("Status", "user.active")
+                BooleanColumn::make(__('State'), "user.active")
                     ->sortable(),
             ];
         }else{
@@ -55,25 +55,25 @@ class AffiliatesTable extends DataTableComponent
                 Column::make("Id", "idAffiliated")
                     ->sortable()
                     ->searchable(),
-                Column::make("Name", "Name")
+                Column::make(__('Names'), "Name")
                     ->sortable()
                     ->searchable(),
-                Column::make("LastName", "LastName")
+                Column::make(__('LastName'), "LastName")
                     ->sortable()
                     ->searchable(),
-                Column::make("Email", "Email")
+                Column::make(__('Email'), "Email")
                     ->sortable()
                     ->searchable(),
-                Column::make("Phone", "AlternativePhone")
+                Column::make(__('Phone'), "AlternativePhone")
                     ->sortable()
                     ->searchable(),
-                Column::make("Created", "CreatedAt")
+                Column::make(__('Created'), "CreatedAt")
                     ->sortable()
                     ->searchable(),
-                Column::make("Rank", "rank.RankName")
+                Column::make(__('Rank'), "rank.RankName")
                     ->sortable()
                     ->searchable(),
-                BooleanColumn::make("Status", "user.active")
+                BooleanColumn::make(__('State'), "user.active")
                     ->sortable(),
                 ButtonGroupColumn::make('Acciones')
                     ->attributes(function($row){

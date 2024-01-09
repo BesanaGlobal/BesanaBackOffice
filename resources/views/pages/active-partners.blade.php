@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>Listado de Socios Activos | BesanaGlobal</title>
+    <title>{{__('List of Active Partners')}} | BesanaGlobal</title>
 @endsection
 
 @section('subcontent')

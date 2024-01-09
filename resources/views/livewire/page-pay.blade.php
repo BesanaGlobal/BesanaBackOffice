@@ -11,11 +11,11 @@
                 <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Information')}}</h1>
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">{{__('Name')}}</span>
+                <span class="input-group-text" id="basic-addon1">{{__('Names')}}</span>
                 <input readonly id="name" value="{{$b->Name}}" type="text" class="form-control" placeholder="{{$b->Name}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">{{__('Last Name')}}</span>
+                <span class="input-group-text" id="basic-addon1">{{__('LastName')}}</span>
                 <input readonly value="{{$b->LastName}}" type="text" class="form-control" placeholder="{{$b->LastName}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">

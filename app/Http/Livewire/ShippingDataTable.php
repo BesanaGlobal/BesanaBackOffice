@@ -30,13 +30,13 @@ class ShippingDataTable extends DataTableComponent
             Column::make("ID", "idSale")
                 ->sortable()
                 ->searchable(),
-            Column::make("Client Name", "WebNameClient")
+            Column::make(__('Client Name'), "WebNameClient")
                 ->sortable()
                 ->searchable(),
-            Column::make("Phone", "WebWorkPhoneClient")
+            Column::make(__('Phone'), "WebWorkPhoneClient")
                 ->sortable()
                 ->searchable(),
-            Column::make("Email", "WebEmailClient")
+            Column::make(__('Email'), "WebEmailClient")
                 ->sortable()
                 ->searchable(),
             // Column::make("Country", "WebCountryClient")
@@ -51,16 +51,16 @@ class ShippingDataTable extends DataTableComponent
             // Column::make("Address", "WebAddressClient")
             //     ->sortable()
             //     ->searchable(),
-            Column::make("Price", "price")
+            Column::make(__('Price'), "price")
                 ->sortable()
                 ->searchable(),
-            Column::make("Shopping", "WebShop")
+            Column::make(__('Shopping'), "WebShop")
                 ->sortable()
                 ->searchable(),
-            BooleanColumn::make("Sent", "Sent")
+            BooleanColumn::make(__('Sent'), "Sent")
                 ->sortable()
                 ->searchable(),
-            ButtonGroupColumn::make('Acciones')
+            ButtonGroupColumn::make(__('Actions'))
                 ->attributes(function($row){
                     return [
                         'class' => 'space-x-2',
@@ -68,7 +68,7 @@ class ShippingDataTable extends DataTableComponent
                 })
                 ->buttons([
                     LinkColumn::make('View')
-                        ->title(fn($row) => 'ver')
+                        ->title(fn($row) => __('Show'))
                         ->location(fn($row) => route('shippingView', $row->idSale))
                         ->attributes(function($row){
                             return [

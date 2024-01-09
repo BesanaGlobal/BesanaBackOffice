@@ -1,11 +1,11 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>Listado de Socios Promotores | BesanaGlobal</title>
+    <title>{{__('List of Promoter Partners')}}| BesanaGlobal</title>
 @endsection
 
 @section('subcontent')
-<h2 class="intro-y text-lg font-medium mt-10">Mis Socios Promotores</h2>
+<h2 class="intro-y text-lg font-medium mt-10">{{__('MY PROMOTOR PARTNERS')}}</h2>
 
 
     <div class="grid grid-cols-12 gap-1 mt-5">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="text-3xl font-medium leading-8 mt-2">{{$totalPointsPromoters}}  Pts.</div>
-                    <div class="text-base text-slate-500 mt-1">Volumen de Socios Promotores</div>
+                    <div class="text-base text-slate-500 mt-1">{{__('Promotor partners volume')}}</div>
                 </div>
             </div>
         </div>
@@ -43,17 +43,17 @@
                     <ul class="dropdown-content">
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print
+                                <i data-lucide="printer" class="w-4 h-4 mr-2"></i> {{__('Print')}}
                             </a>
                         </li>
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to Excel
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> {{__('Export to Excel')}}
                             </a>
                         </li>
                         <li>
                             <a href="" class="dropdown-item">
-                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to PDF
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> {{__('Export to PDF')}}
                             </a>
                         </li>
                     </ul>
@@ -62,7 +62,7 @@
             <div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
             <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                 <div class="w-56 relative text-slate-500">
-                    <input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
+                    <input type="text" class="form-control w-56 box pr-10" placeholder="{{__('Search')}}...">
                     <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i>
                 </div>
             </div>
@@ -73,11 +73,11 @@
                 <thead>
                     <tr>
                         <th class="whitespace-nowrap">ID</th>
-                        <th class="text-center whitespace-nowrap">USUARIOS</th>
-                        <th class="text-center whitespace-nowrap">CORREO ELECTRONICO</th>
-                        <th class="text-center whitespace-nowrap">TELEFONO</th>
-                        <th class="text-center whitespace-nowrap">VOLUMEN DE CLIENTE </th>
-                        <th class="text-center whitespace-nowrap">ESTADO</th>
+                        <th class="text-center whitespace-nowrap">{{__('Users')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('Email')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('Phone')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('Client volume')}}</th>
+                        <th class="text-center whitespace-nowrap">{{__('State')}}</th>
                     </tr>
                 </thead>
                 <tbody>

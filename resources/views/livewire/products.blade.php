@@ -31,7 +31,7 @@
         </div>
     </div>
     <div id="currentDiv" class="col" wire:ignore>
-        <label for="current" class="form-label"> Seleccione moneda de pago:</label>
+        <label for="current" class="form-label"> {{__('Select payment currency')}}:</label>
         <select name="current" id="current" wire:model="current">
             <option value="eeuu" data-imagesrc="{{asset('/img/estados-unidos.png')}}" data-description="Estados Unidos">Estados Unidos</option>
             <option value="mexico" data-imagesrc="{{asset('/img/mexico.png')}}" data-description="Mexico">Mexico</option>
@@ -42,54 +42,62 @@
     </div>
     <div class="intro-y grid gap-2 grid-cols-1 sm:grid-cols-3 md:gap-4 mt-3">
         @forelse ($products as $key => $pro)
-        <div class="col-span-1 box shadow rounded rounded-lg border-double border-4 border-gray-400
-                @if ($pro->idLine==3)
-                    shadow-belleza
-                @else
-                    shadow-salud
-                @endif
-                shadow-xl">
-            <div class="   rounded-md overflow-hidden">
-                <img alt="{{$pro->name}}" class="object-contain h-48 w-96" src="{{ asset('img/products/'.$pro->img) }}" />
-            </div>
-            <div class="text-slate-600 rounded rounded-lg dark:text-slate-500 mt-1
+            <div class="col-span-1 box shadow rounded rounded-lg border-double border-4 border-gray-400
                     @if ($pro->idLine==3)
-                        bg-belleza
+                        shadow-belleza
                     @else
-                        bg-salud
-                    @endif">
-                <div class="flex flex-col items-center  p-2 text-dark">
-                    <h1 class="block font-medium text-base">{{$pro->name}}</h1>
-                    @php
-                        $descuento              =   $pro->price * 0.15;
-                        $price                  =   number_format(floatval($pro->price - $descuento),2);
-                        $symbolCurrent          =   "$"; 
-                        switch ($current) {
-                            case 'guatemala':
-                                $price =  number_format(floatval(7.8 * $price),2);
-                                $symbolCurrent  =   "GTQ"; 
-                                break;
-                            case 'colombia':
-                                $price = number_format(floatval(4171.57 * $price),2);
-                                $symbolCurrent  =   "COP"; 
-                                break;
-                            case 'mexico':
-                                $price = number_format(floatval(17.28 * $price),2);
-                                $symbolCurrent  =   "MXN"; 
-                                break;
-                            default:
-                                $price = number_format(floatval($price * 1),2);
-                                $symbolCurrent  =   "$"; 
-                                break;
-                        }
-                    @endphp
-                    {{__('Price')}}: {{ $symbolCurrent }} {{ $price }}
-                    <span class="font-black">{{__('Points to Receive')}}:</span>
-                    <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span>
-                    <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">{{__('Add cart')}}</button>
+                        shadow-salud
+                    @endif
+                    shadow-xl">
+                <div class="   rounded-md overflow-hidden">
+                    <img alt="{{$pro->name}}" class="object-contain h-48 w-96" src="{{ asset('img/products/'.$pro->img) }}" />
+                </div>
+                <div class="text-slate-600 rounded rounded-lg dark:text-slate-500 mt-1
+                        @if ($pro->idLine==3)
+                            bg-belleza
+                        @else
+                            bg-salud
+                        @endif">
+                    <div class="flex flex-col items-center  p-2 text-dark">
+                        <h1 class="block font-medium text-base">{{$pro->name}}</h1>
+                        @php
+                            $descuento              =   $pro->price * 0.15;
+                            $descuentoNavideño      =   $pro->price * 0.50;
+                            $price                  =   number_format(floatval($pro->price - $descuento),2);
+                            $price                  =   number_format(floatval($pro->price - $descuentoNavideño),2);
+                            $puntosNavideños        =   number_format($pro->price / 2);
+                            $symbolCurrent          =   "$"; 
+                            switch ($current) {
+                                case 'guatemala':
+                                    $price =  number_format(floatval(7.8 * $price),2);
+                                    $symbolCurrent  =   "GTQ"; 
+                                    break;
+                                case 'colombia':
+                                    $price = number_format(floatval(4171.57 * $price),2);
+                                    $symbolCurrent  =   "COP"; 
+                                    break;
+                                case 'mexico':
+                                    $price = number_format(floatval(17.28 * $price),2);
+                                    $symbolCurrent  =   "MXN"; 
+                                    break;
+                                default:
+                                    $price = number_format(floatval($price * 1),2);
+                                    $symbolCurrent  =   "$"; 
+                                    break;
+                            }
+                        @endphp
+                        {{__('Price')}}: {{ $symbolCurrent }} {{ $price }}
+                        <span class="font-black">{{__('Points to Receive')}}:</span>
+                        <!-- <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span> -->
+                        <span class="font-black ">{{$puntosNavideños}} {{__('Points')}}</span>
+                        @if($pro->idProd == 3 && $current == "mexico")
+                            <button class="btn btn-danger btn-sm ">No Disponible</button>
+                        @else
+                            <button class="btn btn-primary btn-sm " wire:click="addCart({{$key}})">{{__('Add cart')}}</button>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
         @empty
         <div>
             <span colspan="6"> NO DATA </span>
