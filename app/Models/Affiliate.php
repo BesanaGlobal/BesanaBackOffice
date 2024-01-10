@@ -134,11 +134,11 @@ class Affiliate extends Model
 		$webPoints 		= 	collect();
 
 		foreach($office as $detail){
-			$officePoints = $officePoints->merge($detail->cantidad * $detail->puntos);
+			$officePoints = $officePoints->merge($detail->cantidad * $detail->pointsProd);
 		}
 	
 		foreach($web as $detail){
-			$webPoints = $webPoints->merge($detail->cantidad * $detail->puntosWebsite);
+			$webPoints = $webPoints->merge($detail->cantidad * $detail->pointsProd);
 		}
 
 		$points = $webPoints->sum() + $officePoints->sum();
@@ -166,7 +166,7 @@ class Affiliate extends Model
 		foreach($level1Points as $promoter){
 			array_push($data,[
 				'name' 		=> $promoter->Name,
-				'points' 	=> $promoter->cantidad * $promoter->puntosWebsite,
+				'points' 	=> $promoter->cantidad * $promoter->pointsProd,
 				]);
 		}
 		
@@ -177,8 +177,8 @@ class Affiliate extends Model
 
 	public function getTotalPointsByActivePartners($id) {
 
-		$cacheKey = 'total_points_by_active_partners_' . $id;
-		$totalPoints = cache()->remember($cacheKey, 3600, function () use ($id) {
+		// $cacheKey = 'total_points_by_active_partners_' . $id;
+		// $totalPoints = cache()->remember($cacheKey, 3600, function () use ($id) {
 
 		$level1 		= collect();
 		$officePoints 	= collect();
@@ -195,13 +195,13 @@ class Affiliate extends Model
 			$officePoints 	= $officePoints->merge(DB::select("CALL Sp_TotalPointsByActivePartnersOffice($l1)"));
 			$webPoints 		= $webPoints->merge(DB::select("CALL Sp_TotalPointsByActivePartnersWebsite($l1)"));
 		}
-		
+
 		foreach($officePoints as $promoter){
 			array_push($data,[
 				'id' 		=> $promoter->idSale,				
 				'name' 		=> $promoter->WebNameClient,
 				'webshop'	=> $promoter->webShop,
-				'points' 	=> $promoter->cantidad * $promoter->puntos,
+				'points' 	=> $promoter->cantidad * $promoter->pointsProd,
 				]);
 		}
 
@@ -210,7 +210,7 @@ class Affiliate extends Model
 				'id' 		=> $promoter->idSale,				
 				'name' 		=> $promoter->WebNameClient,
 				'webshop'	=> $promoter->webShop,
-				'points' 	=> $promoter->cantidad * $promoter->puntosWebsite,
+				'points' 	=> $promoter->cantidad * $promoter->pointsProd,
 				]);
 		}
 
@@ -218,9 +218,10 @@ class Affiliate extends Model
 
 		return $totalPoints;
 
-	});
+	// });
 
-	return $totalPoints;
+
+	// return $totalPoints;
 }
 
 	public function getActivePromotersByAffiliated($id){
@@ -237,7 +238,7 @@ class Affiliate extends Model
 					'name' 		=> $promoter->Name,
 					'email' 	=> $promoter->Email,
 					'phone' 	=> $promoter->Phone,
-					'points' 	=> $promoter->cantidad * $promoter->puntosWebsite,
+					'points' 	=> $promoter->cantidad * $promoter->pointsProd,
 					'active' 	=> $promoter->active,
 					]);
 		}
@@ -280,7 +281,7 @@ class Affiliate extends Model
 					'codePhone' 	=> $promoter->CodePhone,
 					'phone' 		=> $promoter->Phone,
 					'webshop' 		=> $promoter->webShop,
-					'pointsOffice' 	=> $promoter->cantidad * $promoter->puntos,
+					'pointsOffice' 	=> $promoter->cantidad * $promoter->pointsProd,
 					'pointsWeb' 	=> 0,
 					'active' 		=> $promoter->active,
 					]);
@@ -295,7 +296,7 @@ class Affiliate extends Model
 					'phone' 		=> $promoter->Phone,
 					'webshop' 		=> $promoter->webShop,
 					'pointsOffice' 	=> 0,
-					'pointsWeb' 	=> $promoter->cantidad * $promoter->puntosWebsite,
+					'pointsWeb' 	=> $promoter->cantidad * $promoter->pointsProd,
 					'active' 		=> $promoter->active,
 					]);
 				
@@ -321,7 +322,7 @@ class Affiliate extends Model
 			return $carry;
 		}, []);
 
-	
+
 		return $groupedData;
 
 	}
@@ -334,7 +335,7 @@ class Affiliate extends Model
 			array_push($data, [
 				'name' 			=> $client->WebNameClient,
 				'email'			=> $client->WebEmailClient,
-				'pointsWebsite' => $client->cantidad * $client->puntosWebsite,
+				'pointsWebsite' => $client->cantidad * $client->pointsProd,
 				'dateTimeb' 	=> $client->datetimeb,
 				]);
 		}
@@ -363,7 +364,7 @@ class Affiliate extends Model
 		foreach($buyOffice as $client){
 			array_push($data, [
 				'name' 			=> $client->WebNameClient,
-				'pointsOffice' 	=> $client->cantidad * $client->puntos,
+				'pointsOffice' 	=> $client->cantidad * $client->pointsProd,
 				'dateTimeb' 	=> $client->datetimeb,
 				]);
 		}

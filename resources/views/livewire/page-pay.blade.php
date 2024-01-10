@@ -185,6 +185,8 @@
                 @csrf
                 <label class="font-black uppercase text-base" for="">Total:</label>
                 <input readonly id="totalfull" type="text" value="{{number_format(floatval($totalImpuestoShipping),2)}}" class="-intro-y form-control">
+                <label class="font-black uppercase text-base" for="">Puntos Totales:</label>
+                <input readonly id="totalPoints" type="text" value="{{number_format($pointsTotal)}}" class="-intro-y form-control">
                 <label class="font-black uppercase text-base" for="nameCard">{{__('Name')}}:</label>
                 <input type="text" id="nameCard" class="-intro-x form-control" placeholder="Nombre del Titular">
                 <label class="font-black uppercase text-base" for="nameCard">{{__('Card Data')}}:</label>
@@ -277,6 +279,7 @@
         const email         = document.getElementById('email').value;
         const address       = document.getElementById('address').value;
         const totalfull     = document.getElementById('totalfull').value;
+        const totalPoints   = document.getElementById('totalPoints').value;
         cardButton.disabled = true;
 
         stripe.createToken(cardElement, {
@@ -288,9 +291,9 @@
                 var input = document.createElement('input');
                 if (document.getElementById('member') !== null) {
                     let member = document.getElementById('member').value;
-                    Livewire.emit('pay', result.token.id, name, totalfull, member ,package)                    
+                    Livewire.emit('pay', result.token.id, name, totalfull,totalPoints, member ,package)                    
                 }else{
-                    Livewire.emit('pay', result.token.id, name, totalfull, 0, package)
+                    Livewire.emit('pay', result.token.id, name, totalfull,totalPoints, 0, package)
 
                 }
             }

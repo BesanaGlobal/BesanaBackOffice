@@ -9,7 +9,7 @@
           </div>
         @endif
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-5">
         <div class="mb-4">
           <label class="block text-gray-700 font-bold mb-2" for="nombre">{{__('Start')}}</label>
           <input class="form-input rounded-md shadow-sm w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" type="date" id="datestart" wire:model="datestart" />
@@ -23,7 +23,7 @@
         </div>
       </div>
       
-      <table class="min-w-full divide-y divide-gray-200">
+      <table class="min-w-full divide-y divide-gray-200 pt-5">
         <thead class="bg-gray-50">
           <tr>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('Product')}}</th>
@@ -38,7 +38,12 @@
               <tr>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{$detail->NameProduct}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$. {{$detail->precioVenta}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{$detail->product->puntos}} Pts.</td>
+                <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{$detail->product->puntos}} Pts.</td> -->
+                @if($detail->pointsProd == null)
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> - </td>
+                @else
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{$detail->pointsProd}} Pts.</td>
+                @endif
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{$d->datetimeb}}</td>
 
               </tr>

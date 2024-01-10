@@ -345,7 +345,7 @@ class PageController extends Controller
         $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
         $totalPointsActive      =   $afiliado->getTotalPointsByActivePartners($id->idAffiliated);
         $activePartners         =   $afiliado->getActivePartnersByAffiliated($id->idAffiliated);
-        
+         
         return view('pages.active-partners', compact('activePartners','totalPointsActive'));
     }
 

@@ -35,6 +35,7 @@ class PagePay extends Component
   public $viewStatus;
   public $totalPay;
   public $activatedBuy;
+  public $totalPoints;
 
   protected $stripe;
   protected $listeners = [
@@ -122,13 +123,14 @@ class PagePay extends Component
     }
   }
 
-  public function pay($token, $name, $total, $member, $package)
+  public function pay($token, $name, $total, $points, $member, $package)
   {
     $tok            = $token;
     $variable       = config('services.stripe.STRIPE_SECRET');
     $this->stripe   = new \Stripe\StripeClient($variable);
     $idAfiliado     = Auth()->user()->idAffiliated;
     $this->totalPay = floatval(str_replace(',', '', $total));
+    $this->totalPoints = floatval(str_replace(',', '', $points));
 
 
     if($member == 1){
@@ -176,13 +178,14 @@ class PagePay extends Component
     $fechaHoraActual  = Carbon::now();
     $fechaHoraMySQL   = $fechaHoraActual->format('Y-m-d H:i:s');
     
-    $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+    $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
              array(
                  'Sale',
                  $idAfiliado,
                  Null,
                  $this->symbolCurrent,
                  $this->totalPay,
+                 $this->totalPoints,
                  'CREDIT CARD',
                  $this->activatedBuy,
                  $fechaHoraMySQL,
@@ -216,6 +219,7 @@ class PagePay extends Component
       $detailV->id_product  = $pro['id'];
       $detailV->NameProduct = $pro['name'];
       $detailV->precioVenta = $pro['price'];
+      $detailV->pointsProd  = $pro['attributes']['puntos'];
       $detailV->Tax         = $pro['attributes']['tax'];
       $detailV->cantidad    = $pro['quantity'];
       $detailV->subtotal    = $subtotal;

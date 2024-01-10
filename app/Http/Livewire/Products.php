@@ -128,7 +128,6 @@ class Products extends Component
     $descuentoNavideño      = $this->products[$id]['price'] * 0.50;
     //precios Normales
     // $price                  = number_format(floatval($this->products[$id]['price'] - $descuento),2);
-    
     // puntos antes
     // 'puntos'        => $this->products[$id]['puntos']
     // Navidad-precios
