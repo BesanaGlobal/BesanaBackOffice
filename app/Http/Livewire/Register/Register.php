@@ -209,12 +209,11 @@ class Register extends Component
 
     public function mount()
     {
-        if (request('sponsor') !== "") {
-            if(Request('sponsor') == null || Request('sponsor') === ""){
-                $this->invitedby    = "Besana";
-            }else{
-                $this->invitedby    = request('sponsor');    
-            }
+        
+        $this->invitedby  = request('sponsor') ? request('sponsor') : "Besana";
+
+        if ($this->invitedby  == "null"){
+            $this->invitedby = "Besana";
         }
 
         $this->lenguaje     = 'spanish';
