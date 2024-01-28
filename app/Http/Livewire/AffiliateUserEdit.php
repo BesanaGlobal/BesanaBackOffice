@@ -166,6 +166,19 @@ class AffiliateUserEdit extends Component
     public function updatedSelectedCountry($country)
     {
         if (!is_null($country)) {
+
+            if($country == "Usa" || $country == "United States" ){
+                    $country = "EE UU";
+                }
+        
+            if($country == "Guatemalaa"){
+                $country = "Guatemala";
+            }
+    
+            if($country == "Panama"){
+                $country = "Panamá";
+            }
+
            $this->States = $this->Countries[$country];
         }
     }

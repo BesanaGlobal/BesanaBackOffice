@@ -208,7 +208,7 @@ class AffiliateEdit extends Component
         $this->DateBirth                = $affiliate[0]->DateBirth;
         $this->SSN                      = $affiliate[0]->SSN;
         $this->RFC                      = $affiliate[0]->RFC;
-        $this->CURP                     = $affiliate[0]->CURD;
+        $this->CURP                     = $affiliate[0]->CURP;
         $this->DPI                      = $affiliate[0]->DPI;
         $this->IP                       = $affiliate[0]->IP;  
         $this->AreaCodeWorkPhone        = $affiliate[0]->CodeWorkPhone;
@@ -245,18 +245,21 @@ class AffiliateEdit extends Component
             $this->Authorization        = true;
         }
 
-        if( $this->SSN != ""){
+        if( $this->SSN != "" && $this->RFC == "" && $this->CURP == "" && $this->DPI == "" && $this->IP == ""){
             $this->selectCity = 1;
         }
-        if( $this->RFC != "" && $this->CURP != "" ){
+        if( $this->SSN == "" && $this->RFC != "" && $this->CURP != "" && $this->DPI == "" && $this->IP == ""){
             $this->selectCity = 2;
         }
-        if( $this->DPI != ""){
+
+        if( $this->SSN == "" && $this->RFC == "" && $this->CURP == "" && $this->DPI != "" && $this->IP == ""){
             $this->selectCity = 3;
         }
-        if( $this->IP != ""){
+
+        if( $this->SSN == "" && $this->RFC == "" && $this->CURP == "" && $this->DPI == "" && $this->IP != ""){
             $this->selectCity = 4;
         }
+
 
         // if($affiliate[0]->Country == "Usa" || $affiliate[0]->Country == "United States" ){
         //     $this->selectedCountry = "EE UU";
@@ -321,6 +324,33 @@ class AffiliateEdit extends Component
             $this->bankAccount          = null;
             $this->routingNumber        = null;
             $this->typeAccount          = null;            
+        }
+
+        if($this->selectCity == 1){          
+            $this->RFC          = null;            
+            $this->CURP         = null;            
+            $this->DPI          = null;            
+            $this->IP           = null;            
+        }
+
+        if($this->selectCity == 2){
+            $this->SSN          = null;             
+            $this->DPI          = null;            
+            $this->IP           = null;            
+        }
+
+        if($this->selectCity == 3){
+            $this->SSN          = null;            
+            $this->RFC          = null;            
+            $this->CURP         = null;            
+            $this->IP           = null;            
+        }
+
+        if($this->selectCity == 4){
+            $this->SSN          = null;            
+            $this->RFC          = null;            
+            $this->CURP         = null;            
+            $this->DPI          = null;           
         }
 
         // $this->validate();

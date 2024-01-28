@@ -315,13 +315,12 @@ class SocioActivo extends Component
         $confirmation_code              = Str::random(25);
         $datos                          = $this->validate();
         $datos['confirmation_code']     = $confirmation_code;
-        $mytime                         = Carbon::now();
-        $null                           = 'null';
-        $createdAt                      = Carbon::parse($datos['DateBirth']);
-        $dateBirth                      = $createdAt->format('M d Y');
-        $datecreated                    = $mytime->format('Y-m-d h:i');
         $website                        = 'https://besanaglobal.com?sponsor=' . $datos['userName'];
         $pass                           = Hash::make($datos['Password']);
+
+        $dateNow                        = Carbon::now()->format('Y-m-d H:i:s');
+        // $serveDateNow                   = $dateNow->format('Y-m-d H:i:s');
+        $null                           = null;
 
         if (User::where('userName', $datos['invitedby'])->first()) {
             $user       = User::where('userName', $datos['invitedby'])->first();
@@ -380,7 +379,7 @@ class SocioActivo extends Component
                 '{$typeAccount}',
                 '-12.34566',
                 '12.34566',
-                '{$datos['fechaingreso']}',
+                '{$dateNow}',
                 null,
                 null,
                 1,

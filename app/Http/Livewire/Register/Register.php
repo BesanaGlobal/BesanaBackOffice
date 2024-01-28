@@ -288,13 +288,15 @@ class Register extends Component
         $confirmation_code              = Str::random(25);
         $datos                          = $this->validate();
         $datos['confirmation_code']     = $confirmation_code;
-        $mytime                         = Carbon::now();
-        $null                           = 'nulll';
-        $createdAt                      = Carbon::parse($datos['DateBirth']);
-        $dateBirth                      = $createdAt->format('M d Y');
-        $datecreated                    = $mytime->format('Y-m-d h:i');
         $website                        = 'https://www.besanaglobal.com?sponsor=' . $datos['userName'];
         $pass                           = Hash::make($datos['Password']);
+
+        $dateNow                        = Carbon::now()->format('Y-m-d H:i:s');
+        // $serveDateNow                   = $dateNow->format('Y-m-d H:i:s');
+        $null                           = null;
+
+
+
 
         $ssn        = $datos['SSN']                 ? $datos['SSN']                 : null;
         $rfc        = $datos['RFC']                 ? $datos['RFC']                 : null;
@@ -353,7 +355,7 @@ class Register extends Component
                 '{$typeAccount}',
                 '-12.34566',
                 '12.34566',
-                '{$datos['fechaingreso']}',
+                '{$dateNow}',
                 null,
                 null,
                 1,
