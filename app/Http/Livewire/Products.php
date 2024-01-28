@@ -125,17 +125,7 @@ class Products extends Component
     $this->obtenerOnzas($id);
     $cantTem                = \Cart::session(Auth()->user()->idUser)->getContent()->count();
     $descuento              = $this->products[$id]['price'] * 0.15;
-    $descuentoNavideño      = $this->products[$id]['price'] * 0.50;
-    //precios Normales
-    // $price                  = number_format(floatval($this->products[$id]['price'] - $descuento),2);
-    // puntos antes
-    // 'puntos'        => $this->products[$id]['puntos']
-    // Navidad-precios
-    $price                  = number_format(floatval($this->products[$id]['price']  - $descuentoNavideño),2);
-    $pointsChris            = number_format($price);
-    
-    
-    
+    $price                  = number_format(floatval($this->products[$id]['price'] - $descuento),2);
     
     $symbolCurrent          =   "$"; 
     switch ($this->current) {
@@ -175,7 +165,7 @@ class Products extends Component
         'quantity'      => $cant,
         'attributes'    => array(
           'img'           => $this->products[$id]['img'],
-          'puntos'        => $pointsChris,
+          'puntos'        => $this->products[$id]['puntos'],
           'onzas'         => number_format(floatval($this->onzas), 2),
           'tax'           => $this->taxes,
           'symbolCurrent' => $symbolCurrent

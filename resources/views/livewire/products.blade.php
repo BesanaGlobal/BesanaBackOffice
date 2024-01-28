@@ -62,9 +62,7 @@
                         <h1 class="block font-medium text-base">{{$pro->name}}</h1>
                         @php
                             $descuento              =   $pro->price * 0.15;
-                            $descuentoNavideño      =   $pro->price * 0.50;
                             $price                  =   number_format(floatval($pro->price - $descuento),2);
-                            $price                  =   number_format(floatval($pro->price - $descuentoNavideño),2);
                             $puntosNavideños        =   number_format($pro->price / 2);
                             $symbolCurrent          =   "$"; 
                             switch ($current) {
@@ -88,8 +86,7 @@
                         @endphp
                         {{__('Price')}}: {{ $symbolCurrent }} {{ $price }}
                         <span class="font-black">{{__('Points to Receive')}}:</span>
-                        <!-- <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span> -->
-                        <span class="font-black ">{{$puntosNavideños}} {{__('Points')}}</span>
+                        <span class="font-black ">{{$pro->puntos}} {{__('Points')}}</span>
                         @if($pro->idProd == 3 && $current == "mexico")
                             <button class="btn btn-danger btn-sm ">No Disponible</button>
                         @else
