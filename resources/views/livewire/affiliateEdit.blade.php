@@ -113,6 +113,7 @@
                         </div>
                         <div class="col-1">
                             <select id="idRank"  name="idRank"  wire:model="idRank" class="form-control" required>
+                                <option value="" selected>Seleccione</option>
                                 <option disabled></option>
                                 @foreach($rank as $value)
                                     <option value="{{ $value->idRank }}">{{ $value->RankName }}</option>

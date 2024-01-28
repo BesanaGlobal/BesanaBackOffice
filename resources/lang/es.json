@@ -146,7 +146,9 @@
     "Shopping"                                          :   "Compras",
     "Sent"                                              :   "Enviado",
     "Show"                                              :   "Ver",
-    "Select payment currency"                           :   "Seleccione la moneda de pago"
+    "Select payment currency"                           :   "Seleccione la moneda de pago",
+    "Copy"                                              :   "Copiar",
+    "Copied"                                            :   "Copiado"
 
 
 

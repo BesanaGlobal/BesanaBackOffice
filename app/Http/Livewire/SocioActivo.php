@@ -232,7 +232,7 @@ class SocioActivo extends Component
 
         $this->invitedby    = Auth()->user()->userName;
 
-        return view('livewire.socio-activo')->extends('layout.basenew')->section('subcontent');
+        return view('livewire.socio-activo')->extends('layout.side-menu')->section('subcontent');
     }
 
     public function datahijos()

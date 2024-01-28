@@ -196,12 +196,12 @@ class AffiliateEdit extends Component
     public function mount($id)
     {
 
-        $this->lenguaje = 'spanish';
+        $this->lenguaje     = 'spanish';
         $this->idAffiliated = $id;
         
         $affiliate        = Affiliate::where('idAffiliated', $id)->with('user','rank')->get();
+       
         $this->rank       = Rank::all();
-
         $this->fechaingreso             = Carbon::parse($affiliate[0]->CreatedAt)->format('d/m/Y');
         $this->Name                     = $affiliate[0]->Name;
         $this->LastName                 = $affiliate[0]->LastName;
@@ -225,7 +225,8 @@ class AffiliateEdit extends Component
         $this->Longitude                = $affiliate[0]->Longitude;
         $this->userName                 = $affiliate[0]->user->userName;
         $this->idRank                   = $affiliate[0]->idRank;
-        $this->nameRank                 = $affiliate[0]->rank->RankName;
+        $this->nameRank                 = $affiliate[0]->rank?->RankName;
+
 
         if(
             $affiliate[0]->BankAccount == NULL   && $affiliate[0]->RoutingNumber == NULL  && $affiliate[0]->TypeAccount == NULL ||
