@@ -134,6 +134,14 @@ class SideMenu
                             'title' => 'Genealogy'
                         ],
                         'devider',
+                        'Products' => [
+                            'icon' => 'user',
+                            'route_name' => 'productsData',
+                            'params' => [
+                                'layout' => 'side-menu'
+                            ],
+                            'title' => 'Products'
+                        ],
                     ];
                 };
                 //SI NO ES MASTER

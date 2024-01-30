@@ -317,9 +317,7 @@ class SocioActivo extends Component
         $datos['confirmation_code']     = $confirmation_code;
         $website                        = 'https://besanaglobal.com?sponsor=' . $datos['userName'];
         $pass                           = Hash::make($datos['Password']);
-
         $dateNow                        = Carbon::now()->format('Y-m-d H:i:s');
-        // $serveDateNow                   = $dateNow->format('Y-m-d H:i:s');
         $null                           = null;
 
         if (User::where('userName', $datos['invitedby'])->first()) {

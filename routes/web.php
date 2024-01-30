@@ -21,10 +21,12 @@ use App\Http\Livewire\NextregisterComponent;
 use App\Http\Livewire\ResetPassword;
 use App\Http\Livewire\PayComponent;
 use App\Http\Livewire\Products;
+use App\Http\Livewire\ProductsData;
 use App\Http\Livewire\Register\Register;
 use App\Http\Livewire\ShippingView;
 use App\Http\Livewire\AffiliateEdit;
 use App\Http\Livewire\AffiliateUserEdit;
+use App\Http\Livewire\ProductsGeneral;
 use App\Http\Livewire\WalletWeekUser;
 use App\Http\Livewire\WalletMonthUser;
 
@@ -72,6 +74,12 @@ Route::get('/User/{id}', AffiliateUserEdit::class)->middleware(['auth','isafilia
 Route::get('/addproduct',[ProductController::class,'index'])->middleware('auth')->name('addproduct');
 Route::post('/addproduct',[ProductController::class,'store'])->middleware('auth')->name('addproduct.create');
 Route::get('/products',Products::class )->middleware(['auth','isafiliado'])->name('products');
+
+
+Route::get('/productsData',ProductsData::class )->middleware(['auth','isafiliado'])->name('productsData');
+Route::get('/productsCreate',ProductsGeneral::class )->middleware(['auth','isafiliado'])->name('productsGeneral');
+
+
 
 //registers
 Route::get('register/{id}',Register::class)->name('login.register.afiliate');

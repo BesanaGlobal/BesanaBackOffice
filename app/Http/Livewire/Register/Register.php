@@ -290,13 +290,8 @@ class Register extends Component
         $datos['confirmation_code']     = $confirmation_code;
         $website                        = 'https://www.besanaglobal.com?sponsor=' . $datos['userName'];
         $pass                           = Hash::make($datos['Password']);
-
         $dateNow                        = Carbon::now()->format('Y-m-d H:i:s');
-        // $serveDateNow                   = $dateNow->format('Y-m-d H:i:s');
         $null                           = null;
-
-
-
 
         $ssn        = $datos['SSN']                 ? $datos['SSN']                 : null;
         $rfc        = $datos['RFC']                 ? $datos['RFC']                 : null;

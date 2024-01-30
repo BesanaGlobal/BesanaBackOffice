@@ -134,7 +134,10 @@
                 <div class="-intro-x grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3">
                     <div>
                         <label for="Password" class="-intro-x text-gray-600 font-bold">{{__('Password')}}</label>
-                        <input id="Password" class="-intro-x  form-control py-3" type="password" wire:model="Password" required />
+                        <div class="input-group">
+                            <input id="Password" class="-intro-x  form-control py-3" type="password" wire:model="Password" required />
+                            <button class="btn btn-outline-primary" type="button" id="viewPass" name="viewPass" onclick="showPass()"><i id="iconoPass" class="fa-solid fa-eye"></i></button>
+                        </div>
                         @error('Password')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
@@ -144,7 +147,10 @@
                     <!-- Confirm Password -->
                     <div class="-intro-x w-full ">
                         <label for="password_confirmation" class="-intro-x text-gray-600 font-bold">{{__('Confirm Password')}}</label>
-                        <input id="password_confirmation" class="-intro-x  form-control py-3" type="password"  required wire:model="password_confirmation" />
+                        <div class="input-group">
+                            <input id="password_confirmation" class="-intro-x  form-control py-3" type="password"  required wire:model="password_confirmation" required/>
+                            <button class="btn btn-outline-primary" type="button" id="viewPassConfirm" name="viewPassConfirm" onclick="showPassConfirm()"><i id="iconoPassConfirm" class="fa-solid fa-eye"></i></button>
+                        </div>
                         @error('password_confirmation')
                         <div class="intro-x bg-red-600 p-2 rounded-lg ">
                             <span class="-intro-x bg-red-500 p-2 rounded-lg text-white ml-4">{{ $message }}</span>
@@ -152,6 +158,7 @@
                         @enderror
                     </div>
                 </div>
+
                 <div class="-intro-x grid grid-cols-2 gap-2 mt-3">
                     <div class="w-full p-3">
                         <input type="checkbox" class="-intro-x bg-primary " style="background-color:green;" wire:model="asignarSocio">
@@ -316,19 +323,34 @@
 
 
 <script>
-    // function fireModal(action = 1) {
-    //     if (action == 1) {
-    //         document.querySelector('.modal').classList.add('show')
-    //         document.querySelector('.modal').style.display = 'block'
-    //     } else {
-    //         document.querySelector('.modal').classList.add('hide')
-    //         document.querySelector('.modal').style.display = 'none'
-    //     }
-    // }
 
-    // window.addEventListener('modal-open', event => {
-    //     fireModal(1)
-    // })
+    function showPass(){
+        var typeInput =  document.getElementById("Password");
+        var i = document.getElementById("iconoPass"); 
+        
+        if (typeInput.type == 'password') {
+            typeInput.type = 'text';
+            i.className = 'fa-solid fa-eye-slash';
+        }else{
+            typeInput.type = 'password';
+            i.className = ' fa-solid fa-eye';
+
+        };
+    }
+
+    function showPassConfirm(){
+        var typeInput =  document.getElementById("password_confirmation");
+        var i = document.getElementById("iconoPassConfirm"); 
+        
+        if (typeInput.type == 'password') {
+            typeInput.type = 'text';
+            i.className = 'fa-solid fa-eye-slash';
+        }else{
+            typeInput.type = 'password';
+            i.className = ' fa-solid fa-eye';
+
+        };
+    }
 
     window.addEventListener('noty', event => {
         Swal.fire(
