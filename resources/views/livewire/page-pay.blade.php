@@ -24,7 +24,7 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">{{__('Phone')}}</span>
-                <input readonly type="text" id="phone" class="form-control" value="{{$b->Phone}}" placeholder="{{$b->Phone}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input readonly type="text" id="phone" class="form-control" value="{{$b->AlternativePhone}}" placeholder="{{$b->AlternativePhone}}" aria-label="notification" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text pr-2" id="basic-addon1">{{__('ZipCode')}}</span>
