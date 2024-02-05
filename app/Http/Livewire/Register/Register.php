@@ -47,6 +47,7 @@ class Register extends Component
     public $selectedState;
     public $selectedCity;
     public $selectBankAccount;
+    public $bankName;
     public $bankAccount;
     public $routingNumber;
     public $typeAccount;
@@ -250,6 +251,7 @@ class Register extends Component
         'selectedCity'              => 'required',
         'selectedState'             => 'required',
         'ZipCode'                   => 'required|string',
+        'bankName'                  => 'nullable|string',
         'bankAccount'               => 'nullable|string',
         'routingNumber'             => 'nullable|string',
         'typeAccount'               => 'nullable|string',
@@ -302,10 +304,12 @@ class Register extends Component
         $WPhone     = $datos['WorkPhone']           ? $datos['WorkPhone']           : 0;
 
         if ($this->selectBankAccount) {
+            $bankName       = $this->bankName;
             $bank           = $this->bankAccount;
             $routingNumber  = $this->routingNumber; 
             $typeAccount    = $this->typeAccount;
         }else{
+            $bankName       = null;
             $bank           = null;
             $routingNumber  = null; 
             $typeAccount    = null;
@@ -345,6 +349,7 @@ class Register extends Component
                 {$datos['ZipCode']},
                 '{$datos['AreaCodeAlternativePhone']}',
                 {$datos['AlternativePhone']},
+                '{$bankName}',
                 '{$bank}',
                 '{$routingNumber}',
                 '{$typeAccount}',
@@ -390,6 +395,7 @@ class Register extends Component
                 'selectedState',
                 'selectedCity',
                 'ZipCode',
+                'bankName', 
                 'bankAccount', 
                 'routingNumber', 
                 'typeAccount',  

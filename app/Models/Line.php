@@ -8,13 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Line extends Model
 {
     use HasFactory;
-    protected $table ='lineproduct';
-    protected $primaryKey = 'idLine';
-
-    protected $fillable = [
-        
-        'Line'
-    ];
+    protected $table        =   'lineproduct';
+    protected $primaryKey   =   'idLine';
+    protected $fillable     =   ['Line'];
 
     public function Product(){
        return $this->hasMany(Product::class,'idProd');

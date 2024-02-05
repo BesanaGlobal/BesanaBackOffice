@@ -10,6 +10,7 @@
                     <span>Quiere recibir los pagos mediante transferencia bancaria?</span>
                     @if ($selectBankAccount)
                     <div wire:ignore class="pt-3">
+                        <input type="text" class="-intro-x  form-control mt-3" id="bankName" name="bankName" wire:model='bankName' value="{{$bankName}}" placeholder="Nombre del banco">
                         <input type="text" class="-intro-x  form-control mt-3" id="bankAccount" name="bankAccount" wire:model="bankAccount" value="{{$bankAccount}}" placeholder="Ingrese Número de cuenta bancaria" />
                         <input type="text" class="-intro-x  form-control mt-3" id="routingNumber" name="routingNumber" wire:model="routingNumber" value="{{$routingNumber}}" placeholder="Ingrese Número de ruta bancaria" />
                         <select name="typeAccount" id="typeAccount" class="form-control mt-3"  wire:model='typeAccount'>

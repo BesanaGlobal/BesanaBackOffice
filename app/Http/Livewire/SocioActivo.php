@@ -44,6 +44,7 @@ class SocioActivo extends Component
     public $selectedCountry;
     public $selectedState;
     public $selectedCity;
+    public $bankName;
     public $selectBankAccount;
     public $bankAccount;
     public $routingNumber;
@@ -273,6 +274,7 @@ class SocioActivo extends Component
         'WorkPhone'                 => 'nullable|string',
         'DateBirth'                 => 'required|string',
         'ZipCode'                   => 'required|string',
+        'bankName'               => 'nullable|string',
         'bankAccount'               => 'nullable|string',
         'routingNumber'             => 'nullable|string',
         'typeAccount'               => 'nullable|string',
@@ -329,10 +331,12 @@ class SocioActivo extends Component
             }
 
             if ($this->selectBankAccount) {
+                $bankName       = $this->bankName;
                 $bank           = $this->bankAccount;
                 $routingNumber  = $this->routingNumber; 
                 $typeAccount    = $this->typeAccount;
             }else{
+                $bankName       = null;
                 $bank           = null;
                 $routingNumber  = null; 
                 $typeAccount    = null;
@@ -372,6 +376,7 @@ class SocioActivo extends Component
                 {$datos['ZipCode']},
                 '{$datos['AreaCodeAlternativePhone']}',
                 {$datos['AlternativePhone']},
+                '{$bankName}',
                 '{$bank}',
                 '{$routingNumber}',
                 '{$typeAccount}',
@@ -420,6 +425,7 @@ class SocioActivo extends Component
                 $this->selectedCity             = "";
                 $this->ZipCode                  = "";
                 $this->fhater                   = "";
+                $this->bankName                 = "";
                 $this->bankAccount              = "";
                 $this->routingNumber            = ""; 
                 $this->typeAccount              = "";

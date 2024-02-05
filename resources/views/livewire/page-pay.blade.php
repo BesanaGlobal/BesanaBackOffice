@@ -12,41 +12,94 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">{{__('Names')}}</span>
-                <input readonly id="name" value="{{$b->Name}}" type="text" class="form-control" placeholder="{{$b->Name}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input readonly id="name" value="{{$b->Name}}" type="text" class="form-control" placeholder="{{$b->Name}}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">{{__('LastName')}}</span>
-                <input readonly value="{{$b->LastName}}" type="text" class="form-control" placeholder="{{$b->LastName}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input readonly value="{{$b->LastName}}" type="text" class="form-control" placeholder="{{$b->LastName}}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">{{__('Email')}}</span>
-                <input id="email" value="{{$b->Email}}" readonly type="text" class="form-control" placeholder="{{$b->Email}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input id="email" value="{{$b->Email}}" readonly type="text" class="form-control" placeholder="{{$b->Email}}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">{{__('Phone')}}</span>
-                <input readonly type="text" id="phone" class="form-control" value="{{$b->AlternativePhone}}" placeholder="{{$b->AlternativePhone}}" aria-label="notification" aria-describedby="basic-addon1">
+                <input readonly type="text" id="phone" class="form-control" value="{{$b->AlternativePhone}}" placeholder="{{$b->AlternativePhone}}">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text pr-2" id="basic-addon1">{{__('ZipCode')}}</span>
-                <input readonly type="text" id="zipcode" class="form-control" value="{{$b->ZipCode}}" placeholder="{{$b->ZipCode}}" aria-label="notification" aria-describedby="basic-addon1">
+                <div class="form-check ml-5">
+                    <input class="form-check-input" type="radio" name="optionAddress" id="address1" wire:model="selectedOption" value="option1" checked>
+                    <label class="form-check-label" for="address1">
+                        Dirección principal
+                    </label>
+                </div>
+                <div class="form-check ml-5">
+                    <input class="form-check-input" type="radio" name="optionAddress" id="address2" wire:model="selectedOption" value="option2">
+                    <label class="form-check-label" for="address2">
+                        Otra dirección
+                    </label>
+                </div>
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text pr-2">{{__('Address')}}</span>
-                <input  readonly id="address" value="{{$b->Address}}" type="text" class="form-control" placeholder="{{$b->Address}}" aria-label="notification" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text pr-2" id="basic-addon1">{{__('Country')}}</span>
-                <input readonly id="country" value="{{$b->Country}}" type="text" class="form-control" placeholder="" aria-label="notification" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text pr-2" id="basic-addon1">{{__('State')}}</span>
-                <input  readonly id="state" type="text" class="form-control" placeholder="{{$b->State}}" value="{{$b->State}}" aria-label="notification" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text pr-2" id="basic-addon1">{{__('City')}}</span>
-                <input readonly type="text" id="city" class="form-control" value="{{$b->City}}" placeholder="{{$b->City}}" aria-label="notification" aria-describedby="basic-addon1">
-            </div>
+
+            @if($selectedOption === "option1")
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2" id="basic-addon1">{{__('Country')}}</span>
+                    <input readonly id="country" value="{{$b->Country}}" type="text" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2" id="basic-addon1">{{__('State')}}</span>
+                    <input  readonly id="state" type="text" class="form-control" value="{{$b->State}}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2" id="basic-addon1">{{__('City')}}</span>
+                    <input readonly type="text" id="city" class="form-control" value="{{$b->City}}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2">{{__('Address')}}</span>
+                    <input  readonly id="address" value="{{$b->Address}}" type="text" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2" id="basic-addon1">{{__('ZipCode')}}</span>
+                    <input readonly type="text" id="zipcode" class="form-control" value="{{$b->ZipCode}}">
+                </div>
+            @else
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2" id="basic-addon1">{{__('Country')}}</span>
+                    <select wire:model="selectedCountry" id="Country" class="form-control">
+                        <option  selected disabled>Selecciona un País</option>
+                        <option ></option>
+                        @foreach($Countries as $country => $value)
+                            <option value="{{ $country }}">{{ $country }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2" id="basic-addon1">{{__('State')}}</span>
+                    <select wire:model="selectedState" id="State" class="form-control">
+                        <option selected disabled>Selecciona un Estado</option>
+                        <option></option>
+                        @if (!is_null($States))
+                            @foreach($States as $state)
+                                <option value="{{ $state }}">{{ $state }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2" id="basic-addon1">{{__('City')}}</span>
+                    <input type="text" id="selectedCit" name="selectedCity" class="form-control" wire:model="selectedCity" value="">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2">{{__('Address')}}</span>
+                    <input id="alternativeAddres" name="alternativeAddress" type="text" wire:model="alternativeAddress" class="form-control" value="">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text pr-2" id="basic-addon1">{{__('ZipCode')}}</span>
+                    <input type="number" id="zipCode" class="form-control" wire:model="zipCode" value="" >
+                </div>      
+            @endif
         </div>
+
         <div class="w-2/3 md:w-3/5  px-4">
             <div>
                 <h1 class="font-bold uppercase text-xl p-2 bg-gray-600 rounded mb-3 text-white text-center">{{__('Purchase Detail')}}</h1>
@@ -277,7 +330,6 @@
         const name          = document.getElementById('name').value;
         let package         = document.getElementById('package').value;
         const email         = document.getElementById('email').value;
-        const address       = document.getElementById('address').value;
         const totalfull     = document.getElementById('totalfull').value;
         const totalPoints   = document.getElementById('totalPoints').value;
         cardButton.disabled = true;

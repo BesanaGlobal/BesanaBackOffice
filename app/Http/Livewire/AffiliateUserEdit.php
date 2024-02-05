@@ -22,6 +22,7 @@ class AffiliateUserEdit extends Component
     public $selectedState;
     public $selectedCity;
     public $ZipCode;
+    public $bankName;
     public $bankAccount;
     public $routingNumber;
     public $typeAccount;
@@ -206,16 +207,18 @@ class AffiliateUserEdit extends Component
         $this->ZipCode                  = $affiliate[0]->ZipCode;
        
         if(
-            $affiliate[0]->BankAccount == NULL   && $affiliate[0]->RoutingNumber == NULL  && $affiliate[0]->TypeAccount == NULL ||
-            $affiliate[0]->BankAccount == ""     && $affiliate[0]->RoutingNumber == ""    && $affiliate[0]->TypeAccount == "" 
+            $affiliate[0]->BankName == NULL   && $affiliate[0]->BankAccount == NULL   && $affiliate[0]->RoutingNumber == NULL  && $affiliate[0]->TypeAccount == NULL ||
+            $affiliate[0]->BankName == ""     && $affiliate[0]->BankAccount == ""     && $affiliate[0]->RoutingNumber == ""    && $affiliate[0]->TypeAccount == "" 
         ){
             $this->selectBankAccount    = false;
+            $this->bankName             = "";
             $this->bankAccount          = "";
             $this->routingNumber        = "";
             $this->typeAccount          = "";
             $this->Authorization        = false;
         }else {
             $this->selectBankAccount    = true;
+            $this->bankName             = $affiliate[0]->BankName;
             $this->bankAccount          = $affiliate[0]->BankAccount;
             $this->routingNumber        = $affiliate[0]->RoutingNumber;
             $this->typeAccount          = $affiliate[0]->TypeAccount;
@@ -228,6 +231,7 @@ class AffiliateUserEdit extends Component
         $affiliate  = Affiliate::where('idAffiliated', $this->idAffiliated)->with('user','rank');
 
         if($this->selectBankAccount == false){
+            $this->bankName             = null;
             $this->bankAccount          = null;
             $this->routingNumber        = null;
             $this->typeAccount          = null;            
@@ -244,6 +248,7 @@ class AffiliateUserEdit extends Component
             'State'                     =>  $this->selectedState,
             'City'                      =>  $this->selectedCity, 
             'ZipCode'                   =>  $this->ZipCode,
+            'BankName'                  =>  $this->bankName,
             'BankAccount'               =>  $this->bankAccount,
             'RoutingNumber'             =>  $this->routingNumber,
             'TypeAccount'               =>  $this->typeAccount,

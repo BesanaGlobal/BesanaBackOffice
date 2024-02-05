@@ -157,6 +157,7 @@
                         <span class="text-white">{{__('Do you want to receive payments by bank transfer?')}}</span>
                         @if ($selectBankAccount)
                         <div wire:ignore class="pt-3">
+                            <input type="text" class="-intro-x  form-control mt-3" id="bankName" name="bankName" wire:model='bankName' value="" placeholder="Ingrese nombre del banco">    
                             <input type="text" class="-intro-x  form-control mt-3" id="bankAccount" name="bankAccount" wire:model='bankAccount' value="" placeholder="Ingrese Número de cuenta bancaria">
                             <input type="text" class="-intro-x  form-control mt-3" id="routingNumber" name="routingNumber" wire:model='routingNumber' value="" placeholder="Ingrese Número de ruta bancaria">
                             <select name="typeAccount" id="typeAccount" class="form-control mt-3"  wire:model='typeAccount'>

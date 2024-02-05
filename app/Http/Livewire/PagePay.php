@@ -37,6 +37,144 @@ class PagePay extends Component
   public $activatedBuy;
   public $totalPoints;
 
+  public $Countries  = [
+    'EE UU' => [
+        'Alabama',
+        'Alaska',
+        'Arizona',
+        'Arkansas',
+        'California',
+        'Colorado',
+        'Connecticut',
+        'Delaware',
+        'Florida',
+        'Georgia',
+        'Hawaii',
+        'Idaho',
+        'Illinois',
+        'Indiana',
+        'Iowa',
+        'Kansas',
+        'Kentucky',
+        'Luisiana',
+        'Maine',
+        'Maryland',
+        'Massachusetts',
+        'Michigan',
+        'Minnesota',
+        'Misisipi',
+        'Misuri',
+        'Montana',
+        'Nebraska',
+        'Nevada',
+        'New Hampshire',
+        'Nueva Jersey',
+        'Nuevo Mexico',
+        'Nueva York',
+        'Carolina del Norte',
+        'Carolina del Sur',
+        'Dakota del Norte',
+        'Dakota del Sur',
+        'Ohio',
+        'Oklahoma',
+        'Oregon',
+        'Pensilvania',
+        'Rhode Island',
+        'Carolina del Sur',
+        'Tennessee',
+        'Texas',
+        'Utah',
+        'Vermont',
+        'Virginia',
+        'Washington',
+        'West Virginia',
+        'Wisconsin',
+        'Wyoming'
+    ],
+      'Mexico' => [
+        'Aguascalientes',
+        'Baja California',
+        'Baja California Sur',
+        'Campeche',
+        'Chiapas',
+        'Chihuahua',
+        'Coahuila',
+        'Colima',
+        'Durango',
+        'Guanajuato',
+        'Guerrero',
+        'Hidalgo',
+        'Jalisco',
+        'México',
+        'Michoacán',
+        'Morelos',
+        'Nayarit',
+        'Nuevo León',
+        'Oaxaca',
+        'Puebla',
+        'Querétaro',
+        'Quintana Roo',
+        'San Luis Potosí',
+        'Sinaloa',
+        'Sonora',
+        'Tabasco',
+        'Tamaulipas',
+        'Tlaxcala',
+        'Veracruz',
+        'Yucatán',
+        'Zacatecas'
+      ],
+      'Guatemala' => [
+        'Alta Verapaz',
+        'Baja Verapaz',
+        'Chimaltenango',
+        'Chiquimula',
+        'El Progreso',
+        'Escuintla',
+        'Guatemala',
+        'Huehuetenango',
+        'Izabal',
+        'Jalapa',
+        'Jutiapa',
+        'Petén',
+        'Quetzaltenango',
+        'Quiché',
+        'Retalhuleu',
+        'Sacatepequez',
+        'San Marcos',
+        'Santa Rosa',
+        'Sololá',
+        'Suchitepéquez',
+        'Totonicapán',
+        'Zacapa',
+      ],
+      'Panamá' => [
+        'Bocas del Toro',
+        'Chiriquí',
+        'Coclé',
+        'Colón',
+        'Darién',
+        'Herrera',
+        'Los Santos',
+        'Panamá',
+        'Veraguas',
+        'Guna Yala',
+        'Emberá-Wounaan',
+        'Ngöbe-Buglé',
+        'Kuna de Wargandí',
+        'Kuna de Madungandí',
+      ]
+    ];
+    
+  public $selectedOption    = "option1";
+  public $zipCode;
+  public $alternativeAddress; 
+  public $States;
+  public $Cities;
+  public $selectedCountry;
+  public $selectedState;
+  public $selectedCity;
+  
   protected $stripe;
   protected $listeners = [
     'pay'           => 'pay',
@@ -46,18 +184,47 @@ class PagePay extends Component
 
   ];
 
+  public function updatedSelectedCountry($country){
+    if (!is_null($country)) {
+        $this->States = $this->Countries[$country];
+    }  
+  }
+
   public function errorStripe($text){
-    
     $this->dispatchBrowserEvent('noticiaError', ['msg' => $text]);
   }
 
-  public function mount()
-  {
+  public function mount(){
     $this->total = \Cart::session(Auth()->user()->idUser)->getTotal();
   }
 
-  public function render()
-  {
+  public function taxReload(){
+    if ($this->selectedOption === "option1") {
+      $state = $this->user->State;
+      switch ($state) {
+        case 'Nevada':
+          return $this->taxes = 8.375;
+          break;
+        default:
+          return  $this->taxes = 0;
+          break;
+      }
+
+    }else{
+      $state = $this->selectedState;
+      switch ($state) {
+        case 'Nevada':
+          return $this->taxes = 8.375;
+          break;
+        default:
+          return  $this->taxes = 0;
+          break;
+      }
+    }
+
+  }
+
+  public function render(){
     $STRIPE_KEY               = config('services.stripe.STRIPE_KEY');
     $variable                 = config('services.stripe.STRIPE_SECRET');
     $this->user               = Affiliate::where('idAffiliated', Auth()->user()->idAffiliated)->first();
@@ -78,8 +245,9 @@ class PagePay extends Component
         $this->taxtotal     += floatval(str_replace(',', '', $value->attributes->tax));
       }
 
-      $this->totalOnzas($totalonzas);
-      $this->taxes();
+      $this->totalOnzas($totalonzas); 
+      $this->taxReload();
+
       $taxsub = floatval($this->subtotal * $this->taxes / 100);
 
       foreach ($this->cantidadProductos as $key => $value) {
@@ -114,8 +282,8 @@ class PagePay extends Component
 
       }
 
-    $this->symbolCurrent          = $value['attributes']->symbolCurrent;
-    $this->totalImpuestoShipping  = $this->subtotalweb + $this->shipping;
+      $this->symbolCurrent          = $value['attributes']->symbolCurrent;
+      $this->totalImpuestoShipping  = $this->subtotalweb + $this->shipping;
 
       return view('livewire.page-pay', compact('b', 'STRIPE_KEY',))->extends('layout.side-menu')->section('subcontent');
     } else {
@@ -125,16 +293,14 @@ class PagePay extends Component
 
   public function pay($token, $name, $total, $points, $member, $package)
   {
-    $tok            = $token;
-    $variable       = config('services.stripe.STRIPE_SECRET');
-    $this->stripe   = new \Stripe\StripeClient($variable);
-    $idAfiliado     = Auth()->user()->idAffiliated;
-    $this->totalPay = floatval(str_replace(',', '', $total));
-    $this->totalPoints = floatval(str_replace(',', '', $points));
-
+    $tok                = $token;
+    $variable           = config('services.stripe.STRIPE_SECRET');
+    $this->stripe       = new \Stripe\StripeClient($variable);
+    $idAfiliado         = Auth()->user()->idAffiliated;
+    $this->totalPay     = floatval(str_replace(',', '', $total));
+    $this->totalPoints  = floatval(str_replace(',', '', $points));
 
     if($member == 1){
-
       if($package !== "MEMBERSHIP"){
         $this->updateRank($idAfiliado);
       } 
@@ -142,9 +308,7 @@ class PagePay extends Component
       $this->finishpay($idAfiliado, $tok);
       $this->updateAffiliated($idAfiliado);
       $this->dispatchBrowserEvent('package', ['msg' => 'Compra exitosa, ya puede ingresar a su oficina!']);
-       
     }else{
-
       $this->activatedBuy = 0;
       $this->finishpay($idAfiliado, $tok);
       $this->updateAffiliated($idAfiliado);
@@ -164,12 +328,11 @@ class PagePay extends Component
     
   }
 
-  public function updateAffiliated($idAfiliado)
-  {
+  public function updateAffiliated($idAfiliado){
     User::where('idAffiliated', $idAfiliado)->update(['active' => 1]);
   }
-  public function updateRank($idAfiliado)
-  {
+
+  public function updateRank($idAfiliado){
     Affiliate::where('idAffiliated', $idAfiliado)->update(['idRank' => 2]);
   }
 
@@ -177,6 +340,20 @@ class PagePay extends Component
   {
     $fechaHoraActual  = Carbon::now();
     $fechaHoraMySQL   = $fechaHoraActual->format('Y-m-d H:i:s');
+
+    if ($this->selectedOption == "option2") {
+      $zipCode = $this->zipCode;
+      $address = $this->alternativeAddress;
+      $country = $this->selectedCountry;
+      $state   = $this->selectedState;
+      $city    = $this->selectedCity;
+    }else{
+      $zipCode = $this->user->ZipCode;
+      $address = $this->user->Address;
+      $country = $this->user->Country;
+      $state   = $this->user->State;
+      $city    = $this->user->City;
+    }
     
     $result= DB::select('CALL SpSales(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
              array(
@@ -193,11 +370,11 @@ class PagePay extends Component
                  $this->user->Name,
                  $this->user->Phone,        
                  $this->user->Email,
-                 $this->user->Address,
-                 $this->user->Country,
-                 $this->user->State,  
-                 $this->user->City,
-                 $this->user->ZipCode,
+                 $address,
+                 $country,
+                 $state,  
+                 $city,
+                 $zipCode,
                  $this->shipping,
                  0,
                  0
@@ -228,7 +405,6 @@ class PagePay extends Component
 
     $amount   = intval($this->totalImpuestoShipping * 100);
 
-    // dd( intval($this->totalImpuestoShipping * 100) );
     $this->stripe->charges->create([
       'amount'        => $amount,
       'currency'      => $this->current,
@@ -238,14 +414,12 @@ class PagePay extends Component
 
     ]);
   }
-  public function ClearCart()
-  {
+  public function ClearCart(){
     \Cart::session(Auth()->user()->idUser)->clear();
     $this->cantidadProductos = \Cart::getContent()->count();
   }
 
-  public function totalOnzas($totalonzas)
-  {
+  public function totalOnzas($totalonzas){
     $this->onzasblade = $totalonzas;
     if ($totalonzas == 0) {
       return $this->shipping = 0;
@@ -258,8 +432,7 @@ class PagePay extends Component
     }
   }
 
-  public function taxes()
-  {
+  public function taxes(){
     $state = $this->user->State;
     
     switch ($state) {
@@ -272,15 +445,13 @@ class PagePay extends Component
     }
   }
 
-  public function incrementQuantity($id)
-  {
+  public function incrementQuantity($id){
     $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->update($id, [
       'quantity' => +1
     ]);
   }
 
-  public function decrementQuantity($id)
-  {
+  public function decrementQuantity($id){
     $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->get($id);
     if ($this->cantidadProductos->quantity == 1) {
       $this->cantidadProductos = \Cart::session(Auth()->user()->idUser)->remove($id);
@@ -300,15 +471,14 @@ class PagePay extends Component
     }
   }
 
-  public function success()
-  {
+  public function success(){
     $this->ClearCart();
   }
 
-  public function Cleaning()
-  {
+  public function Cleaning(){
     \Cart::session(Auth()->user()->idUser)->clear();
     $this->cantidadProductos  = \Cart::session(Auth()->user()->idUser)->getContent()->count();
     return redirect('/products');
   }
+
 }
