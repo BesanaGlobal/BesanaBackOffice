@@ -93,9 +93,9 @@ class NextregisterComponent extends Component
         $price          = floatval(str_replace(',', '', $price));
         $membership     = floatval(str_replace(',', '', $membership));
         $priceTax       = $price;
-        $newprice       = $price - $membership;
+        $newprice       = $price;
         \Cart::session(Auth()->user()->idUser)->add(array(
-          'id' => $id, // inique row ID
+          'id' => $id, // unique row ID
           'name' => $package,
           'price' => $newprice,
           'attributes' => array(

@@ -252,7 +252,7 @@ class PagePay extends Component
 
       foreach ($this->cantidadProductos as $key => $value) {
         if ($value->name == "MEMBERSHIP") {
-          $this->subtotalweb  = $this->subtotal + $taxsub;
+          $this->subtotalweb  = $this->subtotal;
         } else {
           $this->subtotalweb  = $this->subtotal + $taxsub + $membresia;
         }
@@ -387,13 +387,20 @@ class PagePay extends Component
 
   public function DetailSale($idSale, $token)
   {
+    $description = "";
     foreach ($this->cantidadProductos as $pro) {
+
+      if ($pro['name'] === "MEMBERSHIP") {
+        $proId = 19;
+      }else{
+        $proId = $pro['id'];
+      }
       $subtotal     = floatval($pro['price'] + $pro['attributes']['tax']);
       $description  = "Cantidad: " . $pro['quantity'] . " Producto: " . $pro['name'] . " Subtotal: " . $subtotal . "\n";
 
       $detailV              = new DetailSale();
       $detailV->id_sale     = $idSale;
-      $detailV->id_product  = $pro['id'];
+      $detailV->id_product  = $proId;
       $detailV->NameProduct = $pro['name'];
       $detailV->precioVenta = $pro['price'];
       $detailV->pointsProd  = $pro['attributes']['puntos'];

@@ -14,14 +14,11 @@ class MyShops extends Component
     public $dateend;
     public $mensaje;
 
-    public function render()
-    {
+    public function render(){
         return view('livewire.my-shops')->extends('layout.side-menu')->section('subcontent');
     }
 
-    public function query()
-    {
-
+    public function query(){
         if ($this->datestart == null && $this->dateend == null) {
             $this->mensaje = 'Fecha invalidas!!';
             $this->data = [];

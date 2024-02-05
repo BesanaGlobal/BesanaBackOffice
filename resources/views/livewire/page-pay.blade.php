@@ -124,7 +124,11 @@
                         @endphp
                         @forelse($cantidadProductos as $pro)
                             @php
-                                $taxunique      =   ($pro->price *   $this->taxes)/100;
+                                if($pro->name === "MEMBERSHIP"){
+                                    $taxunique   =   0;
+                                }else{
+                                    $taxunique      =   ($pro->price *   $this->taxes)/100;
+                                }
                                 $taxblade       =   $taxunique  *   $pro->quantity;
                                 $taxtotal       +=  $taxblade;
                                 $pointsTotal    += $pro->attributes->puntos * $pro->quantity;
@@ -147,16 +151,18 @@
                                         break;
                                 } 
                             @endphp
-                            <tr class="border-4  border-b-gray-500">
-                                <td class="text-center">
-                                    <span class="badge badge-info">{{1}}</span>
-                                    <input type="hidden" id="member" name="member" value="1">
-                                </td>
-                                <td class=" pr-5"> <span class="">Membresía</span></td>
-                                <td class=" text-right">{{$pro->attributes->symbolCurrent}} {{$costMembership}}</td>
-                                <td class=" text-right ">{{$pro->attributes->symbolCurrent}} 0.00</td>
-                                <td class="text-right">{{$pro->attributes->symbolCurrent}} {{$costMembership}}</td>
-                            </tr>
+                            @if($pro->name !== "MEMBERSHIP")
+                                <tr class="border-4  border-b-gray-500">
+                                    <td class="text-center">
+                                        <span class="badge badge-info">{{1}}</span>
+                                        <input type="hidden" id="member" name="member" value="1">
+                                    </td>
+                                    <td class=" pr-5"> <span class="">Membresía</span></td>
+                                    <td class=" text-right">{{$pro->attributes->symbolCurrent}} {{$costMembership}}</td>
+                                    <td class=" text-right ">{{$pro->attributes->symbolCurrent}} 0.00</td>
+                                    <td class="text-right">{{$pro->attributes->symbolCurrent}} {{$costMembership}}</td>
+                                </tr>
+                            @endif
                         @endif
                         <tr class="border-4  border-b-gray-500">
                             <td class="text-center">
