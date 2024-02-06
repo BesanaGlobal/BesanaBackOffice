@@ -37,12 +37,12 @@
                                                         }
                                                     @endphp
                                                     <td class="text-center py-2">  
-                                                        <span class="font-bold text-orange-600">$ {{ $sumTotalWeek }} </span>
+                                                        <span class="font-bold text-orange-600">{{ number_format($sumTotalWeek,2) }} </span>
                                                     </td>
                                                     <form action="{{route('solicitaWeek')}}" method="POST" >
                                                         @csrf
                                                         <td class="text-center py-2">  
-                                                        @if($afiliado->BankAccount == null && $afiliado->RoutingNumber == null && $afiliado->TypeAccount == null)
+                                                        @if($afiliado->BankName == null && $afiliado->BankAccount == null && $afiliado->RoutingNumber == null && $afiliado->TypeAccount == null)
                                                             <select name="tPago" id="tPago">
                                                                 <option value="Cheque">Cheque</option>
                                                             </select>

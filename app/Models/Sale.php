@@ -22,13 +22,21 @@ class Sale extends Model
         'idProd',
         'datetimeb',
         'idAffiliated',
+        'Current',
         'price',
+        'totalPoints',
         'ActivatedBuy',
         'TipoPago',
         'webShop',
         'WebNameClient',
         'WebEmailClient',
-        'Shipping'
+        'WebAddressClient',
+        'WebCountryClient',
+        'WebStateClient',
+        'WebCityClient',
+        'WebZipCodeClient',
+        'Shipping',
+        'Sent'
     ];
 
 

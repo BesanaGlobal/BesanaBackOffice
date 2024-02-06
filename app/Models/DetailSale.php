@@ -20,6 +20,7 @@ class DetailSale extends Model
         'precioVenta',
         'cantidad',
         'subtotal',
+        'pointsProd',
         'NameProduct',
         'Tax'
     ];

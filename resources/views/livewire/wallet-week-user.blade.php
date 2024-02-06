@@ -53,7 +53,9 @@
                 <input id="LastName" class="-intro-x login__input form-control py-3 px-4 block" type="text" value="{{$data[0]->LastName}}" readonly/>
                 <label for="UserName" class="block text-sm font-medium text-slate-700 mt-3">Nombre de Usuario</label>
                 <input id="UserName" class="-intro-x login__input form-control py-3 px-4 block" type="text" value="{{$data[0]->user->userName}}" readonly />
-                @if($data[0]->BankAccount == "" && $data[0]->RoutingNumber == "" && $data[0]->TypeAccount == "")
+                @if($data[0]->BankName == "" && $data[0]->BankAccount == "" && $data[0]->RoutingNumber == "" && $data[0]->TypeAccount == "")
+                    <label for="bankName" class="block text-sm font-medium text-slate-700 mt-3">Entidad Bancaria</label>
+                    <input id="bankName" class="-intro-x login__input form-control py-3 px-4 block" type="text" value="No Posee" readonly />
                     <label for="bankAccount" class="block text-sm font-medium text-slate-700 mt-3">N° Cuenta Bancaria</label>
                     <input id="bankAccount" class="-intro-x login__input form-control py-3 px-4 block" type="text" value="No Posee" readonly />
                     <label for="routingNumber" class="block text-sm font-medium text-slate-700 mt-3">N° Ruta Bancaria</label>
@@ -61,6 +63,8 @@
                     <label for="typeAccount" class="block text-sm font-medium text-slate-700 mt-3">Tipo de Cuenta Bancaria</label>
                     <input id="typeAccount" class="-intro-x login__input form-control py-3 px-4 block" type="text" value="No Posee" readonly />
                 @else
+                    <label for="bankName" class="block text-sm font-medium text-slate-700 mt-3">Entidad Bancaria</label>
+                    <input id="bankName" class="-intro-x login__input form-control py-3 px-4 block" type="text" value="{{$data[0]->BankName}}" readonly />
                     <label for="bankAccount" class="block text-sm font-medium text-slate-700 mt-3">N° Cuenta Bancaria</label>
                     <input id="bankAccount" class="-intro-x login__input form-control py-3 px-4 block" type="text" value="{{$data[0]->BankAccount}}" readonly />
                     <label for="routingNumber" class="block text-sm font-medium text-slate-700 mt-3">N° Ruta Bancaria</label>
