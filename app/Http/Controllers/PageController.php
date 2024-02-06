@@ -51,13 +51,9 @@ class PageController extends Controller
     {
         $afiliado               =   Affiliate::where('idAffiliated',Auth()->user()->idAffiliated)->first();
         $walletWeek             =   WalletWeek::where('id_user', Auth()->user()->idUser)
-                                                ->whereDate('fechaInicio', '>=', date('Y-m-01'))
-                                                ->whereDate('fechaInicio', '<=', date('Y-m-t'))
                                                 ->where('estado','Pendiente')
                                                 ->get();
         $walletMonth            =   WalletMonth::where('id_user', Auth()->user()->idUser)
-                                                ->whereDate('fechaInicio', '>=', date('Y-m-01'))
-                                                ->whereDate('fechaInicio', '<=', date('Y-m-t'))
                                                 ->where('estado','Pendiente')
                                                 ->get();   
           
