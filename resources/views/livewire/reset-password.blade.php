@@ -45,7 +45,6 @@
 <script>
 
     function viewPassOne(){
-
         var typeInput =  document.getElementById("newPass");
         var i = document.getElementById("iconoOne"); 
 
@@ -59,7 +58,6 @@
     }
 
     function viewPassTwo(){
-
         var typeInput =  document.getElementById("confirPass");
         var i = document.getElementById("iconoTwo"); 
         
@@ -85,26 +83,22 @@
         }
     });
 });
-  
+
+
 window.addEventListener('swal:confirm', event => { 
-    swal.fire({
-      title: event.detail.message,
-      text: event.detail.text,
-      icon: event.detail.type,
-      buttons: true,
-      dangerMode: true,
-
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
-      cancelButtonText: "Regresar",
-
-    }).then((result) => {
-        if (result.isConfirmed) {
-                window.livewire.emit('update');
-        }
+    Swal.fire({
+        title: 'Ingrese su contraseña actual',
+        input:'password',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        preConfirm: (currentPass) => {
+            return Livewire.emit('update', currentPass);
+        },
     });
 });
+
 
 </script>

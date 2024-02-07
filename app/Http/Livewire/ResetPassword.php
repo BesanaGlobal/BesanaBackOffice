@@ -2,13 +2,17 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Affiliate;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 
 class ResetPassword extends Component
 {
+    public $currentPass;
     public $newPass;
     public $confirPass;
 
@@ -28,27 +32,41 @@ class ResetPassword extends Component
 
     public function alertConfirm()
     {
-        $this->dispatchBrowserEvent('swal:confirm', [
-                'type' => 'warning',  
-                'message' => 'Estás seguro?', 
-                'text' => 'Presione aceptar si está seguro de cambiar su contraseña actual por la nueva ingresada, el proceso es irreversible.'
-            ]);
+        $this->dispatchBrowserEvent('swal:confirm');
     }
 
-    public function update(){
+    public function SendMail($pass){
+        $affiliate      = Affiliate::where('idAffiliated',auth()->user()->idAffiliated)->first();
 
-        $datos              = $this->validate();
-        $pass               = Hash::make($datos['newPass']);
-        $affiliate          = User::where('idUser', Auth()->user()->idUser);
+        $datos          =   ['Email'=> $affiliate->Email,'Name'=> auth()->user()->userName, 'password'=> $pass];
+        Mail::send('livewire.register.sendEmailPassword',$datos, function($message) use ($datos) {
+            $message->to($datos['Email'], $datos['Name'])->subject('Nueva Contraseña-Besana');
+        });
+    }
 
-        $affiliate->update([
-            'Password'      =>  $pass,
-        ]);
+    public function update($currentPass){
+        $datos = $this->validate();
 
-        $this->dispatchBrowserEvent('swal:modal', [
-            'type' => 'success',  
-            'message' => 'Su contraseña ha sido actualizada!'
-        ]);
+        if (password_verify($currentPass, Auth()->user()->Password)) {
+            $pass               = Hash::make($datos['newPass']);
+            $affiliate          = User::where('idUser', auth()->user()->idUser);
+            $affiliate->update([
+                'Password'      =>  $pass,
+            ]);
+
+            $this->SendMail($datos['newPass']);
+
+            $this->dispatchBrowserEvent('swal:modal', [
+                'type' => 'success',  
+                'message' => 'Su contraseña ha sido actualizada!'
+            ]);
+        }else{
+            $this->dispatchBrowserEvent('swal:modal', [
+                'type' => 'error',  
+                'message' => 'Contraseña incorrecta!'
+            ]);
+        }
+
 
     }
 
