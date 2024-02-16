@@ -30,8 +30,8 @@
     <h2 class="intro-y text-lg font-medium mt-10">{{__('My Shops')}}</h2>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-            <button class="btn btn-primary shadow-md mr-2">{{__('Buy Now')}}</button>
-            <div class="dropdown">
+            <button class="btn btn-primary shadow-md mr-2" onclick="buyNow()">{{__('Buy Now!')}}</button>
+            <!-- <div class="dropdown">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                     <span class="w-5 h-5 flex items-center justify-center">
                         <i class="w-4 h-4" data-lucide="plus"></i>
@@ -51,7 +51,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
         </div>
         @if(count($office) < 1 )
             <div class="intro-y col-span-12 md:col-span-4">
@@ -86,8 +86,8 @@
     <h2 class="intro-y text-lg font-medium mt-10">{{__('My Clients')}}</h2>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-            <button class="btn btn-primary shadow-md mr-2">{{__('Add New Client')}}</button>
-            <div class="dropdown">
+            <button class="btn btn-primary shadow-md mr-2" onclick="registerAffiliated()">{{__('Add New Client')}}</button>
+            <!-- <div class="dropdown">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                     <span class="w-5 h-5 flex items-center justify-center">
                         <i class="w-4 h-4" data-lucide="plus"></i>
@@ -107,7 +107,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
         </div>
         @if(count($clients) < 1 )
             <div class="intro-y col-span-12 md:col-span-12">
@@ -146,3 +146,13 @@
         @endif
     </div>
 @endsection
+<script>
+    function registerAffiliated(){
+        window.location = '/socioactivo';
+    }
+
+    function buyNow(){
+        window.location = '/products';
+    }
+</script>
+

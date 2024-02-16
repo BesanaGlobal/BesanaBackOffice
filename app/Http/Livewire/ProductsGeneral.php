@@ -23,6 +23,7 @@ class ProductsGeneral extends Component
     public $directionsProduct;
     public $ingredients;
     public $image;
+    public $identity;
 
     protected $rules = [
         'productName'                => 'required',
@@ -32,8 +33,9 @@ class ProductsGeneral extends Component
         'pointsProductWeb'           => 'required',
         'skuProduct'                 => 'required',
         'descriptionProduct'         => 'required',
-        'directionProduct'           => 'required',
+        'directionsProduct'          => 'required',
         'ingredients'                => 'required',
+        'image'                      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
        
     ];
 
@@ -45,13 +47,14 @@ class ProductsGeneral extends Component
         'pointsProductWeb.required'           => 'Puntos para el producto en el webSite es requerido',
         'skuProduct.required'                 => 'SKU del producto es requerido',
         'descriptionProduct.required'         => 'Descripción del producto es requerido',
-        'directionProduct.required'           => 'Dirección del producto es requerida',
+        'directionsProduct.required'          => 'Dirección del producto es requerida',
         'ingredients.required'                => 'Ingredientes del producto es requerido',
     ];
 
 
     public function mount(){
         $this->lineProduct = Line::get();
+        $this->identity = rand();
     }
 
     public function render()
@@ -61,10 +64,10 @@ class ProductsGeneral extends Component
 
     public function create(){
         $data                          = $this->validate();
-        $urlImagen                     = $this->imagen->store('public/img/products');
+        $urlImagen                     = $this->image->storeAs('products', $data['productName']. '.' . $this->image->getClientOriginalExtension(), 'public');
 
         Product::create([
-            'name'              => $data['nameProduct'],
+            'name'              => $data['productName'],
             'img'               => $urlImagen,
             'description'       => $data['descriptionProduct'],
             'idLine'            => $data['selectedLineProduct'],
@@ -72,7 +75,7 @@ class ProductsGeneral extends Component
             'active'            => 1,
             'puntos'            => $data['pointsProductOffice'],
             'sku'               => $data['skuProduct'],
-            'directions'        => $data['directionProduct'],
+            'directions'        => $data['directionsProduct'],
             'key_ingredients'   => $data['ingredients'],
             'ingredients'       => $data['ingredients'],
             'puntosWebsite'     => $data['pointsProductWeb'],
@@ -81,7 +84,22 @@ class ProductsGeneral extends Component
         // Puedes agregar lógica adicional después de la inserción si es necesario
 
         // Limpia los campos después de la inserción
-        $this->reset(['campo1', 'campo2']);
+        $this->reset([
+            'productName',
+            'selectedLineProduct',
+            'priceProduct',
+            'pointsProductOffice',
+            'pointsProductWeb',
+            'skuProduct',
+            'descriptionProduct',
+            'directionsProduct',
+            'ingredients',
+            'image'
+        ]);
+
+        $this->identity = rand();
+
+        $this->dispatchBrowserEvent('noty', ['msg' => 'Producto registrado correctamente.']);
 
     }
 }
